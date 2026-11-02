@@ -16,18 +16,37 @@ export default function NotesApp({ windowId }: NotesAppProps) {
   const [category, setCategory] = useState<'feedback' | 'collaboration' | 'general'>('general');
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formOpenTime] = useState(Date.now());
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!message.trim()) return;
 
     setIsSubmitting(true);
-    // Simulate client-side send (backend route will connect in Phase 6)
-    setTimeout(() => {
+    try {
+      const res = await fetch('/api/notes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          visitorName: name,
+          message,
+          category,
+          timestamp: formOpenTime,
+          honeypot: '',
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setSubmitted(true);
+        addNotification('Notes', 'Your note has been saved for Rudar.', 'success');
+      } else {
+        addNotification('Notes Error', data.error || 'Failed to submit note', 'error');
+      }
+    } catch {
+      addNotification('Notes Error', 'Network connection failed', 'error');
+    } finally {
       setIsSubmitting(false);
-      setSubmitted(true);
-      addNotification('Notes', 'Your note has been saved for Rudar.', 'success');
-    }, 400);
+    }
   };
 
   const handleReset = () => {

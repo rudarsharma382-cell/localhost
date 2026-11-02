@@ -7,6 +7,7 @@ import { Dock } from './Dock';
 import { Notifications } from './Notifications';
 import { LockScreen } from './LockScreen';
 import { Window } from '@/os/window-manager/Window';
+import { Launcher } from './Launcher';
 import { LoginScene } from '@/scene/LoginScene';
 import { detectCapabilities } from '@/lib/capabilities';
 
@@ -92,6 +93,9 @@ export function Desktop() {
 
       {/* Toast Notifications */}
       <Notifications />
+
+      {/* Quick Launcher (Cmd+K / Ctrl+K) */}
+      <Launcher />
 
       {/* Application Dock */}
       <Dock />

@@ -2,6 +2,8 @@ import { create } from 'zustand';
 import { AppIconId } from '@/components/icons/AppIcons';
 import { appRegistry } from '@/os/registry';
 
+import { soundManager } from '@/lib/audio';
+
 export interface WindowBounds {
   x: number;
   y: number;
@@ -176,6 +178,10 @@ export const useOSStore = create<WindowManagerStore>((set, get) => ({
       nextZIndex: nextZIndex + 1,
     });
 
+    if (get().soundEnabled) {
+      soundManager.playWindowOpen();
+    }
+
     return id;
   },
 
@@ -342,6 +348,10 @@ export const useOSStore = create<WindowManagerStore>((set, get) => ({
     set((state) => ({
       notifications: [newNote, ...state.notifications].slice(0, 3),
     }));
+
+    if (get().soundEnabled) {
+      soundManager.playNotification();
+    }
 
     // Auto-dismiss after 5 seconds
     setTimeout(() => {
