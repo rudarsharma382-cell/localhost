@@ -355,3 +355,4 @@ export default function BrowserApp({ windowId }: BrowserAppProps) {
     </AppFrame>
   );
 }
+

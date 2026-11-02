@@ -126,3 +126,4 @@ export default function AboutApp({ windowId }: AboutAppProps) {
     </AppFrame>
   );
 }
+

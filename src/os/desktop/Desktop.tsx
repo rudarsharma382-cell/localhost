@@ -1,20 +1,39 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useOSStore } from '@/os/window-manager/store';
 import { TopBar } from './TopBar';
 import { Dock } from './Dock';
 import { Notifications } from './Notifications';
 import { LockScreen } from './LockScreen';
 import { Window } from '@/os/window-manager/Window';
+import { LoginScene } from '@/scene/LoginScene';
+import { detectCapabilities } from '@/lib/capabilities';
 
 export function Desktop() {
   const {
     isLoggedIn,
+    isLiteMode,
+    setLiteMode,
     windows,
     activeMenu,
     setActiveMenu,
   } = useOSStore();
+
+  const [hasCheckedCapabilities, setHasCheckedCapabilities] = useState(false);
+  const [use3DScene, setUse3DScene] = useState(false);
+
+  // Check device capabilities on mount
+  useEffect(() => {
+    const caps = detectCapabilities();
+    if (caps.shouldUseLiteMode) {
+      setLiteMode(true);
+      setUse3DScene(false);
+    } else {
+      setUse3DScene(!isLiteMode);
+    }
+    setHasCheckedCapabilities(true);
+  }, [isLiteMode, setLiteMode]);
 
   // Global keyboard shortcuts (Esc closes menus)
   useEffect(() => {
@@ -29,11 +48,17 @@ export function Desktop() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [activeMenu, setActiveMenu]);
 
-  // If not logged in, render the clean 2D lock screen
+  // If not logged in yet:
   if (!isLoggedIn) {
+    if (hasCheckedCapabilities && use3DScene && !isLiteMode) {
+      // 3D Room Login Scene with Dolly Push into Monitor
+      return <LoginScene onHandoffComplete={() => setUse3DScene(false)} />;
+    }
+    // Clean 2D Lite Mode Lock Screen
     return <LockScreen />;
   }
 
+  // Pure DOM Desktop after Login (GPU freed)
   return (
     <div
       onClick={() => {

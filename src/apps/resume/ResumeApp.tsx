@@ -99,3 +99,4 @@ export default function ResumeApp({ windowId }: ResumeAppProps) {
     </AppFrame>
   );
 }
+

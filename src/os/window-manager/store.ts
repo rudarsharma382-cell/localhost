@@ -79,7 +79,7 @@ const BASE_Z_INDEX = 20;
 export const useOSStore = create<WindowManagerStore>((set, get) => ({
   visitorName: 'Guest',
   isLoggedIn: false, // Starts at lock screen
-  isLiteMode: true,  // For Gate 2: lite mode is first-class vertical slice
+  isLiteMode: false, // Evaluated dynamically via detectCapabilities()
   soundEnabled: false,
   reducedMotion: false,
   wallpaper: 'industrial-slate',
@@ -355,3 +355,4 @@ export const useOSStore = create<WindowManagerStore>((set, get) => ({
     }));
   },
 }));
+

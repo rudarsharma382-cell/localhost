@@ -33,3 +33,4 @@ export function InstagramIcon({ size = 16, className = '' }: BrandIconProps) {
     </svg>
   );
 }
+

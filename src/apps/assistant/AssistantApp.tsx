@@ -242,3 +242,4 @@ export default function AssistantApp({ windowId }: AssistantAppProps) {
     </AppFrame>
   );
 }
+

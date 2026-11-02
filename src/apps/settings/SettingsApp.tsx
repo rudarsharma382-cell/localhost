@@ -147,3 +147,4 @@ export default function SettingsApp({ windowId }: SettingsAppProps) {
     </AppFrame>
   );
 }
+

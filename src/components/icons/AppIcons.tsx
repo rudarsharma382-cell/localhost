@@ -112,3 +112,4 @@ export function AppIcon({ id, size = 20, className = '', showContainer = false }
     </div>
   );
 }
+

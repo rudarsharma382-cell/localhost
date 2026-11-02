@@ -128,3 +128,4 @@ export function LockScreen({ onUnlock }: LockScreenProps) {
     </div>
   );
 }
+
