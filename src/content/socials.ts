@@ -30,3 +30,4 @@ export const socials: SocialLink[] = [
     description: 'Engineering notes and mobile experiments',
   },
 ];
+

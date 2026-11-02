@@ -31,3 +31,4 @@
    - ARIA landmarks, `aria-label`, visible focus indicator (`ring-1 ring-accent`)
    - Complete keyboard operability (`Tab`, `Enter`, `Space`, `Escape`, arrow keys)
    - `prefers-reduced-motion` compliance
+

@@ -111,3 +111,4 @@ export const knowledgeBase: KnowledgeEntry[] = [
     followUps: ['Tell me about his Flutter background', 'Show me his achievements'],
   },
 ];
+

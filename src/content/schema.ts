@@ -102,3 +102,4 @@ export type ProjectMedia = z.infer<typeof ProjectMediaSchema>;
 export type Project = z.infer<typeof ProjectSchema>;
 export type KnowledgeEntry = z.infer<typeof KnowledgeEntrySchema>;
 export type VisitorNote = z.infer<typeof VisitorNoteSchema>;
+

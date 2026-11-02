@@ -59,3 +59,4 @@ export function validateAllContent(): {
     knowledge: validatedKnowledge,
   };
 }
+

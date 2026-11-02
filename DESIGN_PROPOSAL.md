@@ -208,3 +208,4 @@ Every candidate has been audited against the slop filters in `antigravity.md` Se
 A dev-only styleguide route is implemented at:
 `/dev/styleguide`
 Demonstrating every token, state (default, hover, focus, active, disabled, loading, empty, error), and the component shortlist live in the DOM.
+

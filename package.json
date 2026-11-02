@@ -6,12 +6,14 @@
     "dev": "next dev",
     "build": "tsx scripts/generate-missing-content.ts && next build",
     "start": "next start",
+    "test": "tsx src/os/window-manager/tests/wm.test.ts",
     "content:report": "tsx scripts/generate-missing-content.ts"
   },
   "dependencies": {
     "autoprefixer": "^10.6.2",
     "clsx": "^2.1.1",
     "framer-motion": "^14.9.0",
+    "fuse.js": "^7.5.0",
     "lucide-react": "^1.66.0",
     "next": "^15.1.7",
     "postcss": "^8.5.32",
