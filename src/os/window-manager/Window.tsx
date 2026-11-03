@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useCallback } from 'react';
 import { WindowState, useOSStore } from './store';
 import { appRegistry } from '@/os/registry';
 import { AppIcon } from '@/components/icons/AppIcons';
@@ -29,12 +29,9 @@ export function Window({ window: win }: WindowProps) {
     initY: 0,
   });
 
-  const [isHovered, setIsHovered] = useState(false);
-
   // Drag handling with pointer capture
   const onPointerDownTitle = useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
-      // Don't drag if clicking buttons
       if ((e.target as HTMLElement).closest('button')) return;
 
       focusWindow(win.id);
@@ -122,7 +119,7 @@ export function Window({ window: win }: WindowProps) {
   );
 
   if (win.minimized) {
-    return null; // Minimized windows are represented in dock
+    return null;
   }
 
   const AppComponent = app ? app.component : null;
@@ -131,131 +128,104 @@ export function Window({ window: win }: WindowProps) {
     <div
       ref={windowRef}
       onMouseDown={() => focusWindow(win.id)}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
       style={{
         transform: `translate3d(${win.x}px, ${win.y}px, 0)`,
         width: `${win.w}px`,
         height: `${win.h}px`,
         zIndex: win.z,
       }}
-      className={`fixed top-0 left-0 flex flex-col rounded-lg overflow-hidden select-none transition-shadow duration-instant will-change-transform ${
+      className={`fixed top-0 left-0 flex flex-col rounded-xl overflow-hidden select-none transition-all duration-instant will-change-transform ${
         win.focused
-          ? 'bg-surface-base border border-border-strong shadow-window-active ring-1 ring-accent/25'
-          : 'bg-surface-base/90 border border-border-subtle shadow-base'
+          ? 'bg-[#121316] border border-[#DDA0DD]/35 shadow-[0_16px_40px_rgba(0,0,0,0.7),0_0_20px_rgba(221,160,221,0.12)] ring-1 ring-[#DDA0DD]/20'
+          : 'bg-[#121316]/95 border border-zinc-800/80 shadow-[0_10px_25px_rgba(0,0,0,0.5)]'
       } ${win.maximized ? 'rounded-none' : ''}`}
       role="dialog"
       aria-labelledby={`window-title-${win.id}`}
       aria-modal="false"
     >
-      {/* Window Title Bar */}
+      {/* Safari-01 Obsidian Title Bar with macOS Traffic Light Controls */}
       <div
         onPointerDown={onPointerDownTitle}
         onPointerMove={onPointerMoveTitle}
         onPointerUp={onPointerUpTitle}
         onDoubleClick={() => toggleMaximizeWindow(win.id)}
-        className={`h-[38px] px-3.5 flex items-center justify-between border-b cursor-grab active:cursor-grabbing select-none transition-colors duration-instant ${
+        className={`h-9 px-3.5 flex items-center justify-between border-b cursor-grab active:cursor-grabbing select-none transition-colors duration-instant ${
           win.focused
-            ? 'bg-surface-base border-border-subtle'
-            : 'bg-surface-base/70 border-border-subtle/50'
+            ? 'bg-[#1A1B22] border-zinc-800'
+            : 'bg-[#16171D] border-zinc-800/60'
         }`}
       >
-        {/* Left: Tactile Window Controls */}
-        <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1.5" role="group" aria-label="Window Controls">
-            {/* Close */}
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                closeWindow(win.id);
-              }}
-              aria-label={`Close ${win.title}`}
-              className="w-3 h-3 rounded-full bg-semantic-error/90 hover:bg-semantic-error flex items-center justify-center text-[8px] text-surface-canvas font-bold cursor-pointer transition-colors duration-instant focus:outline-none focus:ring-1 focus:ring-accent"
-            >
-              {isHovered && <span>&times;</span>}
-            </button>
-            {/* Minimize */}
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                minimizeWindow(win.id);
-              }}
-              aria-label={`Minimize ${win.title}`}
-              className="w-3 h-3 rounded-full bg-semantic-warning/90 hover:bg-semantic-warning flex items-center justify-center text-[8px] text-surface-canvas font-bold cursor-pointer transition-colors duration-instant focus:outline-none focus:ring-1 focus:ring-accent"
-            >
-              {isHovered && <span>&minus;</span>}
-            </button>
-            {/* Maximize */}
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                toggleMaximizeWindow(win.id);
-              }}
-              aria-label={`Maximize or Restore ${win.title}`}
-              className="w-3 h-3 rounded-full bg-semantic-success/90 hover:bg-semantic-success flex items-center justify-center text-[8px] text-surface-canvas font-bold cursor-pointer transition-colors duration-instant focus:outline-none focus:ring-1 focus:ring-accent"
-            >
-              {isHovered && <span>+</span>}
-            </button>
-          </div>
-
-          <div className="flex items-center gap-1.5 ml-2.5">
-            <AppIcon id={win.appId} size={14} className="opacity-80" />
-            <span
-              id={`window-title-${win.id}`}
-              className={`text-xs font-sans font-medium truncate max-w-[240px] ${
-                win.focused ? 'text-content-primary' : 'text-content-tertiary'
-              }`}
-            >
-              {win.title}
-            </span>
-          </div>
+        {/* Left: macOS Window Controls (Traffic Lights) */}
+        <div className="flex items-center space-x-2" role="group" aria-label="Window Controls">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              closeWindow(win.id);
+            }}
+            aria-label={`Close ${win.title}`}
+            className="w-3 h-3 bg-red-400 hover:bg-red-500 rounded-full transition-colors cursor-pointer border-0 p-0 focus:outline-none"
+          />
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              minimizeWindow(win.id);
+            }}
+            aria-label={`Minimize ${win.title}`}
+            className="w-3 h-3 bg-yellow-400 hover:bg-yellow-500 rounded-full transition-colors cursor-pointer border-0 p-0 focus:outline-none"
+          />
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleMaximizeWindow(win.id);
+            }}
+            aria-label={`Maximize ${win.title}`}
+            className="w-3 h-3 bg-green-500 hover:bg-green-600 rounded-full transition-colors cursor-pointer border-0 p-0 focus:outline-none"
+          />
         </div>
 
-        {/* Right Status Indicator */}
-        <div className="flex items-center gap-2 text-[11px] font-mono">
-          {win.focused ? (
-            <span className="text-accent text-[10px] tracking-wider uppercase opacity-75">Active</span>
-          ) : (
-            <span className="text-content-tertiary/60 text-[10px]">Inactive</span>
+        {/* Center: Safari-01 Address / Title Pill */}
+        <div className="flex-1 mx-4 max-w-sm h-6 bg-zinc-800/60 rounded-md border border-white/5 flex items-center justify-center px-3 gap-2">
+          <AppIcon id={win.appId} size={13} className={win.focused ? 'text-[#DDA0DD]' : 'text-zinc-500'} />
+          <span
+            id={`window-title-${win.id}`}
+            className={`text-xs font-sans font-medium truncate ${
+              win.focused ? 'text-zinc-200' : 'text-zinc-400'
+            }`}
+          >
+            {win.title}
+          </span>
+        </div>
+
+        {/* Right: Balanced Spacer */}
+        <div className="w-12 flex justify-end">
+          {win.focused && (
+            <span className="w-1.5 h-1.5 rounded-full bg-[#DDA0DD] shadow-[0_0_6px_#DDA0DD]" />
           )}
         </div>
       </div>
 
       {/* Window Body */}
-      <div className="flex-1 overflow-auto bg-surface-panel relative">
+      <div className="flex-1 overflow-auto bg-[#121316] relative">
         {AppComponent ? (
           <AppComponent windowId={win.id} />
         ) : (
-          <div className="p-6 text-content-secondary text-sm">Application not loaded.</div>
+          <div className="p-6 text-zinc-400 text-xs">Application unavailable.</div>
         )}
       </div>
 
-      {/* Resize Handles (Only if resizable and not maximized) */}
+      {/* Resize Handles */}
       {app?.resizable && !win.maximized && (
         <>
-          <div
-            onPointerDown={(e) => onResizePointerDown(e, 'e')}
-            className="absolute top-0 right-0 w-2 h-full cursor-e-resize"
-          />
-          <div
-            onPointerDown={(e) => onResizePointerDown(e, 's')}
-            className="absolute bottom-0 left-0 w-full h-2 cursor-s-resize"
-          />
-          <div
-            onPointerDown={(e) => onResizePointerDown(e, 'se')}
-            className="absolute bottom-0 right-0 w-3 h-3 cursor-se-resize z-10"
-          />
-          <div
-            onPointerDown={(e) => onResizePointerDown(e, 'w')}
-            className="absolute top-0 left-0 w-2 h-full cursor-w-resize"
-          />
-          <div
-            onPointerDown={(e) => onResizePointerDown(e, 'sw')}
-            className="absolute bottom-0 left-0 w-3 h-3 cursor-sw-resize z-10"
-          />
+          <div onPointerDown={(e) => onResizePointerDown(e, 'e')} className="absolute top-0 right-0 w-2 h-full cursor-e-resize" />
+          <div onPointerDown={(e) => onResizePointerDown(e, 's')} className="absolute bottom-0 left-0 w-full h-2 cursor-s-resize" />
+          <div onPointerDown={(e) => onResizePointerDown(e, 'se')} className="absolute bottom-0 right-0 w-3 h-3 cursor-se-resize z-10" />
+          <div onPointerDown={(e) => onResizePointerDown(e, 'w')} className="absolute top-0 left-0 w-2 h-full cursor-w-resize" />
+          <div onPointerDown={(e) => onResizePointerDown(e, 'sw')} className="absolute bottom-0 left-0 w-3 h-3 cursor-sw-resize z-10" />
         </>
       )}
     </div>
   );
 }
-

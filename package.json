@@ -10,6 +10,8 @@
     "content:report": "tsx scripts/generate-missing-content.ts"
   },
   "dependencies": {
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.2",
     "@types/three": "^0.187.0",
     "autoprefixer": "^10.6.2",
     "clsx": "^2.1.1",
@@ -30,6 +32,7 @@
     "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "puppeteer-core": "^25.16.0",
     "tsx": "^4.23.15",
     "typescript": "^5.9.3"
   }

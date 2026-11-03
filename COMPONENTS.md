@@ -10,7 +10,7 @@
 
 | Component Name | Author | Source URL | Rudar OS Surface / App | Modifications Made | License / Terms |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| *No components imported yet* | - | - | - | Initializing Gate 1 shortlist | - |
+| `VintageKeyboard` | Ayushmaan Singh (`@ayushmxxn`) | https://21st.dev/r/ayushmxxn/vintage-keyboard | 3D Room / Login Scene | Re-skinned to design tokens (`var(--font-sans)`, Tailwind v3 CSS variable compatibility), added `onKeyAction` callback for 3D typing sync, removed typing target mute so physical keys animate while inputs are focused, added Web Audio thock engine integration | MIT / Open Source |
 
 ---
 

@@ -72,15 +72,14 @@ export default function TerminalApp({ windowId }: TerminalAppProps) {
         newLines.push({
           id: `out-${Date.now()}`,
           type: 'output',
-          text: `${profile.name} - Flutter & App Developer
-Specializing in cross-platform mobile apps, real-time WebGL interfaces, and computer vision.
-Verified Achievement: SafeWare, Top 140 at Delhi AI Grand Hackathon.`,
+          text: `${profile.name} - Flutter and app developer
+Achievement: SafeWare, Top 140 at Delhi AI Grand Hackathon.`,
         });
         break;
 
       case 'projects':
         const projList = projects
-          .map((p) => `  - ${p.name.padEnd(20)} [${p.stack.join(', ')}]`)
+          .map((p) => `  - ${p.name.padEnd(20)} ${p.summary}`)
           .join('\n');
         newLines.push({
           id: `out-${Date.now()}`,
@@ -93,7 +92,7 @@ Verified Achievement: SafeWare, Top 140 at Delhi AI Grand Hackathon.`,
         newLines.push({
           id: `out-${Date.now()}`,
           type: 'output',
-          text: `Technical Competencies:\n  ${profile.skills.join('\n  ')}`,
+          text: `Skills:\n  ${profile.skills.join('\n  ')}`,
         });
         break;
 

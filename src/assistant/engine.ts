@@ -108,10 +108,11 @@ export function detectEntity(normalized: string, state?: AssistantState): { enti
 function composeProjectAnswer(proj: Project, normalized: string): AssistantResponse {
   // Intent: tech stack
   if (normalized.includes('stack') || normalized.includes('technologies') || normalized.includes('languages') || normalized.includes('frameworks')) {
+    const stackText = proj.stack && proj.stack.length > 0 ? proj.stack.join(', ') : 'Details not provided yet.';
     return {
-      answer: `**${proj.name}** was developed using: ${proj.stack.join(', ')}.`,
+      answer: `**${proj.name}** stack: ${stackText}`,
       relatedLinks: proj.liveUrl ? [proj.liveUrl] : undefined,
-      followUps: [`What problem does ${proj.name} solve?`, `Tell me about SafeWare`],
+      followUps: [`Tell me about ${proj.name}`, `What awards has he won?`],
       resolvedEntity: proj.id,
     };
   }
@@ -120,26 +121,25 @@ function composeProjectAnswer(proj: Project, normalized: string): AssistantRespo
   if (normalized.includes('achievements') || normalized.includes('awards') || normalized.includes('hackathon')) {
     if (proj.achievements && proj.achievements.length > 0) {
       return {
-        answer: `**${proj.name}** achieved: ${proj.achievements.join(', ')}.`,
+        answer: `**${proj.name}**: ${proj.achievements.join(', ')}.`,
         relatedLinks: proj.liveUrl ? [proj.liveUrl] : undefined,
-        followUps: [`What tech stack does ${proj.name} use?`, `Show me more projects`],
+        followUps: [`Tell me about ${proj.name}`, `Show me more projects`],
         resolvedEntity: proj.id,
       };
     } else {
       return {
-        answer: `**${proj.name}** does not have verified hackathon awards attached. Rudar's verified award is Top 140 at the Delhi AI Grand Hackathon for SafeWare.`,
-        followUps: [`Tell me about SafeWare`, `What are his skills?`],
+        answer: `**${proj.name}** does not have hackathon achievements listed. Verified achievement: SafeWare reached Top 140 at the Delhi AI Grand Hackathon.`,
+        followUps: [`Tell me about SafeWare`, `Show me his projects`],
         resolvedEntity: proj.id,
       };
     }
   }
 
   // Default Intent: Summary & Overview
-  const featuresList = proj.features ? ` Key capabilities include: ${proj.features.join('; ')}.` : '';
   return {
-    answer: `**${proj.name}**: ${proj.summary}${featuresList}`,
+    answer: `**${proj.name}**: ${proj.summary}`,
     relatedLinks: proj.liveUrl ? [proj.liveUrl] : undefined,
-    followUps: [`What tech stack does ${proj.name} use?`, `How can I see it live?`],
+    followUps: [`What awards has he won?`, `Show me all projects`],
     resolvedEntity: proj.id,
   };
 }
@@ -169,20 +169,18 @@ export function queryAssistant(rawQuery: string, state?: AssistantState): Assist
 
   // Intent: Achievements & Awards
   if (normalized.includes('achievements') || normalized.includes('awards') || normalized.includes('hackathon')) {
-    const safeware = projects.find((p) => p.id === 'safeware');
-    const achievementText = safeware?.achievements?.[0] || 'Top 140, Delhi AI Grand Hackathon';
     return {
-      answer: `Rudar achieved **${achievementText}** with SafeWare, an AI-based road safety platform employing computer vision for hazard detection.`,
+      answer: 'SafeWare reached Top 140 at the Delhi AI Grand Hackathon.',
       relatedLinks: ['https://github.com/rudarsharma382-cell'],
-      followUps: ['Tell me about SafeWare', 'What tech stack did it use?', 'What other projects exist?'],
+      followUps: ['Tell me about SafeWare', 'Show me his projects'],
       resolvedEntity: 'safeware',
     };
   }
 
-  // Intent: Skills & Tech stack general
-  if (normalized.includes('skills') || normalized.includes('languages') || (normalized.includes('stack') && !entityId)) {
+  // Intent: Skills
+  if (normalized.includes('skills') || normalized.includes('stack')) {
     return {
-      answer: `Rudar specializes in Flutter and Dart for cross-platform applications, along with TypeScript, React, Next.js, and WebGL / Three.js for interactive web interfaces, plus Python and computer vision workflows.`,
+      answer: 'Rudar specializes in Flutter and app development.',
       relatedLinks: ['https://github.com/rudarsharma382-cell'],
       followUps: ['Tell me about SafeWare', 'What is TruSight AI?'],
     };

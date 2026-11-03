@@ -70,7 +70,7 @@ export function Launcher() {
     ...matchingApps.map((app) => ({
       id: `app-${app.id}`,
       title: app.title,
-      subtitle: `Application &bull; ${app.tier.toUpperCase()}`,
+      subtitle: `Application`,
       type: 'app' as const,
       icon: <AppIcon id={app.id} size={15} />,
       action: () => {
@@ -81,9 +81,9 @@ export function Launcher() {
     ...matchingProjects.map((p) => ({
       id: `proj-${p.id}`,
       title: p.name,
-      subtitle: `Project &bull; ${p.stack.join(', ')}`,
+      subtitle: p.summary,
       type: 'project' as const,
-      icon: <span className="w-2 h-2 rounded-full bg-accent" />,
+      icon: <span className="w-1.5 h-1.5 rounded-full bg-accent" />,
       action: () => {
         openWindow('browser', {
           initialUrl: p.liveUrl || 'https://rudar.vercel.app/',
@@ -184,3 +184,4 @@ export function Launcher() {
     </div>
   );
 }
+

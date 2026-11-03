@@ -2,7 +2,7 @@ import { KnowledgeEntry } from './types';
 
 export const knowledgeBase: KnowledgeEntry[] = [
   {
-    id: 'identity-role',
+    id: 'identity',
     category: 'identity',
     questionVariants: [
       'who is rudar',
@@ -13,28 +13,27 @@ export const knowledgeBase: KnowledgeEntry[] = [
     ],
     keywords: ['rudar', 'sharma', 'developer', 'who', 'about', 'role'],
     answer:
-      'Rudar Sharma is a Flutter and app developer specializing in mobile and web applications, real-time interactive interfaces, and computer vision integration.',
+      'Rudar Sharma is a Flutter and app developer.',
     relatedLinks: ['https://linkedin.com/in/rudarsharma-dev/', 'https://github.com/rudarsharma382-cell'],
-    followUps: ['Show me his projects', 'What has he built with AI?', 'What are his technical skills?'],
+    followUps: ['Show me his projects', 'What is SafeWare?', 'What awards has he won?'],
   },
   {
-    id: 'skills-tech',
+    id: 'skills',
     category: 'skills',
     questionVariants: [
       'what are his skills',
       'what is his tech stack',
       'what technologies does he use',
       'technical skills',
-      'programming languages',
     ],
-    keywords: ['skills', 'tech', 'stack', 'languages', 'frameworks', 'flutter', 'dart'],
+    keywords: ['skills', 'tech', 'stack', 'flutter', 'dart'],
     answer:
-      'Rudar specializes in Flutter and Dart for cross-platform applications, along with TypeScript, React, Next.js, and WebGL / Three.js for interactive web interfaces, plus Python and computer vision workflows.',
+      'Rudar specializes in Flutter and app development.',
     relatedLinks: ['https://github.com/rudarsharma382-cell'],
     followUps: ['Tell me about SafeWare', 'What is TruSight AI?'],
   },
   {
-    id: 'hackathon-safeware',
+    id: 'achievement',
     category: 'achievements',
     questionVariants: [
       'what awards has he won',
@@ -45,12 +44,12 @@ export const knowledgeBase: KnowledgeEntry[] = [
     ],
     keywords: ['achievement', 'award', 'hackathon', 'delhi', 'top 140', 'safeware'],
     answer:
-      'Rudar achieved Top 140 at the Delhi AI Grand Hackathon with SafeWare, an AI-based road safety platform employing computer vision for hazard detection.',
+      'SafeWare reached Top 140 at the Delhi AI Grand Hackathon.',
     relatedLinks: ['https://github.com/rudarsharma382-cell'],
-    followUps: ['How does SafeWare work?', 'What other AI projects has he built?'],
+    followUps: ['Tell me about SafeWare', 'Show me all projects'],
   },
   {
-    id: 'project-safeware',
+    id: 'safeware',
     category: 'projects',
     questionVariants: [
       'tell me about safeware',
@@ -59,12 +58,12 @@ export const knowledgeBase: KnowledgeEntry[] = [
     ],
     keywords: ['safeware', 'road safety', 'computer vision', 'ai'],
     answer:
-      'SafeWare is an AI-based road safety project that uses computer vision to analyze live video feeds for hazards and road risks. It reached Top 140 at the Delhi AI Grand Hackathon.',
+      'SafeWare is an AI-based road safety project that uses computer vision for hazard detection. It reached Top 140 at the Delhi AI Grand Hackathon.',
     relatedLinks: ['https://github.com/rudarsharma382-cell'],
-    followUps: ['What tech stack did it use?', 'What other projects exist?'],
+    followUps: ['What awards has he won?', 'Show me other projects'],
   },
   {
-    id: 'project-trusight',
+    id: 'trusight',
     category: 'projects',
     questionVariants: [
       'what is trusight ai',
@@ -73,12 +72,12 @@ export const knowledgeBase: KnowledgeEntry[] = [
     ],
     keywords: ['trusight', 'authenticity', 'media', 'deepfake', 'multi-model'],
     answer:
-      'TruSight AI is an AI media authenticity detection system combining multi-model analysis, aggregation logic, and offline fallback capabilities.',
+      'TruSight AI is an AI media authenticity detection project with multi-model analysis, aggregation, and offline fallback.',
     relatedLinks: ['https://github.com/rudarsharma382-cell'],
-    followUps: ['What stack does TruSight AI use?', 'Tell me about WorldOS'],
+    followUps: ['Tell me about SafeWare', 'Show me WorldOS'],
   },
   {
-    id: 'project-worldos',
+    id: 'worldos',
     category: 'projects',
     questionVariants: [
       'what is worldos',
@@ -87,12 +86,12 @@ export const knowledgeBase: KnowledgeEntry[] = [
     ],
     keywords: ['worldos', 'globe', '3d', 'visualization', 'data'],
     answer:
-      'WorldOS is a real-time global data visualization interface featuring an interactive 3D globe and multiple telemetry layers.',
+      'WorldOS is a real-time global data visualization with an interactive 3D globe and multiple data layers.',
     relatedLinks: ['https://rudar.vercel.app/'],
-    followUps: ['Can I see it in the Browser app?', 'What other 3D work has he done?'],
+    followUps: ['Tell me about SafeWare', 'How can I connect with him?'],
   },
   {
-    id: 'contact-socials',
+    id: 'contact',
     category: 'contact',
     questionVariants: [
       'how to contact rudar',
@@ -103,12 +102,11 @@ export const knowledgeBase: KnowledgeEntry[] = [
     ],
     keywords: ['contact', 'reach', 'connect', 'email', 'socials', 'linkedin', 'github'],
     answer:
-      'You can reach Rudar via LinkedIn (linkedin.com/in/rudarsharma-dev) or inspect his code on GitHub (github.com/rudarsharma382-cell). You can also leave a message in the Notes app on this desktop.',
+      'You can connect with Rudar on LinkedIn (linkedin.com/in/rudarsharma-dev) or GitHub (github.com/rudarsharma382-cell). You can also leave a message in the Notes app.',
     relatedLinks: [
       'https://linkedin.com/in/rudarsharma-dev/',
       'https://github.com/rudarsharma382-cell',
     ],
-    followUps: ['Tell me about his Flutter background', 'Show me his achievements'],
+    followUps: ['Tell me about his Flutter work', 'Show me his achievements'],
   },
 ];
-

@@ -8,6 +8,7 @@ const config: Config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
     './src/os/**/*.{js,ts,jsx,tsx,mdx}',
     './src/apps/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/scene/**/*.{js,ts,jsx,tsx,mdx}',
     './src/styles/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
@@ -53,6 +54,7 @@ const config: Config = {
         display: [tokens.typography.fontFamily.display],
         sans: [tokens.typography.fontFamily.sans],
         mono: [tokens.typography.fontFamily.mono],
+        anurati: ['Anurati', 'sans-serif'],
       },
       fontSize: {
         xs: [tokens.typography.scale.xs.size, tokens.typography.scale.xs.lineHeight],

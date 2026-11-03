@@ -1,91 +1,81 @@
 /**
  * RUDAR OS DESIGN TOKENS
- * Single source of truth for colors, typography, space, radius, elevation, and motion.
- * Anti-slop guarantee: Zero arbitrary values in UI components.
+ * Direction: Precision Studio Slate & Mineral Linen
+ * Calm, quiet, tactile. No orange-on-black. No uppercase mono labels.
  */
 
 export const tokens = {
   color: {
-    // Surface layers
     surface: {
-      canvas: '#0C0D0E', // OS background canvas / 3D room deep ground
-      base: '#141618',   // Desktop top bar, dock container, window frame base
-      panel: '#1A1D20',  // Window interior body, active sidebar, cards
-      raised: '#22262B', // Popovers, floating menus, dialogs, toasts
-      overlay: 'rgba(12, 13, 14, 0.75)',
+      canvas: '#111315', // Studio ground / wallpaper base
+      base: '#181A1D',   // Window frames, top bar, dock
+      panel: '#1F2226',  // Window interior
+      raised: '#272B30', // Menus, dialogs, popovers
+      overlay: 'rgba(17, 19, 21, 0.75)',
     },
-    // Hairline borders
     border: {
-      subtle: '#22262B',
-      default: '#2C3138',
-      strong: '#3A424C',
-      focus: '#E58B24', // Accent border on focus
+      subtle: '#25292E',
+      default: '#2E3339',
+      strong: '#3B424A',
+      focus: '#C49B72', // Subtle mineral ochre for focus only
     },
-    // Typography levels (WCAG AA / AAA verified)
     text: {
-      primary: '#EDEDEE',   // High contrast titles, active labels (AAA > 15:1)
-      secondary: '#9BA1A6', // Body reading, menu items (AA > 5.5:1)
-      tertiary: '#687076',  // Subtext, inactive window titles, shortcuts (AA ~3.6:1)
-      inverse: '#0C0D0E',   // For badges or buttons on accent background
+      primary: '#F0EFEA',   // Warm mineral white
+      secondary: '#9CA2A8', // Quiet readable body text
+      tertiary: '#666C72',  // Subtle metadata and timestamps
+      inverse: '#111315',
     },
-    // Single accent color (Strictly reserved for active states, focus rings, primary action)
     accent: {
-      DEFAULT: '#E58B24', // Warm burnished amber
-      hover: '#F29938',
-      active: '#CC771B',
-      subtle: 'rgba(229, 139, 36, 0.12)',
-      text: '#E58B24',
+      DEFAULT: '#C49B72', // Restrained mineral ochre / warm copper linen
+      hover: '#D4AB82',
+      active: '#B48B62',
+      subtle: 'rgba(196, 155, 114, 0.1)',
+      text: '#C49B72',
     },
-    // Semantic system
     semantic: {
       success: {
-        DEFAULT: '#34B27B',
-        subtle: 'rgba(52, 178, 123, 0.12)',
-        text: '#45C78E',
+        DEFAULT: '#3EA876',
+        subtle: 'rgba(62, 168, 118, 0.1)',
+        text: '#4EB886',
       },
       warning: {
-        DEFAULT: '#E5A83B',
-        subtle: 'rgba(229, 168, 59, 0.12)',
-        text: '#F5B84C',
+        DEFAULT: '#D4A048',
+        subtle: 'rgba(212, 160, 72, 0.1)',
+        text: '#E4B058',
       },
       error: {
-        DEFAULT: '#E5484D',
-        subtle: 'rgba(229, 72, 77, 0.12)',
-        text: '#F2555A',
+        DEFAULT: '#D45D5D',
+        subtle: 'rgba(212, 93, 93, 0.1)',
+        text: '#E46D6D',
       },
       info: {
-        DEFAULT: '#4DA6E8',
-        subtle: 'rgba(77, 166, 232, 0.12)',
-        text: '#64B5F6',
+        DEFAULT: '#6A9BC4',
+        subtle: 'rgba(106, 155, 196, 0.1)',
+        text: '#7AABDC',
       },
     },
-    // Window control buttons (calibrated muted dots, not candy gloss)
     windowControls: {
-      close: '#E5484D',
-      closeHover: '#FF5C61',
-      minimize: '#E5A83B',
-      minimizeHover: '#FFBA4D',
-      maximize: '#34B27B',
-      maximizeHover: '#42D694',
-      inactive: '#3E444D',
+      hover: '#2E3339',
+      active: '#3B424A',
+      closeHover: '#D45D5D',
     },
   },
 
   typography: {
     fontFamily: {
-      display: 'var(--font-display), "Cabinet Grotesk", -apple-system, system-ui, sans-serif',
+      display: 'var(--font-display), "Cabinet Grotesk", -apple-system, sans-serif',
       sans: 'var(--font-sans), "Switzer", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-      mono: 'var(--font-mono), "JetBrains Mono", ui-monospace, SFMono-Regular, monospace',
+      mono: 'var(--font-mono), "JetBrains Mono", ui-monospace, monospace',
     },
     scale: {
-      xs: { size: '0.6875rem', lineHeight: '0.875rem' }, // 11px / 14px (dock labels, tiny status)
-      sm: { size: '0.8125rem', lineHeight: '1.125rem' }, // 13px / 18px (system UI, buttons, table)
-      base: { size: '0.9375rem', lineHeight: '1.4375rem' }, // 15px / 23px (standard body reading)
-      md: { size: '1.0625rem', lineHeight: '1.625rem' }, // 17px / 26px (subheadings, lead)
-      lg: { size: '1.25rem', lineHeight: '1.75rem' }, // 20px / 28px (window titles, section headers)
-      xl: { size: '1.625rem', lineHeight: '2.125rem' }, // 26px / 34px (app titles, case study titles)
-      '2xl': { size: '2.25rem', lineHeight: '2.75rem' }, // 36px / 44px (lock screen header)
-      clock: { size: '4.5rem', lineHeight: '4.5rem' }, // 72px / 72px (lock screen clock)
+      xs: { size: '0.75rem', lineHeight: '1rem' },      // 12px
+      sm: { size: '0.8125rem', lineHeight: '1.25rem' }, // 13px
+      base: { size: '0.9375rem', lineHeight: '1.5rem' }, // 15px
+      md: { size: '1.0625rem', lineHeight: '1.625rem' }, // 17px
+      lg: { size: '1.25rem', lineHeight: '1.75rem' },   // 20px
+      xl: { size: '1.5rem', lineHeight: '2rem' },       // 24px
+      '2xl': { size: '2rem', lineHeight: '2.5rem' },     // 32px
+      clock: { size: '4rem', lineHeight: '4rem' },       // 64px
     },
   },
 
@@ -105,47 +95,44 @@ export const tokens = {
 
   radius: {
     none: '0px',
-    sm: '4px',   // Buttons, inputs, small tags, tooltips
-    md: '8px',   // Panels, dock container, popovers, notifications
-    lg: '12px',  // Windows, modal dialogs, lock screen card
-    full: '9999px', // Circular status indicators, avatar pill
+    sm: '3px',
+    md: '6px',
+    lg: '8px',
   },
 
   shadow: {
     none: 'none',
-    base: '0 4px 16px rgba(0, 0, 0, 0.35)', // Panels inside windows
-    window: '0 12px 32px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.35)', // Window resting
-    windowActive: '0 16px 44px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(229, 139, 36, 0.25)', // Active window
-    floating: '0 20px 48px rgba(0, 0, 0, 0.75), 0 4px 12px rgba(0, 0, 0, 0.4)', // Menus, toasts
+    base: '0 4px 16px rgba(0, 0, 0, 0.4)',
+    window: '0 16px 40px rgba(0, 0, 0, 0.6), 0 1px 3px rgba(0, 0, 0, 0.4)',
+    windowActive: '0 20px 48px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(196, 155, 114, 0.3)',
+    floating: '0 24px 56px rgba(0, 0, 0, 0.8)',
   },
 
   motion: {
     duration: {
-      instant: '90ms',  // Hover states, button press
-      quick: '160ms',   // Toggles, menus, tooltips
-      base: '240ms',    // Window open/close, toasts
-      slow: '400ms',    // Desktop reveal, maximize
-      scene: '1200ms',  // 3D camera dolly into monitor
+      instant: '90ms',
+      quick: '160ms',
+      base: '240ms',
+      slow: '400ms',
+      scene: '1200ms',
     },
     easing: {
-      enter: 'cubic-bezier(0.16, 1, 0.3, 1)',   // Calm decelerate
-      move: 'cubic-bezier(0.4, 0, 0.2, 1)',     // Standard fluid motion
-      exit: 'cubic-bezier(0.4, 0, 1, 1)',       // Accelerate out
+      enter: 'cubic-bezier(0.16, 1, 0.3, 1)',
+      move: 'cubic-bezier(0.4, 0, 0.2, 1)',
+      exit: 'cubic-bezier(0.4, 0, 1, 1)',
     },
   },
 
   zIndex: {
     wallpaper: 0,
     desktopIcons: 10,
-    windows: 20, // Window manager stacks above 20
+    windows: 20,
     topBar: 50,
     dock: 60,
     launcher: 70,
     toasts: 80,
     modal: 90,
-    cursor: 100,
   },
 } as const;
 
 export type DesignTokens = typeof tokens;
-

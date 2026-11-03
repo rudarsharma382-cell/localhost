@@ -38,29 +38,28 @@ export default function StyleguidePage() {
       <main className="max-w-6xl mx-auto px-6 py-10 space-y-16">
         {/* Intro Banner */}
         <section className="space-y-4 border-b border-border-default pb-8">
-          <div className="flex items-center gap-2 text-accent text-xs font-mono uppercase tracking-wider">
-            <span>Identity Deliverable &bull; design.md Section 6</span>
+          <div className="flex items-center gap-2 text-accent text-xs font-sans">
+            <span>Identity Specification &bull; Studio Slate &amp; Mineral Linen</span>
           </div>
           <h1 className="text-2xl font-display font-bold text-content-primary">
-            Rudar OS Identity & Design Tokens
+            Rudar OS Identity &amp; Design Tokens
           </h1>
           <p className="text-content-secondary text-base max-w-3xl leading-relaxed">
-            Rudar OS feels like a precision physical instrument forged from warm industrial slate and milled graphite,
-            illuminated by the quiet amber luminescence of a calibrated laboratory terminal late at night. Every surface
-            possesses weight, every border is an exact micro-hairline, and zero AI-slop or arbitrary values exist in this system.
+            Rudar OS is quiet, precise, and tactile. Built on warm studio slate and mineral linen tones,
+            delicate hairline dividers, bespoke geometric app icons, and custom utilitarian window controls.
           </p>
           <div className="flex flex-wrap gap-2 pt-2">
-            <span className="px-2.5 py-1 rounded-sm text-xs font-mono bg-surface-panel border border-border-default text-content-secondary">
-              Zero Raw Hex Values
-            </span>
-            <span className="px-2.5 py-1 rounded-sm text-xs font-mono bg-surface-panel border border-border-default text-content-secondary">
+            <span className="px-2.5 py-1 rounded-sm text-xs bg-surface-panel border border-border-default text-content-secondary">
               Zero Generic Card Grids
             </span>
-            <span className="px-2.5 py-1 rounded-sm text-xs font-mono bg-surface-panel border border-border-default text-content-secondary">
-              Strict 3-Family Typography
+            <span className="px-2.5 py-1 rounded-sm text-xs bg-surface-panel border border-border-default text-content-secondary">
+              Zero Orange-on-Black
             </span>
-            <span className="px-2.5 py-1 rounded-sm text-xs font-mono bg-surface-panel border border-border-default text-content-secondary">
-              WCAG AAA Contrast
+            <span className="px-2.5 py-1 rounded-sm text-xs bg-surface-panel border border-border-default text-content-secondary">
+              Custom Window Controls
+            </span>
+            <span className="px-2.5 py-1 rounded-sm text-xs bg-surface-panel border border-border-default text-content-secondary">
+              Verified Facts Only
             </span>
           </div>
         </section>

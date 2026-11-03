@@ -98,9 +98,9 @@ export const useOSStore = create<WindowManagerStore>((set, get) => ({
       visitorName: finalName,
       isLoggedIn: true,
     });
-    // Trigger the single welcome notification per PRD Section 3 beat 4
+    // Trigger clean system welcome notification
     setTimeout(() => {
-      get().addNotification('System', `Welcome, ${finalName}.`, 'info');
+      get().addNotification('System', 'Welcome to Rudar OS.', 'info');
     }, 450);
   },
 

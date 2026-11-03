@@ -9,107 +9,148 @@ export type AppIconId =
   | 'notes'
   | 'resume'
   | 'terminal'
-  | 'settings';
+  | 'settings'
+  | 'safeware'
+  | 'trusight';
+
+export const APP_CUSTOM_ICONS: Partial<Record<AppIconId, string>> = {
+  browser: '/assets/icons/browser.jpg',
+  assistant: '/assets/icons/mybot.jpg',
+  notes: '/assets/icons/notes.jpg',
+  about: '/assets/icons/profile.jpg',
+  terminal: '/assets/icons/terminal.jpg',
+  resume: '/assets/icons/profile.jpg',
+  safeware: '/assets/icons/safeware.jpg',
+  trusight: '/assets/icons/trusight.jpg',
+};
 
 interface AppIconProps {
   id: AppIconId;
   size?: number;
   className?: string;
-  showContainer?: boolean;
+  useCustomImage?: boolean;
 }
 
-export function AppIcon({ id, size = 20, className = '', showContainer = false }: AppIconProps) {
-  const glyph = () => {
+/**
+ * Custom Rudar OS App Icon Set
+ * Uses custom high-fidelity artwork icons provided in /assets/icons/
+ * with fallback to precision vector glyphs.
+ */
+export function AppIcon({
+  id,
+  size = 20,
+  className = '',
+  useCustomImage = true,
+}: AppIconProps) {
+  const customImg = APP_CUSTOM_ICONS[id];
+
+  if (useCustomImage && customImg) {
+    return (
+      <img
+        src={customImg}
+        alt={id}
+        width={size}
+        height={size}
+        className={`object-cover rounded-md select-none pointer-events-none shadow-sm ${className}`}
+        style={{ width: size, height: size }}
+      />
+    );
+  }
+
+  // Fallback / Standalone Vector Glyphs
+  const renderGlyph = () => {
     switch (id) {
       case 'studio':
         return (
-          <svg width={size} height={size} viewBox="0 0 20 20" fill="none" stroke="#EDEDEE" strokeWidth="1.5">
-            <rect x="2" y="3" width="16" height="14" rx="2" />
-            <path d="M8 3v14" />
-            <path d="M12 8l2 2-2 2" stroke="#E58B24" />
-          </svg>
+          <div
+            style={{ width: size, height: size }}
+            className={`rounded-md bg-gradient-to-br from-[#1E232A] to-[#121518] border border-white/10 flex items-center justify-center p-1 shadow-sm ${className}`}
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="#C49B72" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
+              <rect x="3" y="4" width="18" height="16" rx="2" />
+              <line x1="9" y1="4" x2="9" y2="20" />
+              <line x1="13" y1="9" x2="17" y2="9" />
+              <line x1="13" y1="13" x2="16" y2="13" />
+            </svg>
+          </div>
         );
       case 'browser':
         return (
-          <svg width={size} height={size} viewBox="0 0 20 20" fill="none" stroke="#EDEDEE" strokeWidth="1.5">
-            <circle cx="10" cy="10" r="7" />
-            <path d="M3.5 10h13" />
-            <path d="M10 3a11 11 0 0 1 0 14" />
-            <circle cx="13" cy="7" r="1.5" fill="#E58B24" stroke="none" />
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="9" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <path d="M12 3a14 14 0 0 1 0 18" />
+            <path d="M12 3a14 14 0 0 0 0 18" />
           </svg>
         );
       case 'about':
         return (
-          <svg width={size} height={size} viewBox="0 0 20 20" fill="none" stroke="#EDEDEE" strokeWidth="1.5">
-            <circle cx="10" cy="7" r="3.5" />
-            <path d="M4 16c0-3 2.5-5 6-5s6 2 6 5" />
-            <circle cx="14" cy="5" r="1" fill="#E58B24" stroke="none" />
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="8" r="4" />
+            <path d="M5 20c0-3.5 3.1-6 7-6s7 2.5 7 6" />
           </svg>
         );
       case 'assistant':
         return (
-          <svg width={size} height={size} viewBox="0 0 20 20" fill="none" stroke="#EDEDEE" strokeWidth="1.5">
-            <path d="M10 3l2 5 5 2-5 2-2 5-2-5-5-2 5-2 2-5z" />
-            <circle cx="10" cy="10" r="1.5" fill="#E58B24" stroke="none" />
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 3l2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5L12 3z" />
           </svg>
         );
       case 'socials':
         return (
-          <svg width={size} height={size} viewBox="0 0 20 20" fill="none" stroke="#EDEDEE" strokeWidth="1.5">
-            <circle cx="6" cy="10" r="2.5" />
-            <circle cx="14" cy="6" r="2.5" />
-            <circle cx="14" cy="14" r="2.5" />
-            <path d="M8.5 9l3-2" stroke="#E58B24" />
-            <path d="M8.5 11l3 2" />
-          </svg>
+          <div
+            style={{ width: size, height: size }}
+            className={`rounded-md bg-gradient-to-br from-[#231B32] to-[#141020] border border-white/10 flex items-center justify-center p-1 shadow-sm ${className}`}
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="#A78BFA" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
+              <circle cx="6" cy="12" r="3" />
+              <circle cx="18" cy="6" r="3" />
+              <circle cx="18" cy="18" r="3" />
+              <line x1="8.7" y1="10.7" x2="15.3" y2="7.3" />
+              <line x1="8.7" y1="13.3" x2="15.3" y2="16.7" />
+            </svg>
+          </div>
         );
       case 'notes':
         return (
-          <svg width={size} height={size} viewBox="0 0 20 20" fill="none" stroke="#EDEDEE" strokeWidth="1.5">
-            <rect x="4" y="3" width="12" height="14" rx="2" />
-            <path d="M7 7h6" />
-            <path d="M7 10h4" />
-            <path d="M12 12l2 2" stroke="#E58B24" strokeWidth="2" />
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M4 4h12l4 4v12H4V4z" />
+            <path d="M16 4v4h4" />
+            <line x1="8" y1="12" x2="14" y2="12" />
+            <line x1="8" y1="16" x2="12" y2="16" />
           </svg>
         );
       case 'resume':
         return (
-          <svg width={size} height={size} viewBox="0 0 20 20" fill="none" stroke="#EDEDEE" strokeWidth="1.5">
-            <path d="M5 3h7l4 4v10H5V3z" />
-            <path d="M12 3v4h4" />
-            <path d="M8 11h4" stroke="#E58B24" />
-            <path d="M8 14h3" />
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="4" y="3" width="16" height="18" rx="2" />
+            <circle cx="12" cy="8" r="2" />
+            <line x1="8" y1="14" x2="16" y2="14" />
+            <line x1="8" y1="17" x2="13" y2="17" />
           </svg>
         );
       case 'terminal':
         return (
-          <svg width={size} height={size} viewBox="0 0 20 20" fill="none" stroke="#EDEDEE" strokeWidth="1.5">
-            <rect x="3" y="4" width="14" height="12" rx="2" />
-            <path d="M6 8l3 2-3 2" />
-            <path d="M11 12h3" stroke="#E58B24" strokeWidth="2" />
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="4" width="18" height="16" rx="2" />
+            <path d="M7 9l3 3-3 3" />
+            <line x1="12" y1="15" x2="16" y2="15" />
           </svg>
         );
       case 'settings':
         return (
-          <svg width={size} height={size} viewBox="0 0 20 20" fill="none" stroke="#EDEDEE" strokeWidth="1.5">
-            <circle cx="10" cy="10" r="3" />
-            <path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.9 4.9l1.4 1.4M13.7 13.7l1.4 1.4M4.9 15.1l1.4-1.4M13.7 6.3l1.4-1.4" />
-            <circle cx="10" cy="10" r="1" fill="#E58B24" stroke="none" />
-          </svg>
+          <div
+            style={{ width: size, height: size }}
+            className={`rounded-md bg-gradient-to-br from-[#242A30] to-[#161A1E] border border-white/10 flex items-center justify-center p-1 shadow-sm ${className}`}
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="#C49B72" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
+              <circle cx="12" cy="12" r="3.5" />
+              <path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" />
+            </svg>
+          </div>
         );
     }
   };
 
-  if (!showContainer) {
-    return <span className={`inline-flex items-center justify-center ${className}`}>{glyph()}</span>;
-  }
-
-  return (
-    <div
-      className={`w-10 h-10 rounded-md bg-[#1C1F23] border border-[#2F343B] flex items-center justify-center relative shadow-sm select-none transition-transform duration-instant ${className}`}
-    >
-      {glyph()}
-    </div>
-  );
+  return <span className={`inline-flex items-center justify-center ${className}`}>{renderGlyph()}</span>;
 }
-

@@ -24,21 +24,20 @@ export function AppFrame({
   const { isLiteMode } = useOSStore();
 
   if (isLiteMode) {
-    // In mobile / lite full-screen mode: render slim top control strip with back button
     return (
       <div className={`w-full h-full flex flex-col bg-surface-panel overflow-hidden ${className}`}>
-        <div className="h-[42px] px-4 bg-surface-base border-b border-border-default flex items-center justify-between select-none shrink-0">
+        <div className="h-10 px-3.5 bg-surface-base border-b border-border-default flex items-center justify-between select-none shrink-0">
           <div className="flex items-center gap-3">
             <button
               onClick={onBack}
-              aria-label="Back to OS Desktop"
-              className="px-2 py-1 rounded-sm bg-surface-panel border border-border-default text-content-secondary hover:text-content-primary hover:border-border-strong text-xs font-mono transition-colors duration-instant flex items-center gap-1.5"
+              aria-label="Back"
+              className="px-2 py-1 rounded-sm text-content-secondary hover:text-content-primary hover:bg-surface-raised text-xs transition-colors duration-instant flex items-center gap-1.5"
             >
               <span>&larr;</span>
               <span>Back</span>
             </button>
             <div className="flex items-center gap-2">
-              <AppIcon id={appId} size={16} />
+              <AppIcon id={appId} size={15} className="text-content-secondary" />
               <span className="text-xs font-medium text-content-primary">{title}</span>
             </div>
           </div>
@@ -49,12 +48,11 @@ export function AppFrame({
     );
   }
 
-  // In desktop full mode: window chrome is handled by Window.tsx, this is the internal layout frame
   return (
     <div className={`w-full h-full flex flex-col bg-surface-panel overflow-hidden ${className}`}>
       {headerActions && (
-        <div className="h-[36px] px-3.5 bg-surface-base/50 border-b border-border-subtle flex items-center justify-between shrink-0">
-          <div className="text-xs font-mono text-content-tertiary">{title}</div>
+        <div className="h-9 px-3.5 bg-surface-base/40 border-b border-border-subtle flex items-center justify-between shrink-0">
+          <div className="text-xs text-content-tertiary">{title}</div>
           <div className="flex items-center gap-2">{headerActions}</div>
         </div>
       )}
@@ -62,4 +60,3 @@ export function AppFrame({
     </div>
   );
 }
-

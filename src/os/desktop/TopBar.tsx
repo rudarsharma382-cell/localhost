@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useOSStore } from '@/os/window-manager/store';
 import { appRegistry } from '@/os/registry';
 import { AppIcon } from '@/components/icons/AppIcons';
-import { Volume2, VolumeX, Globe } from 'lucide-react';
+import { Volume2, VolumeX } from 'lucide-react';
 
 export function TopBar() {
   const {
@@ -20,11 +20,9 @@ export function TopBar() {
   const [timeStr, setTimeStr] = useState<string>('');
   const [isOnline, setIsOnline] = useState<boolean>(true);
 
-  // Active focused window
   const activeWin = windows.find((w) => w.focused && !w.minimized);
   const activeApp = activeWin ? appRegistry[activeWin.appId] : null;
 
-  // Real clock (HH:mm)
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
@@ -37,7 +35,6 @@ export function TopBar() {
     return () => clearInterval(interval);
   }, []);
 
-  // Real online status from navigator.onLine
   useEffect(() => {
     setIsOnline(typeof navigator !== 'undefined' ? navigator.onLine : true);
     const handleOnline = () => setIsOnline(true);
@@ -52,97 +49,105 @@ export function TopBar() {
   }, []);
 
   return (
-    <div className="h-[34px] px-3.5 bg-surface-base/95 backdrop-blur-md border-b border-border-default flex items-center justify-between select-none z-topBar relative text-xs font-sans">
+    <div className="h-8 px-3.5 bg-[#121316]/90 backdrop-blur-xl border-b border-[#DDA0DD]/20 flex items-center justify-between select-none z-topBar relative text-xs font-sans">
       {/* Left: System Menu & Active App */}
       <div className="flex items-center gap-3">
-        {/* System Menu Button */}
         <div className="relative">
           <button
             onClick={() => setActiveMenu(activeMenu === 'system' ? null : 'system')}
             aria-expanded={activeMenu === 'system'}
             aria-label="System Menu"
-            className="flex items-center gap-1.5 px-2 py-0.5 rounded-sm hover:bg-surface-raised font-display font-bold text-content-primary transition-colors duration-instant focus:outline-none focus:ring-1 focus:ring-accent"
+            className="flex items-center gap-1.5 px-2 py-0.5 rounded hover:bg-white/10 font-sans font-semibold text-white transition-colors duration-instant focus:outline-none cursor-pointer"
           >
-            <div className="w-2 h-2 rounded-full bg-accent" />
-            <span>RUDAR OS</span>
+            <span className="text-[#DDA0DD]">✦</span>
+            <span>Rudar OS</span>
           </button>
 
-          {/* System Dropdown */}
           {activeMenu === 'system' && (
-            <div className="absolute top-[32px] left-0 w-48 rounded-md bg-surface-raised border border-border-strong shadow-floating p-1 space-y-0.5 z-50 text-xs">
+            <div className="absolute top-8 left-0 w-48 rounded-lg bg-[#181920] border border-[#DDA0DD]/30 shadow-2xl p-1.5 space-y-1 z-50 text-xs text-zinc-200">
               <button
                 onClick={() => {
                   openWindow('about');
                   setActiveMenu(null);
                 }}
-                className="w-full text-left px-3 py-1.5 rounded-sm hover:bg-accent/15 hover:text-accent text-content-primary flex items-center justify-between transition-colors duration-instant"
+                className="w-full text-left px-2.5 py-1.5 rounded-md hover:bg-white/10 hover:text-white transition-colors duration-instant cursor-pointer"
               >
-                <span>About Rudar OS</span>
-                <span className="text-[10px] font-mono text-content-tertiary">v0.1</span>
+                About Rudar
+              </button>
+              <button
+                onClick={() => {
+                  openWindow('safeware');
+                  setActiveMenu(null);
+                }}
+                className="w-full text-left px-2.5 py-1.5 rounded-md hover:bg-white/10 hover:text-white transition-colors duration-instant cursor-pointer"
+              >
+                SafeWare AI
+              </button>
+              <button
+                onClick={() => {
+                  openWindow('trusight');
+                  setActiveMenu(null);
+                }}
+                className="w-full text-left px-2.5 py-1.5 rounded-md hover:bg-white/10 hover:text-white transition-colors duration-instant cursor-pointer"
+              >
+                TruSight AI
               </button>
               <button
                 onClick={() => {
                   openWindow('settings');
                   setActiveMenu(null);
                 }}
-                className="w-full text-left px-3 py-1.5 rounded-sm hover:bg-accent/15 hover:text-accent text-content-primary flex items-center justify-between transition-colors duration-instant"
+                className="w-full text-left px-2.5 py-1.5 rounded-md hover:bg-white/10 hover:text-white transition-colors duration-instant cursor-pointer"
               >
-                <span>System Settings</span>
+                Settings
               </button>
-              <div className="h-[1px] bg-border-subtle my-1" />
+              <div className="h-px bg-white/10 my-1" />
               <button
                 onClick={() => {
                   setActiveMenu(null);
                   logout();
                 }}
-                className="w-full text-left px-3 py-1.5 rounded-sm hover:bg-semantic-error/15 hover:text-semantic-error text-content-primary flex items-center justify-between transition-colors duration-instant"
+                className="w-full text-left px-2.5 py-1.5 rounded-md hover:bg-red-500/20 text-zinc-400 hover:text-red-300 transition-colors duration-instant cursor-pointer"
               >
-                <span>Log Out</span>
-                <span className="text-[10px] font-mono text-content-tertiary">&rarr;</span>
+                Lock / Log Out
               </button>
             </div>
           )}
         </div>
 
-        {/* Focused App Name */}
         {activeApp && (
-          <div className="flex items-center gap-1.5 text-content-secondary border-l border-border-subtle pl-3">
-            <AppIcon id={activeApp.id} size={13} className="opacity-90" />
-            <span className="font-medium text-content-primary text-xs">{activeApp.title}</span>
+          <div className="flex items-center gap-2 text-zinc-400 border-l border-white/10 pl-3">
+            <AppIcon id={activeApp.id} size={14} className="text-[#DDA0DD]" />
+            <span className="font-sans font-medium text-zinc-200 text-xs">{activeApp.title}</span>
           </div>
         )}
       </div>
 
-      {/* Right: Only REAL indicators (Clock, Sound Toggle, Online Status) */}
-      <div className="flex items-center gap-3 font-mono text-xs">
-        {/* Real Online Status */}
-        <div
-          className="flex items-center gap-1.5 text-content-tertiary"
-          title={isOnline ? 'Network status: Online' : 'Network status: Offline'}
-        >
+      {/* Right: Indicators, Sound Toggle, and Clean Minimal Clock */}
+      <div className="flex items-center gap-3 text-xs">
+        <div className="flex items-center gap-1.5 text-zinc-400">
           <span
             className={`w-1.5 h-1.5 rounded-full ${
-              isOnline ? 'bg-semantic-success' : 'bg-semantic-error'
+              isOnline ? 'bg-emerald-400 shadow-[0_0_6px_#34D399]' : 'bg-red-400'
             }`}
           />
           <span className="text-[11px] hidden sm:inline">{isOnline ? 'Online' : 'Offline'}</span>
         </div>
 
-        {/* Real Sound Toggle */}
         <button
           onClick={toggleSound}
-          aria-label={soundEnabled ? 'Mute system sound' : 'Unmute system sound'}
-          className="p-1 rounded-sm hover:bg-surface-panel text-content-secondary hover:text-content-primary transition-colors duration-instant"
+          aria-label={soundEnabled ? 'Mute' : 'Unmute'}
+          className="p-1 rounded hover:bg-white/10 text-zinc-400 hover:text-white transition-colors duration-instant cursor-pointer"
         >
-          {soundEnabled ? <Volume2 size={13} className="text-accent" /> : <VolumeX size={13} />}
+          {soundEnabled ? <Volume2 size={13} className="text-[#DDA0DD]" /> : <VolumeX size={13} />}
         </button>
 
-        {/* Real Clock */}
-        <div className="px-1.5 py-0.5 rounded-sm bg-surface-panel/80 border border-border-subtle font-medium text-content-primary text-xs">
+        <span className="text-zinc-300 font-mono text-xs pl-1">
           {timeStr || '--:--'}
-        </div>
+        </span>
       </div>
     </div>
   );
 }
 
+export default TopBar;

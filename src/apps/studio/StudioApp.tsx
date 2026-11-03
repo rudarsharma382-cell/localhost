@@ -7,15 +7,9 @@ import { isTodo } from '@/content/schema';
 import { TodoMarker } from '@/components/common/TodoMarker';
 import { useOSStore } from '@/os/window-manager/store';
 import { AppFrame } from '@/os/app-frame/AppFrame';
-import {
-  Folder,
-  FileCode,
-  ExternalLink,
-  ChevronRight,
-  Trophy,
-  ArrowRight,
-} from 'lucide-react';
+import { ChevronRight, ArrowRight, ExternalLink } from 'lucide-react';
 import { GithubIcon } from '@/components/icons/BrandIcons';
+import { AppIcon } from '@/components/icons/AppIcons';
 
 interface StudioAppProps {
   windowId: string;
@@ -43,214 +37,157 @@ export default function StudioApp({ windowId }: StudioAppProps) {
       className="flex-1"
     >
       <div className="flex h-full bg-surface-panel text-content-primary font-sans select-text">
-        {/* Left IDE File Tree Sidebar */}
+        {/* Left Navigator (Thin hairline divider, no heavy boxes) */}
         <aside
-          aria-label="Project Explorer"
-          className="w-56 shrink-0 border-r border-border-default bg-surface-base/60 flex flex-col justify-between select-none"
+          aria-label="Projects list"
+          className="w-52 shrink-0 border-r border-border-subtle bg-surface-base/50 flex flex-col justify-between select-none"
         >
-          <div className="p-3 space-y-3">
-            <div className="text-[11px] font-mono uppercase tracking-wider text-content-tertiary flex items-center justify-between">
-              <span>EXPLORER</span>
-              <span className="text-[10px] text-accent">PROJECTS ({projects.length})</span>
+          <div className="p-3 space-y-2">
+            <div className="px-2 py-1 text-xs font-medium text-content-tertiary">
+              Projects
             </div>
 
             <div className="space-y-0.5">
-              <div className="flex items-center gap-1.5 px-2 py-1 text-xs font-mono text-content-secondary">
-                <Folder size={13} className="text-accent" />
-                <span className="font-semibold text-content-primary">rudar-workspace</span>
-              </div>
-
-              <div className="pl-4 space-y-0.5 border-l border-border-subtle ml-3">
-                {projects.map((proj) => {
-                  const isSelected = proj.id === selectedProjectId;
-                  return (
-                    <button
-                      key={proj.id}
-                      onClick={() => setSelectedProjectId(proj.id)}
-                      className={`w-full text-left px-2 py-1.5 rounded-sm text-xs font-mono flex items-center justify-between transition-colors duration-instant ${
-                        isSelected
-                          ? 'bg-accent/15 text-accent font-medium border-l-2 border-accent'
-                          : 'text-content-secondary hover:text-content-primary hover:bg-surface-raised'
-                      }`}
-                    >
-                      <div className="flex items-center gap-1.5 truncate">
-                        <FileCode size={12} className={isSelected ? 'text-accent' : 'text-content-tertiary'} />
-                        <span className="truncate">{proj.name}</span>
-                      </div>
-                      {proj.achievements && proj.achievements.length > 0 && (
-                        <Trophy size={11} className="text-semantic-warning shrink-0" />
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
+              {projects.map((proj) => {
+                const isSelected = proj.id === selectedProjectId;
+                return (
+                  <button
+                    key={proj.id}
+                    onClick={() => setSelectedProjectId(proj.id)}
+                    className={`w-full text-left px-2.5 py-1.5 rounded-sm text-xs font-sans flex items-center justify-between transition-colors duration-instant ${
+                      isSelected
+                        ? 'bg-surface-raised text-content-primary font-medium'
+                        : 'text-content-secondary hover:text-content-primary hover:bg-surface-raised/40'
+                    }`}
+                  >
+                    <span className="truncate">{proj.name}</span>
+                    {proj.achievements && proj.achievements.length > 0 && (
+                      <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" title="Verified Achievement" />
+                    )}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
-          <div className="p-3 border-t border-border-subtle text-[11px] font-mono text-content-tertiary">
-            <span>Verified Spec &bull; No Fake Stats</span>
+          <div className="p-3 border-t border-border-subtle text-xs text-content-tertiary">
+            Verified facts only
           </div>
         </aside>
 
-        {/* Main Case Study Pane */}
+        {/* Main Reading Pane (Generous spacing, thin hairline rules) */}
         <main className="flex-1 flex flex-col overflow-y-auto">
-          {/* Breadcrumb Header */}
-          <div className="h-9 px-6 border-b border-border-subtle bg-surface-base/40 flex items-center justify-between text-xs font-mono shrink-0 select-none">
+          {/* Header Bar */}
+          <div className="h-10 px-6 border-b border-border-subtle bg-surface-base/30 flex items-center justify-between text-xs shrink-0 select-none">
             <div className="flex items-center gap-1.5 text-content-tertiary">
-              <span>projects</span>
+              <span>Projects</span>
               <ChevronRight size={12} />
-              <span className="text-content-primary font-semibold">{selectedProject.slug}</span>
+              <span className="text-content-primary font-medium">{selectedProject.name}</span>
             </div>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => handleOpenInBrowser(selectedProject)}
-                className="px-2.5 py-1 rounded-sm bg-accent hover:bg-accent-hover text-surface-canvas text-xs font-sans font-medium flex items-center gap-1.5 transition-colors duration-instant"
-              >
-                <span>Launch in Browser</span>
-                <ArrowRight size={12} />
-              </button>
-            </div>
+            <button
+              onClick={() => handleOpenInBrowser(selectedProject)}
+              className="px-2.5 py-1 rounded-sm bg-surface-raised border border-border-default hover:border-border-strong text-content-primary text-xs font-medium flex items-center gap-1.5 transition-colors duration-instant"
+            >
+              <span>Open in browser</span>
+              <ArrowRight size={12} />
+            </button>
           </div>
 
-          {/* Case Study Content */}
-          <div className="p-8 max-w-3xl space-y-8">
+          {/* Project Details */}
+          <div className="p-8 max-w-2xl space-y-6">
             {/* Title & Summary */}
-            <div className="space-y-3">
-              <div className="flex items-center gap-3">
-                <h1 className="text-2xl font-display font-bold text-content-primary tracking-tight">
-                  {selectedProject.name}
-                </h1>
-                {selectedProject.featured && (
-                  <span className="px-2 py-0.5 rounded-sm bg-accent/10 border border-accent/30 text-accent text-[11px] font-mono">
-                    Featured Project
-                  </span>
-                )}
-              </div>
-              <p className="text-base text-content-secondary leading-relaxed">
+            <div className="space-y-2">
+              <h1 className="text-xl font-display font-bold text-content-primary tracking-tight">
+                {selectedProject.name}
+              </h1>
+              <p className="text-sm text-content-secondary leading-relaxed">
                 {selectedProject.summary}
               </p>
             </div>
 
-            {/* Verified Achievements */}
+            {/* Achievement Line (Quiet hairline divider, no cartoon badges) */}
             {selectedProject.achievements && selectedProject.achievements.length > 0 && (
-              <div className="p-4 rounded-md bg-semantic-warning/10 border border-semantic-warning/30 flex items-start gap-3">
-                <Trophy size={18} className="text-semantic-warning shrink-0 mt-0.5" />
-                <div className="space-y-1">
-                  <div className="text-xs font-mono font-semibold text-semantic-warning uppercase tracking-wider">
-                    Verified Hackathon Achievement
-                  </div>
-                  <div className="text-sm font-medium text-content-primary">
-                    {selectedProject.achievements.join(', ')}
-                  </div>
+              <div className="py-3 border-y border-border-subtle space-y-0.5">
+                <div className="text-xs text-content-tertiary font-medium">
+                  Achievement
+                </div>
+                <div className="text-sm font-medium text-content-primary">
+                  {selectedProject.achievements.join(', ')}
                 </div>
               </div>
             )}
 
-            {/* Problem & Why */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="p-5 rounded-md bg-surface-base border border-border-default space-y-2">
-                <div className="text-xs font-mono uppercase text-content-tertiary">The Problem</div>
+            {/* Problem & Motivation (No clipped boxes, natural text flow) */}
+            <div className="space-y-4">
+              <div className="space-y-1">
+                <div className="text-xs font-medium text-content-tertiary">Problem</div>
                 {selectedProject.problem && isTodo(selectedProject.problem) ? (
-                  <TodoMarker field="Problem" message={selectedProject.problem} />
+                  <div className="py-1">
+                    <TodoMarker message={selectedProject.problem} />
+                  </div>
                 ) : (
                   <p className="text-sm text-content-secondary leading-relaxed">
-                    {selectedProject.problem || 'Documentation in progress.'}
+                    {selectedProject.problem}
                   </p>
                 )}
               </div>
 
-              <div className="p-5 rounded-md bg-surface-base border border-border-default space-y-2">
-                <div className="text-xs font-mono uppercase text-content-tertiary">Why It Exists</div>
+              <div className="h-px bg-border-subtle" />
+
+              <div className="space-y-1">
+                <div className="text-xs font-medium text-content-tertiary">Motivation</div>
                 {selectedProject.why && isTodo(selectedProject.why) ? (
-                  <TodoMarker field="Why" message={selectedProject.why} />
+                  <div className="py-1">
+                    <TodoMarker message={selectedProject.why} />
+                  </div>
                 ) : (
                   <p className="text-sm text-content-secondary leading-relaxed">
-                    {selectedProject.why || 'Architecture specifications ongoing.'}
+                    {selectedProject.why}
                   </p>
                 )}
               </div>
-            </div>
 
-            {/* Key Features */}
-            {selectedProject.features && selectedProject.features.length > 0 && (
-              <div className="space-y-3">
-                <h2 className="text-sm font-mono uppercase tracking-wider text-content-tertiary">
-                  Core Architectural Capabilities
-                </h2>
-                <ul className="space-y-2">
-                  {selectedProject.features.map((feat, idx) => (
-                    <li
-                      key={idx}
-                      className="p-3 rounded-sm bg-surface-base/60 border border-border-subtle text-sm text-content-secondary flex items-start gap-2.5"
-                    >
-                      <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2 shrink-0" />
-                      <span>{feat}</span>
-                    </li>
-                  ))}
-                </ul>
+              <div className="h-px bg-border-subtle" />
+
+              <div className="space-y-1">
+                <div className="text-xs font-medium text-content-tertiary">Contribution</div>
+                {selectedProject.contribution && isTodo(selectedProject.contribution) ? (
+                  <div className="py-1">
+                    <TodoMarker message={selectedProject.contribution} />
+                  </div>
+                ) : (
+                  <p className="text-sm text-content-secondary leading-relaxed">
+                    {selectedProject.contribution}
+                  </p>
+                )}
               </div>
-            )}
-
-            {/* Tech Stack Chips */}
-            <div className="space-y-3">
-              <h2 className="text-sm font-mono uppercase tracking-wider text-content-tertiary">
-                Technologies &amp; Frameworks
-              </h2>
-              <div className="flex flex-wrap gap-2">
-                {selectedProject.stack.map((tech) => (
-                  <span
-                    key={tech}
-                    className="px-2.5 py-1 rounded-sm bg-surface-base border border-border-default text-xs font-mono text-content-secondary"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Individual Contribution */}
-            <div className="space-y-2">
-              <h2 className="text-sm font-mono uppercase tracking-wider text-content-tertiary">
-                Rudar&apos;s Contribution
-              </h2>
-              {selectedProject.contribution && isTodo(selectedProject.contribution) ? (
-                <TodoMarker field="Contribution" message={selectedProject.contribution} />
-              ) : (
-                <p className="text-sm text-content-secondary">
-                  {selectedProject.contribution || 'Engineering breakdown pending.'}
-                </p>
-              )}
             </div>
 
             {/* External Links */}
-            <div className="pt-4 border-t border-border-subtle flex flex-wrap gap-4 text-xs font-mono">
-              {selectedProject.liveUrl && (
+            <div className="pt-4 flex items-center gap-4 text-xs">
+              {selectedProject.liveUrl ? (
                 <a
                   href={selectedProject.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3 py-1.5 rounded-sm bg-surface-raised border border-border-default text-content-primary hover:border-accent flex items-center gap-2 transition-colors duration-instant"
+                  className="text-content-secondary hover:text-content-primary flex items-center gap-1.5 transition-colors duration-instant"
                 >
-                  <ExternalLink size={13} className="text-accent" />
-                  <span>External Live Link</span>
+                  <ExternalLink size={12} />
+                  <span>Live site</span>
                 </a>
-              )}
+              ) : null}
+
               {selectedProject.repoUrl ? (
                 <a
                   href={selectedProject.repoUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3 py-1.5 rounded-sm bg-surface-raised border border-border-default text-content-primary hover:border-accent flex items-center gap-2 transition-colors duration-instant"
+                  className="text-content-secondary hover:text-content-primary flex items-center gap-1.5 transition-colors duration-instant"
                 >
                   <GithubIcon size={13} />
-                  <span>View Repository</span>
+                  <span>Source repository</span>
                 </a>
-              ) : (
-                <span className="px-3 py-1.5 rounded-sm bg-surface-base border border-border-subtle text-content-tertiary flex items-center gap-1.5">
-                  <GithubIcon size={13} />
-                  <span>Repository: Private / Pending</span>
-                </span>
-              )}
+              ) : null}
             </div>
           </div>
         </main>

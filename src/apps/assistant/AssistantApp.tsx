@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { queryAssistant, AssistantState } from '@/assistant/engine';
 import { AppFrame } from '@/os/app-frame/AppFrame';
 import { useOSStore } from '@/os/window-manager/store';
-import { Send, RotateCcw, Sparkles, ExternalLink, User, Bot } from 'lucide-react';
+import { Send, RotateCcw, ExternalLink } from 'lucide-react';
 
 interface Message {
   id: string;
@@ -12,7 +12,6 @@ interface Message {
   text: string;
   followUps?: string[];
   relatedLinks?: string[];
-  isFallback?: boolean;
 }
 
 interface AssistantAppProps {
@@ -21,9 +20,8 @@ interface AssistantAppProps {
 
 const DEFAULT_STARTERS = [
   'Tell me about Rudar',
-  'What did he build with AI?',
-  'What are his technical skills?',
-  'Tell me about Delhi AI Hackathon',
+  'What is SafeWare?',
+  'What awards has he won?',
   'How can I connect with him?',
 ];
 
@@ -33,7 +31,7 @@ export default function AssistantApp({ windowId }: AssistantAppProps) {
     {
       id: 'welcome',
       sender: 'assistant',
-      text: "I am Rudar's portfolio assistant. I only discuss verified facts about his projects, Flutter engineering, and hackathon achievements. Ask me anything or choose a starter below.",
+      text: "I am Rudar's portfolio assistant. I can answer questions about his projects, Flutter background, and hackathon results.",
       followUps: DEFAULT_STARTERS,
     },
   ]);
@@ -60,7 +58,6 @@ export default function AssistantApp({ windowId }: AssistantAppProps) {
     setInput('');
 
     if (reducedMotion) {
-      // Immediate response under reduced motion
       const res = queryAssistant(query, engineState);
       if (res.resolvedEntity) {
         setEngineState({ lastEntityId: res.resolvedEntity });
@@ -73,7 +70,6 @@ export default function AssistantApp({ windowId }: AssistantAppProps) {
           text: res.answer,
           followUps: res.followUps,
           relatedLinks: res.relatedLinks,
-          isFallback: res.isFallback,
         },
       ]);
     } else {
@@ -92,10 +88,9 @@ export default function AssistantApp({ windowId }: AssistantAppProps) {
             text: res.answer,
             followUps: res.followUps,
             relatedLinks: res.relatedLinks,
-            isFallback: res.isFallback,
           },
         ]);
-      }, 350);
+      }, 300);
     }
   };
 
@@ -105,7 +100,7 @@ export default function AssistantApp({ windowId }: AssistantAppProps) {
       {
         id: `welcome-${Date.now()}`,
         sender: 'assistant',
-        text: 'Conversation cleared. How can I assist you with Rudar’s portfolio?',
+        text: 'Conversation cleared. How can I assist you?',
         followUps: DEFAULT_STARTERS,
       },
     ]);
@@ -114,69 +109,54 @@ export default function AssistantApp({ windowId }: AssistantAppProps) {
   return (
     <AppFrame
       appId="assistant"
-      title="Rudar AI &bull; Portfolio Assistant"
+      title="Rudar AI"
       onBack={() => closeWindow(windowId)}
       headerActions={
         <button
           onClick={handleClear}
-          aria-label="Clear chat conversation"
-          className="p-1 text-content-tertiary hover:text-content-primary rounded-sm hover:bg-surface-raised transition-colors duration-instant"
-          title="Clear Conversation"
+          aria-label="Clear chat"
+          className="p-1 text-content-tertiary hover:text-content-primary transition-colors duration-instant"
+          title="Clear"
         >
-          <RotateCcw size={13} />
+          <RotateCcw size={12} />
         </button>
       }
       className="flex-1"
     >
       <div className="flex flex-col h-full bg-surface-panel font-sans select-text text-content-primary">
-        {/* Messages List */}
+        {/* Messages */}
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {messages.map((msg) => (
             <div
               key={msg.id}
               className={`flex flex-col ${
                 msg.sender === 'user' ? 'items-end' : 'items-start'
-              } space-y-1.5`}
+              } space-y-1`}
             >
-              {/* Sender label */}
-              <div className="flex items-center gap-1.5 text-[10px] font-mono text-content-tertiary uppercase">
-                {msg.sender === 'user' ? (
-                  <>
-                    <span>Visitor</span>
-                    <User size={10} />
-                  </>
-                ) : (
-                  <>
-                    <Bot size={10} className="text-accent" />
-                    <span className="text-accent">Rudar AI</span>
-                  </>
-                )}
+              <div className="text-[11px] text-content-tertiary">
+                {msg.sender === 'user' ? 'You' : 'Assistant'}
               </div>
 
-              {/* Message Content */}
               <div
-                className={`max-w-[85%] rounded-md p-3 text-xs leading-relaxed ${
+                className={`max-w-[85%] rounded-sm p-2.5 text-xs leading-relaxed ${
                   msg.sender === 'user'
-                    ? 'bg-surface-base border border-border-default text-content-primary'
-                    : msg.isFallback
-                    ? 'bg-surface-base/80 border border-semantic-warning/30 text-content-secondary'
-                    : 'bg-surface-base border border-border-strong text-content-primary'
+                    ? 'bg-surface-raised border border-border-default text-content-primary'
+                    : 'bg-surface-base border border-border-subtle text-content-secondary'
                 }`}
               >
                 <div className="whitespace-pre-wrap">{msg.text}</div>
 
-                {/* Related Links */}
                 {msg.relatedLinks && msg.relatedLinks.length > 0 && (
-                  <div className="pt-2.5 mt-2.5 border-t border-border-subtle flex flex-wrap gap-2">
+                  <div className="pt-2 mt-2 border-t border-border-subtle flex flex-wrap gap-2">
                     {msg.relatedLinks.map((url, i) => (
                       <a
                         key={i}
                         href={url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-[11px] font-mono text-accent hover:underline"
+                        className="inline-flex items-center gap-1 text-[11px] text-accent hover:underline"
                       >
-                        <span>Verified Link</span>
+                        <span>Related link</span>
                         <ExternalLink size={10} />
                       </a>
                     ))}
@@ -184,14 +164,13 @@ export default function AssistantApp({ windowId }: AssistantAppProps) {
                 )}
               </div>
 
-              {/* Suggested Follow-ups */}
               {msg.followUps && msg.followUps.length > 0 && (
                 <div className="flex flex-wrap gap-1.5 pt-1 max-w-[85%]">
                   {msg.followUps.map((prompt, idx) => (
                     <button
                       key={idx}
                       onClick={() => handleSend(prompt)}
-                      className="text-left text-[11px] font-sans px-2.5 py-1 rounded-sm bg-surface-base hover:bg-surface-raised border border-border-subtle hover:border-accent text-content-secondary hover:text-content-primary transition-colors duration-instant"
+                      className="text-left text-[11px] px-2 py-1 rounded-sm bg-surface-base hover:bg-surface-raised border border-border-subtle text-content-secondary hover:text-content-primary transition-colors duration-instant"
                     >
                       {prompt} &rarr;
                     </button>
@@ -201,20 +180,16 @@ export default function AssistantApp({ windowId }: AssistantAppProps) {
             </div>
           ))}
 
-          {/* Typing Indicator */}
           {isTyping && (
-            <div className="flex items-center gap-2 p-3 rounded-md bg-surface-base border border-border-subtle text-content-tertiary text-xs max-w-[200px]">
-              <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-              <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse delay-75" />
-              <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse delay-150" />
-              <span className="text-[11px] font-mono ml-1">Assistant typing...</span>
+            <div className="text-xs text-content-tertiary italic">
+              Thinking...
             </div>
           )}
 
           <div ref={scrollBottomRef} />
         </div>
 
-        {/* Input Bar Form */}
+        {/* Input */}
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -227,13 +202,13 @@ export default function AssistantApp({ windowId }: AssistantAppProps) {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Ask about projects, Flutter, or hackathon..."
-            className="flex-1 px-3 py-2 rounded-sm bg-surface-panel border border-border-default text-xs text-content-primary placeholder:text-content-tertiary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors duration-instant"
+            className="flex-1 px-3 py-1.5 rounded-sm bg-surface-panel border border-border-default text-xs text-content-primary placeholder:text-content-tertiary focus:outline-none focus:border-border-strong transition-colors duration-instant"
           />
           <button
             type="submit"
             disabled={!input.trim()}
-            aria-label="Send message"
-            className="p-2 rounded-sm bg-accent hover:bg-accent-hover disabled:bg-surface-raised disabled:text-content-tertiary text-surface-canvas transition-colors duration-instant"
+            aria-label="Send"
+            className="p-1.5 rounded-sm bg-surface-raised hover:bg-border-default border border-border-default disabled:opacity-30 text-content-primary transition-colors duration-instant"
           >
             <Send size={13} />
           </button>
@@ -242,4 +217,3 @@ export default function AssistantApp({ windowId }: AssistantAppProps) {
     </AppFrame>
   );
 }
-

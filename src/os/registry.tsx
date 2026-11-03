@@ -54,6 +54,14 @@ const SettingsApp = dynamic(() => import('@/apps/settings/SettingsApp'), {
   loading: () => <AppLoadingState title="Settings" />,
 });
 
+const SafewareApp = dynamic(() => import('@/apps/safeware/SafewareApp'), {
+  loading: () => <AppLoadingState title="SafeWare AI" />,
+});
+
+const TruSightApp = dynamic(() => import('@/apps/trusight/TruSightApp'), {
+  loading: () => <AppLoadingState title="TruSight AI" />,
+});
+
 function AppLoadingState({ title }: { title: string }) {
   return (
     <div className="w-full h-full min-h-[240px] flex flex-col items-center justify-center p-6 bg-surface-panel text-content-secondary space-y-3 select-none">
@@ -172,16 +180,38 @@ export const appRegistry: Record<AppIconId, AppMetadata> = {
     tier: 'should',
     component: SettingsApp,
   },
+  safeware: {
+    id: 'safeware',
+    title: 'SafeWare AI',
+    shortTitle: 'SafeWare',
+    icon: 'safeware',
+    defaultSize: { w: 820, h: 580 },
+    minSize: { w: 560, h: 420 },
+    singleInstance: true,
+    resizable: true,
+    tier: 'mvp',
+    component: SafewareApp,
+  },
+  trusight: {
+    id: 'trusight',
+    title: 'TruSight AI',
+    shortTitle: 'TruSight',
+    icon: 'trusight',
+    defaultSize: { w: 820, h: 580 },
+    minSize: { w: 560, h: 420 },
+    singleInstance: true,
+    resizable: true,
+    tier: 'mvp',
+    component: TruSightApp,
+  },
 };
 
 export const defaultDockApps: AppIconId[] = [
-  'studio',
+  'safeware',
+  'trusight',
   'browser',
   'about',
   'assistant',
-  'socials',
   'notes',
-  'resume',
   'terminal',
-  'settings',
 ];
