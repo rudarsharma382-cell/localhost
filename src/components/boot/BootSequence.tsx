@@ -89,7 +89,6 @@ export function BootSequence({ onComplete }: BootSequenceProps) {
         onEnded={handleFinish}
         className="w-full h-full object-cover pointer-events-none"
       >
-        <source src="/assets/boot/Japanese_dragon_flying_to_city_6a031803_1080p-cleaned.mp4" type="video/mp4" />
         <source src="/assets/boot/boot.mp4" type="video/mp4" />
       </video>
 
