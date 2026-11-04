@@ -437,7 +437,6 @@ interface ScreenUIProps {
   setIsUnlocked: (unlocked: boolean) => void;
   isTransitioning: boolean;
   onLogin: () => void;
-  onLiteMode: () => void;
   onScreenClick?: () => void;
 }
 
@@ -452,7 +451,6 @@ function MonitorScreenUI({
   setIsUnlocked,
   isTransitioning,
   onLogin,
-  onLiteMode,
   onScreenClick,
 }: ScreenUIProps) {
   const [timeStr, setTimeStr] = useState('');
@@ -511,7 +509,7 @@ function MonitorScreenUI({
           {/* 1. Full-Bleed Car Wallpaper with bg-cover bg-center */}
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none"
-            style={{ backgroundImage: `url('/assets/wallpaper.jpg')` }}
+            style={{ backgroundImage: `url('/assets/lockscreen-wallpaper.jpg')` }}
           />
 
           {/* 2. Interactive Backdrop Blur Overlay when Unlocked */}
@@ -643,14 +641,7 @@ function MonitorScreenUI({
                 </main>
 
                 {/* Bottom Footer on Monitor Screen */}
-                <footer className="flex items-center justify-between px-2 pb-1 text-[9px] text-white/50">
-                  <button
-                    type="button"
-                    onClick={onLiteMode}
-                    className="hover:text-white transition-colors cursor-pointer"
-                  >
-                    Switch to 2D Mode
-                  </button>
+                <footer className="flex items-center justify-center px-2 pb-1 text-[9px] text-white/50">
                   <span>Delhi AI Grand Hackathon • Top 140</span>
                 </footer>
               </div>
@@ -761,34 +752,48 @@ function StudioDesk() {
       <LogitechSpeaker position={[-0.46, 0.0, -0.16]} rotation={[0, 0.22, 0]} />
       <LogitechSpeaker position={[0.46, 0.0, -0.16]} rotation={[0, -0.22, 0]} />
 
-      {/* ================= WARM AMBER GLOWING ORB LAMPS ================= */}
-      {/* Iconic Warm Spherical Ambient Glow Orbs on Desk */}
-      {[-0.64, 0.64].map((orbX, orbIdx) => (
-        <group key={orbIdx} position={[orbX, 0.0, -0.12]}>
-          {/* Brass / Dark Base */}
-          <mesh position={[0, 0.008, 0]} castShadow>
-            <cylinderGeometry args={[0.03, 0.035, 0.016, 20]} />
-            <meshStandardMaterial color="#C49B72" roughness={0.3} metalness={0.8} />
-          </mesh>
-          {/* Glowing Frosted Warm Sphere */}
-          <mesh position={[0, 0.052, 0]}>
-            <sphereGeometry args={[0.042, 24, 24]} />
-            <meshStandardMaterial
-              color="#FFAE34"
-              emissive="#FF9A1F"
-              emissiveIntensity={2.2}
-              roughness={0.2}
-            />
-          </mesh>
-          {/* Motivated Warm Amber PointLight casting glow onto desk */}
-          <pointLight
-            position={[0, 0.06, 0]}
-            color="#FFAE34"
-            intensity={1.8}
-            distance={0.8}
-          />
-        </group>
-      ))}
+      {/* ================= OFFICIAL 3D DESK LAMP (ON LEFT OF TABLE) ================= */}
+      <DeskLamp position={[-0.66, 0.0, -0.14]} rotation={[0, 0.45, 0]} scale={0.14} />
+    </group>
+  );
+}
+
+// -------------------------------------------------------------
+// 5c. Official 3D Desk Lamp Accessory Component
+// -------------------------------------------------------------
+
+function DeskLamp({
+  position = [-0.66, 0.0, -0.14],
+  rotation = [0, 0.45, 0],
+  scale = 0.14,
+}: {
+  position?: [number, number, number];
+  rotation?: [number, number, number];
+  scale?: number;
+}) {
+  const { scene } = useGLTF('/assets/accessories/desk_lamp.glb');
+  const cloned = useMemo(() => {
+    const c = scene.clone(true);
+    c.traverse((node) => {
+      if ((node as THREE.Mesh).isMesh) {
+        node.castShadow = true;
+        node.receiveShadow = true;
+      }
+    });
+    return c;
+  }, [scene]);
+
+  return (
+    <group position={position} rotation={rotation} scale={scale}>
+      <primitive object={cloned} />
+      {/* Motivated Warm Amber Glow from Lamp Shade */}
+      <pointLight
+        position={[0.51, 1.68, 0.0]}
+        color="#FFE6C2"
+        intensity={2.8}
+        distance={2.4}
+        decay={2}
+      />
     </group>
   );
 }
@@ -978,7 +983,7 @@ function CameraController({
 // -------------------------------------------------------------
 
 export function RoomScene({ onHandoffComplete }: RoomSceneProps) {
-  const { login, setLiteMode } = useOSStore();
+  const { login } = useOSStore();
   const [visitorName, setVisitorName] = useState('');
   const [password, setPassword] = useState('');
   const [activeField, setActiveField] = useState<'visitor' | 'password'>('visitor');
@@ -1110,7 +1115,6 @@ export function RoomScene({ onHandoffComplete }: RoomSceneProps) {
             setIsUnlocked={setIsUnlocked}
             isTransitioning={isTransitioning}
             onLogin={handleLogin}
-            onLiteMode={() => setLiteMode(true)}
             onScreenClick={() => {
               if (viewMode === 'room') setViewMode('desk');
             }}
@@ -1118,7 +1122,7 @@ export function RoomScene({ onHandoffComplete }: RoomSceneProps) {
         </Suspense>
       </Canvas>
 
-      {/* Floating View Mode Switcher & Lite Mode Controls */}
+      {/* Floating View Mode Switcher */}
       <div className="absolute bottom-4 left-4 z-50 flex items-center gap-2">
         <button
           onClick={() => setViewMode((prev) => (prev === 'room' ? 'desk' : 'room'))}
@@ -1128,18 +1132,14 @@ export function RoomScene({ onHandoffComplete }: RoomSceneProps) {
           <span>{viewMode === 'room' ? '🖥️' : '🏠'}</span>
           <span>{viewMode === 'room' ? 'Desk View' : 'Room View'}</span>
         </button>
-
-        <button
-          onClick={() => setLiteMode(true)}
-          className="text-xs text-[#B2A4CE] hover:text-[#FFFFFF] transition-colors flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#1F1735]/80 border border-[#3A295C] backdrop-blur-sm cursor-pointer shadow-lg"
-          title="Switch to Lite Mode (no 3D)"
-        >
-          <span>⚡</span>
-          <span>Lite Mode</span>
-        </button>
       </div>
     </div>
   );
 }
+
+useGLTF.preload('/assets/monitor.glb');
+useGLTF.preload('/assets/accessories/logitech_audio_speaker.glb');
+useGLTF.preload('/assets/accessories/gaming_chair_free_download.glb');
+useGLTF.preload('/assets/accessories/desk_lamp.glb');
 
 export default RoomScene;

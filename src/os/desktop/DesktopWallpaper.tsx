@@ -28,36 +28,39 @@ export function DesktopWallpaper() {
 
   return (
     <div className="absolute inset-0 overflow-hidden select-none">
-      {/* 1. Official BMW M4 Wallpaper from Assets/wallpaper folder */}
+      {/* 1. Official High-Resolution BMW M4 GT4 EVO Wallpaper */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none"
-        style={{ backgroundImage: `url('/assets/wallpaper/BMW M4 GTA.jpg')` }}
+        style={{
+          backgroundImage: `url('/assets/wallpaper.jpg')`,
+        }}
       />
 
-      {/* 2. Clean Contrast Vignette */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-transparent to-black/55 pointer-events-none" />
-
-      {/* 3. Primary Day Widget with High-Contrast Constant Typography */}
-      <div className="absolute top-2 sm:top-4 md:top-5 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none select-none text-center z-[2]">
-        {/* PRIMARY: Day of the Week as the dominant elevated focal point */}
+      {/* 2. Primary Day Widget in Anurati Font */}
+      <div className="absolute top-2 sm:top-3 md:top-4 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none select-none text-center z-[2]">
+        {/* PRIMARY: Day of the Week in Futuristic Anurati Typography */}
         <h1
           style={{
-            textShadow: '0 4px 28px rgba(0,0,0,0.98), 0 2px 8px rgba(0,0,0,0.98)',
+            textShadow: '0 4px 30px rgba(0,0,0,0.98), 0 2px 10px rgba(0,0,0,0.95)',
+            fontFamily: "'Anurati', sans-serif",
+            letterSpacing: '0.16em',
           }}
-          className="text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] font-black tracking-tight text-white uppercase leading-none select-none font-sans"
+          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white uppercase leading-none select-none drop-shadow-2xl"
         >
-          {dayStr || 'TUESDAY'}
+          {dayStr || 'WEDNESDAY'}
         </h1>
 
-        {/* SECONDARY: Crisp White Time and Date sitting well above the car hood */}
+        {/* SECONDARY: Crisp White Time and Date floating cleanly above the windshield */}
         <div
           style={{
-            textShadow: '0 2px 12px rgba(0,0,0,0.98)',
+            textShadow: '0 2px 14px rgba(0,0,0,0.98)',
+            fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+            letterSpacing: '0.2em',
           }}
-          className="flex items-center gap-2.5 text-xs sm:text-sm md:text-base font-semibold tracking-[0.25em] text-white/90 mt-1 uppercase font-sans"
+          className="flex items-center gap-2.5 text-xs sm:text-sm md:text-base font-semibold text-white/95 mt-1.5 uppercase"
         >
           <span>{timeStr || '--:--'}</span>
-          <span className="w-1 h-1 rounded-full bg-white/70" />
+          <span className="w-1.5 h-1.5 rounded-full bg-white/70" />
           <span>{dateStr}</span>
         </div>
       </div>

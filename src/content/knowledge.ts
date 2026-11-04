@@ -91,6 +91,38 @@ export const knowledgeBase: KnowledgeEntry[] = [
     followUps: ['Tell me about SafeWare', 'How can I connect with him?'],
   },
   {
+    id: 'afterclass',
+    category: 'projects',
+    questionVariants: [
+      'tell me work of my app afterclass in description',
+      'tell me work of afterclass',
+      'what is afterclass',
+      'tell me about afterclass',
+      'afterclass app',
+      'work of afterclass',
+    ],
+    keywords: ['afterclass', 'classroom', 'homework', 'school', 'whatsapp', 'teachers', 'students'],
+    answer:
+      'AfterClass is a classroom management and homework app built for students and teachers. It provides a centralized platform where teachers can upload homework, assignments, and study materials, while students can easily access everything in one place. The goal is to reduce dependency on WhatsApp groups, keep classwork organized, and make communication and academic resources easier to manage for the entire class.',
+    relatedLinks: ['https://www.instagram.com/p/DdCKTVeoJxO/'],
+    followUps: ['Tell me about ServerCraft', 'Show me his projects', 'What is SafeWare?'],
+  },
+  {
+    id: 'servercraft',
+    category: 'projects',
+    questionVariants: [
+      'what is servercraft',
+      'tell me about servercraft',
+      'servercraft app',
+      'minecraft server deployment',
+    ],
+    keywords: ['servercraft', 'minecraft', 'server', 'docker', 'hosting', 'cloud'],
+    answer:
+      'ServerCraft is a cloud application engineered to deploy, configure, and monitor high-performance Minecraft servers with one click, automated container orchestration, and real-time telemetry.',
+    relatedLinks: ['https://www.instagram.com/p/DdWL3HyIhgN/'],
+    followUps: ['Tell me about AfterClass', 'Show me his projects', 'What is TruSight AI?'],
+  },
+  {
     id: 'contact',
     category: 'contact',
     questionVariants: [

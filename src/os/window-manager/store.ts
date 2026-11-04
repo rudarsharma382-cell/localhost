@@ -100,7 +100,11 @@ export const useOSStore = create<WindowManagerStore>((set, get) => ({
     });
     // Trigger clean system welcome notification
     setTimeout(() => {
-      get().addNotification('System', 'Welcome to Rudar OS.', 'info');
+      get().addNotification(
+        'Rudar OS Workstation',
+        `Welcome, ${finalName}! All systems initialized.`,
+        'info'
+      );
     }, 450);
   },
 
@@ -243,12 +247,12 @@ export const useOSStore = create<WindowManagerStore>((set, get) => ({
 
     const viewportW = typeof window !== 'undefined' ? window.innerWidth : 1280;
     const viewportH = typeof window !== 'undefined' ? window.innerHeight : 800;
-    // Top bar is 34px, Dock is ~60px
+    // Full screen: takes the entire viewport space edge-to-edge
     const maxBounds = {
       x: 0,
-      y: 34,
+      y: 0,
       w: viewportW,
-      h: viewportH - 34 - 60,
+      h: viewportH,
     };
 
     if (win.maximized && win.prevBounds) {

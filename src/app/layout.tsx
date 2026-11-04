@@ -4,6 +4,14 @@ import './globals.css';
 export const metadata: Metadata = {
   title: 'Rudar OS',
   description: 'A personal portfolio that works as a custom operating system.',
+  icons: {
+    icon: [
+      { url: '/icon.png', sizes: '256x256', type: 'image/png' },
+      { url: '/favicon.ico', sizes: 'any' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: '/icon.png',
+  },
 };
 
 export default function RootLayout({

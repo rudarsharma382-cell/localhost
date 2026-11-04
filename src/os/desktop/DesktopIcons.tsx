@@ -62,10 +62,10 @@ export function DesktopIcons() {
               />
             </div>
 
-            {/* Clean Label with high-contrast text shadow */}
+            {/* Clean Label with Playpen font and high-contrast text shadow */}
             <span
               style={{ textShadow: '0 2px 4px rgba(0,0,0,0.98), 0 0 8px rgba(0,0,0,0.95)' }}
-              className={`text-xs font-sans text-center leading-tight tracking-normal line-clamp-2 px-1.5 py-0.5 rounded-sm transition-colors ${
+              className={`text-xs font-playpen font-medium text-center leading-tight tracking-normal line-clamp-2 px-1.5 py-0.5 rounded-sm transition-colors ${
                 isSelected
                   ? 'text-white font-medium bg-blue-600/75 backdrop-blur-sm shadow-sm'
                   : 'text-white/95 group-hover:text-white'

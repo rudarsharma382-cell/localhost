@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Rudar Sharma</title>
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon" sizes="any">
+    <link rel="icon" href="/static/logo-48.png" type="type/image/png" sizes="48x48">
+    <meta name="google-site-verification" content="a8o9f-bni2TtGKB_EyA90Y3SJB3ImX-UF6El-PIJO_8" />
+    <meta name="description" content="Explore Rudar Sharma's official engineering portfolio. Discover my verified roots in AI development, core tech stacks, and active technical domain expertise.">
+    <meta name="keywords" content="Rudar Sharma, Portfolio, Software Engineering, AI Essentials, Python, Full Stack Developer">
+    <meta name="author" content="Rudar Sharma">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://rudar.hoollow.com/">
+    <meta property="og:title" content="Rudar Sharma // Technical Domain Expertise">
+    <meta property="og:description" content="Explore Rudar Sharma's official engineering portfolio. Discover my verified roots in AI, software deployments, and active tech stacks.">
+    <meta property="og:image" content="https://rudar.hoollow.com/static/logo-96.png">
+    <link rel="icon" href="/static/logo-96.png" type="type/image/png" sizes="96x96">
+    <link rel="apple-touch-icon" href="/static/logo-144.png" sizes="144x144">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
+        
+        :root { --plum: #DDA0DD; --dark: #050505; }
+        
+        /* FIX: Ensure vertical scrolling works and horizontal is killed */
+        html, body {
+            margin: 0; padding: 0;
+            width: 100%; min-height: 100%;
+            overflow-x: hidden; overflow-y: auto;
+            background-color: var(--dark);
+            color: #f1f1f1;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .text-plum { color: var(--plum); }
+
+        /* Glassmorphism Classes */
+        .glass-header {
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-pill {
+            background: rgba(221, 160, 221, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(221, 160, 221, 0.2);
+        }
+
+        .nav-link { 
+            position: relative; font-size: 0.75rem; letter-spacing: 0.2em; 
+            text-transform: uppercase; font-weight: 700; 
+            transition: all 0.3s ease-in-out;
+        }
+        .nav-link:hover { 
+            color: var(--plum); 
+        }
+        /* Underline fade-in effect */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 1.5px;
+            bottom: -6px;
+            left: 0;
+            background-color: var(--plum);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease-in-out;
+        }
+        .nav-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        /* Smooth lift and glow transition for glass cards and buttons */
+        .glass-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px -10px rgba(221, 160, 221, 0.15), 0 0 25px 0 rgba(221, 160, 221, 0.1);
+            border-color: rgba(221, 160, 221, 0.3);
+        }
+
+        .glass-pill {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(221, 160, 221, 0.3);
+        }
+
+        /* Elegant fade-in slide up animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in-up {
+            opacity: 0;
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* 3D transformation utility helpers */
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+        .group-hover\:rotate-y-180:hover, .group:hover .group-hover\:rotate-y-180 { transform: rotateY(180deg); }
+
+        /* ==========================================
+           CUSTOM ACCENT SCROLLBAR SYSTEM
+           ========================================== */
+
+        /* Modern Standard CSS (Firefox) */
+        * {
+          scrollbar-width: thin;
+          scrollbar-color: #a855f7 #09090b; /* Orchid Purple Thumb // Deep Zinc Track */
+        }
+
+        /* WebKit Browsers (Chrome, Safari, Edge, Opera) */
+        ::-webkit-scrollbar {
+          width: 10px;  /* Vertical scrollbar width */
+          height: 10px; /* Horizontal scrollbar height */
+        }
+
+        /* The background track of the scrollbar */
+        ::-webkit-scrollbar-track {
+          background: #09090b;
+          border-left: 1px solid #18181b; /* Subtle separator line */
+        }
+
+        /* The moving draggable handle */
+        ::-webkit-scrollbar-thumb {
+          background: #27272a; /* Starts as a subtle dark zinc */
+          border-radius: 9999px;
+          border: 2px solid #09090b; /* Creates a clean padding effect around the thumb */
+          transition: background-color 0.2s ease;
+        }
+
+        /* Hover interaction state */
+        ::-webkit-scrollbar-thumb:hover {
+          background: #a855f7; /* Glows into vibrant orchid purple on hover */
+        }
+
+        /* Active click/drag state */
+        ::-webkit-scrollbar-thumb:active {
+          background: #c084fc; /* Lightens slightly to bright purple when dragging */
+        }
+
+        /* ==========================================
+           CUSTOM DUAL-CIRCLE ORCHID CURSOR
+           ========================================== */
+        html, body, a, button, input, select, textarea, [role="button"], .swiper-slide, label {
+          cursor: none !important;
+        }
+
+        #cursor-dot {
+          position: fixed;
+          top: 0; left: 0;
+          width: 8px; height: 8px;
+          background: #a855f7;
+          border-radius: 50%;
+          pointer-events: none;
+          z-index: 99999;
+          transform: translate(-50%, -50%);
+          transition: opacity 0.2s ease;
+          box-shadow: 0 0 8px rgba(168, 85, 247, 0.8);
+        }
+
+        #cursor-ring {
+          position: fixed;
+          top: 0; left: 0;
+          width: 32px; height: 32px;
+          border: 1.5px solid rgba(168, 85, 247, 0.45);
+          border-radius: 50%;
+          pointer-events: none;
+          z-index: 99998;
+          transform: translate(-50%, -50%);
+          transition: width 0.2s ease, height 0.2s ease, border-color 0.2s ease,
+                      background 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+          /* The ring position uses a CSS transition for the lag effect */
+          left: 0; top: 0;
+        }
+
+        #cursor-ring.hovered {
+          width: 48px; height: 48px;
+          border-color: rgba(168, 85, 247, 0.85);
+          background: rgba(168, 85, 247, 0.07);
+          box-shadow: 0 0 18px rgba(168, 85, 247, 0.25);
+        }
+
+        #cursor-dot.hidden-cursor, #cursor-ring.hidden-cursor {
+          opacity: 0;
+        }
+
+        /* ==========================================
+           AMBIENT ORB BACKGROUND ANIMATIONS
+           ========================================== */
+
+        @keyframes orbOne {
+          0%   { transform: translate(0px, 0px) scale(1); }
+          33%  { transform: translate(30px, -50px) scale(1.1); }
+          66%  { transform: translate(-20px, 20px) scale(0.95); }
+          100% { transform: translate(0px, 0px) scale(1); }
+        }
+
+        @keyframes orbTwo {
+          0%   { transform: translate(0px, 0px) scale(1); }
+          50%  { transform: translate(-40px, 60px) scale(1.05); }
+          100% { transform: translate(0px, 0px) scale(1); }
+        }
+
+        @keyframes orbThree {
+          0%   { transform: translate(0px, 0px) scale(1); }
+          33%  { transform: translate(-10px, -40px) scale(0.9); }
+          66%  { transform: translate(40px, 20px) scale(1.1); }
+          100% { transform: translate(0px, 0px) scale(1); }
+        }
+
+        .animate-orb-one   { animation: orbOne   22s infinite ease-in-out; }
+        .animate-orb-two   { animation: orbTwo   28s infinite ease-in-out; }
+        .animate-orb-three { animation: orbThree 25s infinite ease-in-out; }
+
+    </style>
+</head>
+<body>
+
+    <nav class="fixed top-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-7xl z-[100] glass-header rounded-full transition-all duration-300">
+        <div class="px-6 py-3.5 md:px-8 flex justify-between items-center">
+            <a href="/portfolio/index.html" class="text-xl md:text-2xl font-bold tracking-tighter z-[110]">CodeAlchemist<span class="text-plum italic">_</span></a>
+            
+            <!-- Desktop Navigation Links (Visible on desktop) -->
+            <div class="hidden md:flex space-x-10">
+                <a href="/portfolio/index.html" class="nav-link">Home</a>
+                <a href="/portfolio/projects.html" class="nav-link">Projects</a>
+                <a href="/portfolio/stats.html" class="nav-link">Stats</a>
+                <a href="/portfolio/achievements.html" class="nav-link">Milestones</a>
+                <a href="/portfolio/connect.html" class="nav-link">Connect</a>
+            </div>
+            
+            <!-- Desktop Support Work Button -->
+            <a href="https://github.com/rudarsharma382-cell" target="_blank" class="hidden md:inline-block glass-pill text-plum px-5 py-2 rounded-full text-[10px] hover:animate-pulse font-bold uppercase tracking-widest hover:bg-plum hover:text-white transition-all">
+                Support Work
+            </a>
+
+            <!-- Mobile Hamburger Toggle (Visible only on mobile, placed in z-[110] to stay above overlay) -->
+            <button id="menu-toggle" class="md:hidden text-white hover:text-plum focus:outline-none transition-colors p-2 text-xl z-[110]" aria-label="Toggle Menu">
+                <i id="menu-icon" class="fas fa-bars transition-all duration-300"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Full-Screen Mobile Glassmorphic Overlay -->
+    <div id="mobile-overlay" class="fixed inset-0 z-[90] bg-[#050505]/75 backdrop-blur-[35px] -webkit-backdrop-blur-[35px] flex flex-col justify-center items-center hidden md:hidden transition-all duration-500 opacity-0 overflow-y-auto">
+        <!-- Glowing Ambient Background Spots inside Menu for dynamic Glassmorphic effect -->
+        <div class="absolute top-[10%] left-[5%] w-[300px] h-[300px] bg-plum/10 blur-[100px] rounded-full pointer-events-none"></div>
+        <div class="absolute bottom-[10%] right-[5%] w-[300px] h-[300px] bg-indigo-900/10 blur-[100px] rounded-full pointer-events-none"></div>
+        
+        <!-- Mobile Links Stack (Aligned center-middle) -->
+        <div class="flex flex-col items-center justify-center space-y-4 w-full max-w-sm px-6 relative z-10 py-10">
+            
+            <a href="/portfolio/index.html" class="group flex items-center justify-between w-full px-6 py-4 rounded-[1.25rem] glass-card border-white/5 hover:border-plum/30 transition-all duration-300 hover:scale-[1.03] hover:bg-white/[0.02]">
+                <div class="flex items-center gap-4">
+                    <span class="text-[10px] font-mono font-bold text-plum/60 tracking-wider">01 /</span>
+                    <span class="text-base font-bold uppercase tracking-[0.15em] text-white/70 group-hover:text-plum transition-colors">Home</span>
+                </div>
+                <i class="fas fa-chevron-right text-white/20 group-hover:text-plum group-hover:translate-x-1 transition-all text-sm"></i>
+            </a>
+
+            <a href="/portfolio/projects.html" class="group flex items-center justify-between w-full px-6 py-4 rounded-[1.25rem] glass-card border-white/5 hover:border-plum/30 transition-all duration-300 hover:scale-[1.03] hover:bg-white/[0.02]">
+                <div class="flex items-center gap-4">
+                    <span class="text-[10px] font-mono font-bold text-plum/60 tracking-wider">02 /</span>
+                    <span class="text-base font-bold uppercase tracking-[0.15em] text-white/70 group-hover:text-plum transition-colors">Projects</span>
+                </div>
+                <i class="fas fa-chevron-right text-white/20 group-hover:text-plum group-hover:translate-x-1 transition-all text-sm"></i>
+            </a>
+
+            <a href="/portfolio/stats.html" class="group flex items-center justify-between w-full px-6 py-4 rounded-[1.25rem] glass-card border-white/5 hover:border-plum/30 transition-all duration-300 hover:scale-[1.03] hover:bg-white/[0.02]">
+                <div class="flex items-center gap-4">
+                    <span class="text-[10px] font-mono font-bold text-plum/60 tracking-wider">03 /</span>
+                    <span class="text-base font-bold uppercase tracking-[0.15em] text-white/70 group-hover:text-plum transition-colors">Stats</span>
+                </div>
+                <i class="fas fa-chevron-right text-white/20 group-hover:text-plum group-hover:translate-x-1 transition-all text-sm"></i>
+            </a>
+
+            <a href="/portfolio/achievements.html" class="group flex items-center justify-between w-full px-6 py-4 rounded-[1.25rem] glass-card border-white/5 hover:border-plum/30 transition-all duration-300 hover:scale-[1.03] hover:bg-white/[0.02]">
+                <div class="flex items-center gap-4">
+                    <span class="text-[10px] font-mono font-bold text-plum/60 tracking-wider">04 /</span>
+                    <span class="text-base font-bold uppercase tracking-[0.15em] text-white/70 group-hover:text-plum transition-colors">Milestones</span>
+                </div>
+                <i class="fas fa-chevron-right text-white/20 group-hover:text-plum group-hover:translate-x-1 transition-all text-sm"></i>
+            </a>
+
+            <a href="/portfolio/connect.html" class="group flex items-center justify-between w-full px-6 py-4 rounded-[1.25rem] glass-card border-white/5 hover:border-plum/30 transition-all duration-300 hover:scale-[1.03] hover:bg-white/[0.02]">
+                <div class="flex items-center gap-4">
+                    <span class="text-[10px] font-mono font-bold text-plum/60 tracking-wider">05 /</span>
+                    <span class="text-base font-bold uppercase tracking-[0.15em] text-white/70 group-hover:text-plum transition-colors">Connect</span>
+                </div>
+                <i class="fas fa-chevron-right text-white/20 group-hover:text-plum group-hover:translate-x-1 transition-all text-sm"></i>
+            </a>
+            
+            <a href="https://github.com/rudarsharma382-cell" target="_blank" class="w-full glass-pill text-plum text-center py-4 rounded-[1.25rem] text-[11px] font-black uppercase tracking-[0.2em] hover:bg-plum hover:text-white transition-all shadow-2xl mt-6 border border-plum/30 flex items-center justify-center gap-2 hover:scale-[1.03]">
+                <i class="fas fa-heart animate-pulse"></i> Support Work
+            </a>
+        </div>
+    </div>
+
+    <!-- Custom Dual-Circle Orchid Cursor DOM Elements -->
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
+
+    <main>
+<div class="relative w-full overflow-x-hidden min-h-screen bg-[#050505]">
+    
+    <div class="absolute top-[-5%] right-[-5%] w-[500px] h-[500px] bg-plum/5 blur-[150px] rounded-full pointer-events-none"></div>
+    <div class="absolute bottom-0 left-[-10%] w-[400px] h-[400px] bg-indigo-900/5 blur-[130px] rounded-full pointer-events-none"></div>
+
+    <section class="max-w-7xl mx-auto px-4 md:px-6 pt-32 pb-20 relative z-10">
+        
+        <div class="mb-16">
+            <span class="glass-pill text-plum px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-[0.4em]">Strategic Metrics</span>
+            <h1 class="text-5xl md:text-7xl font-extrabold text-white tracking-tighter mt-6">
+                Technical <span class="font-serif italic font-light text-plum">Output.</span>
+            </h1>
+        </div>
+
+        <div class="grid grid-cols-1 gap-12">
+            
+            <div class="glass-card rounded-[2.5rem] p-8 md:p-12 border-white/5 bg-gradient-to-b from-white/[0.01] to-transparent">
+                <div class="flex justify-between items-start mb-12">
+                    <div>
+                        <h3 class="text-3xl font-bold text-white italic tracking-tight">GitHub Ecosystem</h3>
+                        <p class="text-[10px] text-plum/50 uppercase tracking-[0.3em] font-bold mt-2">rudarsharma382-cell // TRACKING_ACTIVE</p>
+                    </div>
+                    <i class="fab fa-github text-4xl text-plum/30"></i>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-12 mb-12">
+                    <!-- Left: Language Distribution (Horizontal Progress Layout) -->
+                    <div class="p-2">
+                        <p class="text-[10px] text-plum/50 uppercase tracking-[0.2em] font-bold mb-6">Language Distribution</p>
+
+                        <div class="space-y-6 w-full font-mono select-none">
+
+                          <div class="w-full">
+                            <div class="flex justify-between items-center text-xs mb-2">
+                              <span class="text-zinc-400 font-bold">Python</span>
+                              <span class="text-pink-400 font-bold">45.0%</span>
+                            </div>
+                            <div class="w-full h-1.5 bg-zinc-900 rounded-full overflow-hidden">
+                              <div class="h-full bg-purple-500 rounded-full transition-all duration-1000 ease-out" style="width: 45%;"></div>
+                            </div>
+                          </div>
+
+                          <div class="w-full">
+                            <div class="flex justify-between items-center text-xs mb-2">
+                              <span class="text-zinc-400 font-bold">HTML5 &amp; CSS3</span>
+                              <span class="text-pink-400 font-bold">35.0%</span>
+                            </div>
+                            <div class="w-full h-1.5 bg-zinc-900 rounded-full overflow-hidden">
+                              <div class="h-full bg-purple-400 rounded-full transition-all duration-1000 ease-out" style="width: 35%;"></div>
+                            </div>
+                          </div>
+
+                          <div class="w-full">
+                            <div class="flex justify-between items-center text-xs mb-2">
+                              <span class="text-zinc-400 font-bold">JavaScript</span>
+                              <span class="text-pink-400 font-bold">20.0%</span>
+                            </div>
+                            <div class="w-full h-1.5 bg-zinc-900 rounded-full overflow-hidden">
+                              <div class="h-full bg-indigo-500 rounded-full transition-all duration-1000 ease-out" style="width: 20%;"></div>
+                            </div>
+                          </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Right: Developer Metrics Cards -->
+                    <div class="grid grid-cols-1 gap-6">
+                        <!-- Commits Card -->
+                        <div class="glass-card p-6 md:p-8 rounded-3xl border-plum/10 relative overflow-hidden flex flex-col justify-center">
+                            <p class="text-[10px] text-plum/50 uppercase tracking-[0.2em] font-bold mb-2">Contribution Output</p>
+                            <h4 class="text-4xl md:text-5xl font-black text-white tracking-tight mb-2 font-mono">180+ <span class="text-plum font-serif italic text-2xl md:text-3xl font-light">Commits</span></h4>
+                            <p class="text-xs text-white/40">200+ Contributions in the last year</p>
+                            <i class="fas fa-code-branch absolute bottom-4 right-4 text-6xl text-white/[0.01]"></i>
+                        </div>
+                        
+                        <!-- Certifications Card -->
+                        <div class="glass-card p-6 md:p-8 rounded-3xl border-plum/10 relative overflow-hidden flex flex-col justify-center">
+                            <p class="text-[10px] text-plum/50 uppercase tracking-[0.2em] font-bold mb-2">Qualifications</p>
+                            <h4 class="text-4xl md:text-5xl font-black text-white tracking-tight mb-2 font-mono">20+ <span class="text-plum font-serif italic text-2xl md:text-3xl font-light">Certifications</span></h4>
+                            <p class="text-xs text-white/40">Sleek verification from Google, Microsoft, IBM, Cisco, Coursera, and Simplilearn.</p>
+                            <i class="fas fa-certificate absolute bottom-4 right-4 text-6xl text-white/[0.01]"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dynamic GitHub Activity Section -->
+                <div class="w-full flex flex-col items-center justify-center mt-12 pt-12 border-t border-white/5">
+                    <p class="text-[10px] text-plum/50 uppercase tracking-[0.3em] font-bold mb-2">GitHub Activity</p>
+                    <h3 class="text-2xl md:text-3xl font-extrabold text-white mb-2 italic text-center">Building consistently, one commit at a time.</h3>
+                    
+                    <!-- React GitHub Calendar Container -->
+                    <div class="w-full my-8 flex justify-center items-center overflow-x-auto scrollbar-none py-4 px-2">
+                        <div id="react-github-calendar" class="w-full max-w-full flex justify-center items-center">
+                            <!-- Spinner/Loading Indicator -->
+                            <div class="flex items-center gap-3 text-white/40 font-mono text-xs">
+                                <i class="fas fa-circle-notch animate-spin text-plum"></i>
+                                <span>Loading GitHub Activity...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Unified React Module Resolution Map -->
+            <script type="importmap">
+              {
+                "imports": {
+                  "react": "https://esm.sh/react@19",
+                  "react-dom": "https://esm.sh/react-dom@19",
+                  "react-dom/client": "https://esm.sh/react-dom@19/client"
+                }
+              }
+            </script>
+
+            <!-- Import React and react-github-calendar -->
+            <script type="module">
+              import React from 'react';
+              import ReactDOM from 'react-dom/client';
+              import { GitHubCalendar } from 'https://esm.sh/react-github-calendar@5';
+
+              const container = document.getElementById('react-github-calendar');
+              if (container) {
+                const root = ReactDOM.createRoot(container);
+                root.render(
+                  React.createElement(GitHubCalendar, {
+                    username: "rudarsharma382-cell",
+                    blockSize: 15,
+                    blockMargin: 5,
+                    colorScheme: "dark",
+                    theme: {
+                      dark: ['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353']
+                    }
+                  })
+                );
+              }
+            </script>
+
+            <div class="glass-card rounded-[2.5rem] p-8 md:p-12 border-white/5">
+                <div class="mb-12">
+                    <h3 class="text-3xl font-bold text-white italic tracking-tight">Strategic Tech Stack</h3>
+                    <p class="text-[10px] text-plum/50 uppercase tracking-[0.3em] font-bold mt-2">Core Competencies // High-Fidelity Engineering</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Column 1: Active Toolkit -->
+                    <div class="glass-card p-6 rounded-3xl border-white/5 hover:border-plum/20 transition-all group">
+                        <p class="text-[10px] font-bold uppercase tracking-widest text-plum mb-6">Active Toolkit</p>
+                        <div class="flex flex-wrap gap-6 text-2xl text-white/40">
+                            <i class="fab fa-html5 group-hover:text-white transition-colors" title="HTML5"></i>
+                            <i class="fab fa-css3-alt group-hover:text-white transition-colors" title="CSS3"></i>
+                            <i class="fab fa-js group-hover:text-white transition-colors" title="JavaScript"></i>
+                            <i class="fab fa-python group-hover:text-white transition-colors" title="Python"></i>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: In-Flight Learning -->
+                    <div class="glass-card p-6 rounded-3xl border-white/5 hover:border-plum/20 transition-all group">
+                        <p class="text-[10px] font-bold uppercase tracking-widest text-plum mb-6">In-Flight Learning</p>
+                        <div class="flex flex-wrap gap-6 text-2xl text-white/40">
+                            <i class="devicon-flutter-plain group-hover:text-white transition-colors" title="Flutter"></i>
+                            <i class="devicon-dart-plain group-hover:text-white transition-colors" title="Dart"></i>
+                        </div>
+                    </div>
+
+                    <!-- Column 3: Developer Tools -->
+                    <div class="glass-card p-6 rounded-3xl border-white/5 hover:border-plum/20 transition-all group">
+                        <p class="text-[10px] font-bold uppercase tracking-widest text-plum mb-6">Developer Tools</p>
+                        <div class="flex flex-wrap gap-6 text-2xl text-white/40">
+                            <i class="fab fa-git-alt group-hover:text-white transition-colors" title="Git"></i>
+                            <i class="fab fa-github group-hover:text-white transition-colors" title="GitHub"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Swiper CSS inside templates/stats.html -->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+            <style>
+              /* Custom styles for Swiper navigation buttons matching our theme */
+              .swiper-button-next, .swiper-button-prev {
+                background: rgba(5, 5, 5, 0.6);
+                width: 44px;
+                height: 44px;
+                border-radius: 50%;
+                border: 1px solid rgba(221, 160, 221, 0.2);
+                backdrop-filter: blur(8px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+              }
+              .swiper-button-next:hover, .swiper-button-prev:hover {
+                border-color: rgba(221, 160, 221, 0.5);
+                box-shadow: 0 0 15px rgba(221, 160, 221, 0.25);
+              }
+            </style>
+
+            <div class="glass-card rounded-[2.5rem] p-8 md:p-12 border-white/5 relative overflow-hidden">
+                <div class="flex justify-between items-start mb-8">
+                    <div>
+                        <h3 class="text-3xl font-bold text-white italic tracking-tight">Verified Credentials // Technical Domain Expertise</h3>
+                        <p class="text-[10px] text-plum/50 uppercase tracking-[0.3em] font-bold mt-2">TECHNICAL CERTIFICATIONS STACK // 8 VERIFIED ROOTS</p>
+                    </div>
+                    <i class="fas fa-certificate text-3xl text-plum/30"></i>
+                </div>
+                
+                <!-- Swiper Carousel Slider Block -->
+                <div class="w-full relative px-4 md:px-14 py-4 select-none group">
+  
+  <div class="swiper certificateCarousel overflow-hidden rounded-2xl">
+    <div class="swiper-wrapper">
+
+      <div class="swiper-slide h-full rounded-2xl border border-zinc-900 bg-[#060607] flex flex-col overflow-hidden transition-all duration-300 hover:border-purple-500/30">
+        <div class="w-full aspect-[4/3] bg-zinc-950 border-b border-zinc-900 overflow-hidden relative">
+          <img src="/src/assets/cert-google-ai.jpg" alt="Google AI Essentials" class="w-full h-full object-contain p-2" />
+        </div>
+        <div class="p-5 flex-grow flex flex-col justify-between min-h-[140px] font-mono">
+          <div>
+            <span class="text-[9px] text-purple-400 font-bold bg-purple-950/20 px-2 py-0.5 rounded border border-purple-900/30">COURSERA // GOOGLE</span>
+            <h4 class="text-base font-bold text-white mt-2 tracking-tight line-clamp-1">Google AI Essentials</h4>
+          </div>
+          <p class="text-zinc-500 text-[11px] mt-2 leading-relaxed line-clamp-2">Core fundamentals of utilizing generative AI tools and prompt optimizations.</p>
+        </div>
+      </div>
+
+      <div class="swiper-slide h-full rounded-2xl border border-zinc-900 bg-[#060607] flex flex-col overflow-hidden transition-all duration-300 hover:border-purple-500/30">
+        <div class="w-full aspect-[4/3] bg-zinc-950 border-b border-zinc-900 overflow-hidden relative">
+          <img src="/src/assets/cert-google-prompting.jpg" alt="Google Prompting Essentials" class="w-full h-full object-contain p-2" />
+        </div>
+        <div class="p-5 flex-grow flex flex-col justify-between min-h-[140px] font-mono">
+          <div>
+            <span class="text-[9px] text-purple-400 font-bold bg-purple-950/20 px-2 py-0.5 rounded border border-purple-900/30">COURSERA // GOOGLE</span>
+            <h4 class="text-base font-bold text-white mt-2 tracking-tight line-clamp-1">Google Prompting Essentials</h4>
+          </div>
+          <p class="text-zinc-500 text-[11px] mt-2 leading-relaxed line-clamp-2">Advanced framework methodologies for structured prompting and workflow automation.</p>
+        </div>
+      </div>
+
+      <div class="swiper-slide h-full rounded-2xl border border-zinc-900 bg-[#060607] flex flex-col overflow-hidden transition-all duration-300 hover:border-purple-500/30">
+        <div class="w-full aspect-[4/3] bg-zinc-950 border-b border-zinc-900 overflow-hidden relative">
+          <img src="/src/assets/cert-ibm-web.jpg" alt="Web Development Fundamentals" class="w-full h-full object-contain p-2" />
+        </div>
+        <div class="p-5 flex-grow flex flex-col justify-between min-h-[140px] font-mono">
+          <div>
+            <span class="text-[9px] text-purple-400 font-bold bg-purple-950/20 px-2 py-0.5 rounded border border-purple-900/30">CREDLY // IBM</span>
+            <h4 class="text-base font-bold text-white mt-2 tracking-tight line-clamp-1">Web Development Fundamentals</h4>
+          </div>
+          <p class="text-zinc-500 text-[11px] mt-2 leading-relaxed line-clamp-2">Architecture frameworks, core cloud services logic, and application deployment strategies.</p>
+        </div>
+      </div>
+
+      <div class="swiper-slide h-full rounded-2xl border border-zinc-900 bg-[#060607] flex flex-col overflow-hidden transition-all duration-300 hover:border-purple-500/30">
+        <div class="w-full aspect-[4/3] bg-zinc-950 border-b border-zinc-900 overflow-hidden relative">
+          <img src="/src/assets/cert-ibm-cyber.jpg" alt="Cybersecurity Fundamentals" class="w-full h-full object-contain p-2" />
+        </div>
+        <div class="p-5 flex-grow flex flex-col justify-between min-h-[140px] font-mono">
+          <div>
+            <span class="text-[9px] text-purple-400 font-bold bg-purple-950/20 px-2 py-0.5 rounded border border-purple-900/30">CREDLY // IBM</span>
+            <h4 class="text-base font-bold text-white mt-2 tracking-tight line-clamp-1">Cybersecurity Fundamentals</h4>
+          </div>
+          <p class="text-zinc-500 text-[11px] mt-2 leading-relaxed line-clamp-2">Network security structures, system threat logic mechanisms, and digital cryptography.</p>
+        </div>
+      </div>
+
+      <div class="swiper-slide h-full rounded-2xl border border-zinc-900 bg-[#060607] flex flex-col overflow-hidden transition-all duration-300 hover:border-purple-500/30">
+        <div class="w-full aspect-[4/3] bg-zinc-950 border-b border-zinc-900 overflow-hidden relative">
+          <img src="/src/assets/cert-ms-ai.jpg" alt="Microsoft GenAI Solutions" class="w-full h-full object-contain p-2" />
+        </div>
+        <div class="p-5 flex-grow flex flex-col justify-between min-h-[140px] font-mono">
+          <div>
+            <span class="text-[9px] text-purple-400 font-bold bg-purple-950/20 px-2 py-0.5 rounded border border-purple-900/30">MICROSOFT LIFELONG</span>
+            <h4 class="text-base font-bold text-white mt-2 tracking-tight line-clamp-1">Generative AI Solutions</h4>
+          </div>
+          <p class="text-zinc-500 text-[11px] mt-2 leading-relaxed line-clamp-2">Enterprise system deployments incorporating Azure OpenAI service integration frameworks.</p>
+        </div>
+      </div>
+
+      <div class="swiper-slide h-full rounded-2xl border border-zinc-900 bg-[#060607] flex flex-col overflow-hidden transition-all duration-300 hover:border-purple-500/30">
+        <div class="w-full aspect-[4/3] bg-zinc-950 border-b border-zinc-900 overflow-hidden relative">
+          <img src="/src/assets/cert-simplilearn-ai.jpg" alt="Introduction to AI" class="w-full h-full object-contain p-2" />
+        </div>
+        <div class="p-5 flex-grow flex flex-col justify-between min-h-[140px] font-mono">
+          <div>
+            <span class="text-[9px] text-purple-400 font-bold bg-purple-950/20 px-2 py-0.5 rounded border border-purple-900/30">SIMPLILEARN // SKILLUP</span>
+            <h4 class="text-base font-bold text-white mt-2 tracking-tight line-clamp-1">Introduction to AI</h4>
+          </div>
+          <p class="text-zinc-500 text-[11px] mt-2 leading-relaxed line-clamp-2">Foundational algorithms analysis, machine learning trends, and smart systems architecture.</p>
+        </div>
+      </div>
+
+      <div class="swiper-slide h-full rounded-2xl border border-zinc-900 bg-[#060607] flex flex-col overflow-hidden transition-all duration-300 hover:border-purple-500/30">
+        <div class="w-full aspect-[4/3] bg-zinc-950 border-b border-zinc-900 overflow-hidden relative">
+          <img src="/src/assets/cert-guvi-hcl.jpg" alt="Google AI Studio Deployments" class="w-full h-full object-contain p-2" />
+        </div>
+        <div class="p-5 flex-grow flex flex-col justify-between min-h-[140px] font-mono">
+          <div>
+            <span class="text-[9px] text-purple-400 font-bold bg-purple-950/20 px-2 py-0.5 rounded border border-purple-900/30">GUVI // HCL PARTNER</span>
+            <h4 class="text-base font-bold text-white mt-2 tracking-tight line-clamp-1">AI Studio Deployments</h4>
+          </div>
+          <p class="text-zinc-500 text-[11px] mt-2 leading-relaxed line-clamp-2">Prototyping software apps and engineering API keys directly with Google AI Studio models.</p>
+        </div>
+      </div>
+
+      <div class="swiper-slide h-full rounded-2xl border border-zinc-900 bg-[#060607] flex flex-col overflow-hidden transition-all duration-300 hover:border-purple-500/30">
+        <div class="w-full aspect-[4/3] bg-zinc-950 border-b border-zinc-900 overflow-hidden relative">
+          <img src="/src/assets/cert-cisco-python.jpg" alt="Cisco Python Essentials 1" class="w-full h-full object-contain p-2" />
+        </div>
+        <div class="p-5 flex-grow flex flex-col justify-between min-h-[140px] font-mono">
+          <div>
+            <span class="text-[9px] text-purple-400 font-bold bg-purple-950/20 px-2 py-0.5 rounded border border-purple-900/30">CISCO NETACAD</span>
+            <h4 class="text-base font-bold text-white mt-2 tracking-tight line-clamp-1">Python Essentials 1</h4>
+          </div>
+          <p class="text-zinc-500 text-[11px] mt-2 leading-relaxed line-clamp-2">Advanced runtime loops, data collections processing, and syntax conditioning patterns.</p>
+        </div>
+      </div>
+
+      <div class="swiper-slide h-full rounded-2xl border border-dashed border-zinc-800 bg-[#040405] flex flex-col overflow-hidden transition-all duration-300 hover:border-purple-500/40 group/card">
+        <a href="https://www.linkedin.com/in/rudarsharma-dev" target="_blank" rel="noopener noreferrer" class="w-full h-full flex flex-col items-center justify-center p-8 flex-grow min-h-[340px] text-center gap-4">
+          <div class="w-14 h-14 rounded-2xl bg-purple-950/30 border border-purple-900/50 flex items-center justify-center text-purple-400 group-hover/card:scale-110 group-hover/card:border-purple-500/40 transition-all duration-300 shadow-md">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+            </svg>
+          </div>
+          <div class="font-mono">
+            <h4 class="text-lg font-bold text-white tracking-tight group-hover/card:text-purple-300 transition-colors">20+ More Certificates</h4>
+            <p class="text-zinc-500 text-xs mt-2 leading-relaxed max-w-[220px] mx-auto">Explore my complete stack of engineering, security, and cloud architectures credentials verified on LinkedIn.</p>
+          </div>
+          <span class="mt-2 text-[11px] font-mono font-bold tracking-wider text-purple-400 uppercase flex items-center gap-1.5 group-hover/card:text-purple-300 transition-colors">
+            View All Records 
+            <svg class="w-3.5 h-3.5 transform group-hover/card:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <button class="custom-prev absolute left-0 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-xl bg-[#09090b] border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-purple-400 hover:border-purple-500/30 transition-all duration-200 shadow-md">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+  </button>
+  <button class="custom-next absolute right-0 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-xl bg-[#09090b] border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-purple-400 hover:border-purple-500/30 transition-all duration-200 shadow-md">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+  </button>
+</div>
+
+                <!-- Subtext Instruction -->
+                <p class="text-center text-[10px] font-mono tracking-widest text-zinc-600 mt-2 uppercase">← Drag or Swipe to navigate // Use custom arrows on edges for manual control →</p>
+            </div>
+
+            <!-- Swiper JS CDN -->
+            <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+            <script>
+              new Swiper('.certificateCarousel', {
+                slidesPerView: 1,
+                spaceBetween: 24,
+                loop: true, // Forces infinite duplicate cycle looping
+                speed: 800,
+                autoplay: {
+                  delay: 3000,
+                  disableOnInteraction: false,
+                },
+                navigation: {
+                  nextEl: '.custom-next',
+                  prevEl: '.custom-prev',
+                },
+                breakpoints: {
+                  680: { slidesPerView: 2 },
+                  1100: { slidesPerView: 3 }
+                }
+              });
+            </script>
+
+        </div>
+    </section>
+</div>
+
+<style>
+    .custom-scrollbar::-webkit-scrollbar { height: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(221, 160, 221, 0.2); border-radius: 10px; }
+    .dark-gh-chart {
+        filter: invert(1) hue-rotate(180deg) brightness(1.2) contrast(1.2);
+    }
+    .scrollbar-none::-webkit-scrollbar {
+        display: none;
+    }
+</style>
+</main>
+
+    <footer class="py-20 px-10 border-t border-white/5 text-center">
+        <p class="text-white/20 text-[10px] uppercase tracking-[0.4em]">© 2026 Rudar Sharma</p>
+    </footer>
+
+    <script>
+        // Mobile Hamburger Menu Toggle Logic (Full-Screen Glass Overlay)
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menu-toggle');
+            const mobileOverlay = document.getElementById('mobile-overlay');
+            const menuIcon = document.getElementById('menu-icon');
+            
+            if (menuToggle && mobileOverlay && menuIcon) {
+                menuToggle.addEventListener('click', () => {
+                    const isClosed = mobileOverlay.classList.contains('hidden');
+                    if (isClosed) {
+                        // Open Overlay Menu
+                        mobileOverlay.classList.remove('hidden');
+                        mobileOverlay.classList.add('flex');
+                        // Force brief reflow and trigger high-performance fade transition
+                        setTimeout(() => {
+                            mobileOverlay.classList.add('opacity-100');
+                            mobileOverlay.classList.remove('opacity-0');
+                        }, 10);
+                        menuIcon.className = 'fas fa-times transition-all duration-300 rotate-90';
+                        document.body.style.overflow = 'hidden'; // Lock background scrolling
+                    } else {
+                        // Close Overlay Menu
+                        mobileOverlay.classList.add('opacity-0');
+                        mobileOverlay.classList.remove('opacity-100');
+                        // Delay hidden to allow transition to play
+                        setTimeout(() => {
+                            if (mobileOverlay.classList.contains('opacity-0')) {
+                                mobileOverlay.classList.add('hidden');
+                                mobileOverlay.classList.remove('flex');
+                            }
+                        }, 500);
+                        menuIcon.className = 'fas fa-bars transition-all duration-300';
+                        document.body.style.overflow = ''; // Unlock background scrolling
+                    }
+                });
+            }
+        });
+
+        function copyCloneLink(link, button) {
+            navigator.clipboard.writeText(link).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Copied cloning link';
+                button.style.backgroundColor = 'var(--plum)';
+                button.style.color = 'black';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.backgroundColor = '';
+                    button.style.color = '';
+                }, 2000);
+            });
+        }
+    </script>
+
+    <!-- ========================================
+         CUSTOM CURSOR SCRIPT
+         ======================================== -->
+    <script>
+      (function () {
+        const dot  = document.getElementById('cursor-dot');
+        const ring = document.getElementById('cursor-ring');
+
+        // Ring position — updated with a slight JS lag via rAF lerp
+        let mouseX = 0, mouseY = 0;
+        let ringX  = 0, ringY  = 0;
+        const LERP = 0.12; // lower = more lag (0–1)
+
+        function lerp(a, b, t) { return a + (b - a) * t; }
+
+        function animateRing() {
+          ringX = lerp(ringX, mouseX, LERP);
+          ringY = lerp(ringY, mouseY, LERP);
+          ring.style.left = ringX + 'px';
+          ring.style.top  = ringY + 'px';
+          requestAnimationFrame(animateRing);
+        }
+        requestAnimationFrame(animateRing);
+
+        // Track mouse — dot moves instantly
+        document.addEventListener('mousemove', (e) => {
+          mouseX = e.clientX;
+          mouseY = e.clientY;
+          dot.style.left = e.clientX + 'px';
+          dot.style.top  = e.clientY + 'px';
+          dot.classList.remove('hidden-cursor');
+          ring.classList.remove('hidden-cursor');
+        });
+
+        // Hide when mouse leaves viewport
+        document.addEventListener('mouseleave', () => {
+          dot.classList.add('hidden-cursor');
+          ring.classList.add('hidden-cursor');
+        });
+        document.addEventListener('mouseenter', () => {
+          dot.classList.remove('hidden-cursor');
+          ring.classList.remove('hidden-cursor');
+        });
+
+        // Hover scaling on interactive elements
+        const SELECTORS = 'a, button, input, select, textarea, [role="button"], label, .custom-prev, .custom-next, .swiper-slide';
+
+        function bindHovers() {
+          document.querySelectorAll(SELECTORS).forEach((el) => {
+            if (el.dataset.cursorBound) return;
+            el.dataset.cursorBound = '1';
+            el.addEventListener('mouseenter', () => ring.classList.add('hovered'));
+            el.addEventListener('mouseleave', () => ring.classList.remove('hovered'));
+          });
+        }
+
+        bindHovers();
+
+        // Watch for dynamic DOM nodes (e.g. Swiper duplicates)
+        const observer = new MutationObserver(bindHovers);
+        observer.observe(document.body, { childList: true, subtree: true });
+      })();
+    </script>
+
+    <!-- Audio Player Toggle UI -->
+    <div class="fixed bottom-6 right-6 z-[100] flex items-center gap-3">
+        <span id="audio-status-text" class="text-[9px] font-mono tracking-widest text-white/40 uppercase bg-[#09090b]/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-zinc-800 opacity-0 transition-opacity duration-300 pointer-events-none select-none">Play Music</span>
+        <button id="audio-toggle-btn" class="w-12 h-12 rounded-full glass-pill flex items-center justify-center text-plum hover:text-white border border-plum/30 hover:border-plum/60 bg-plum/5 hover:bg-plum/10 transition-all duration-300 shadow-[0_0_15px_rgba(221,160,221,0.15)] focus:outline-none" aria-label="Toggle Background Music">
+            <i id="audio-icon" class="fas fa-volume-mute text-sm"></i>
+        </button>
+    </div>
+    <audio id="bg-audio" loop src="/static/audio/song.mp3"></audio>
+
+    <script>
+        // Audio Control Logic with Persistence across Page Navigations
+        document.addEventListener('DOMContentLoaded', () => {
+            const audio = document.getElementById('bg-audio');
+            const toggleBtn = document.getElementById('audio-toggle-btn');
+            const audioIcon = document.getElementById('audio-icon');
+            const statusText = document.getElementById('audio-status-text');
+            
+            if (!audio || !toggleBtn || !audioIcon || !statusText) return;
+
+            // Retrieve audio state and elapsed time from localStorage
+            const savedTime = localStorage.getItem('bg-audio-time');
+            const isPlaying = localStorage.getItem('bg-audio-playing') === 'true';
+
+            if (savedTime) {
+                audio.currentTime = parseFloat(savedTime);
+            }
+
+            function setPlayingUI() {
+                audioIcon.className = 'fas fa-volume-up text-sm animate-pulse';
+                statusText.textContent = 'Mute Music';
+                toggleBtn.classList.add('border-plum', 'bg-plum/20');
+                toggleBtn.style.boxShadow = '0 0 20px rgba(221, 160, 221, 0.4)';
+            }
+
+            function setPausedUI() {
+                audioIcon.className = 'fas fa-volume-mute text-sm';
+                statusText.textContent = 'Play Music';
+                toggleBtn.classList.remove('border-plum', 'bg-plum/20');
+                toggleBtn.style.boxShadow = '';
+            }
+
+            // Save audio timestamp continuously
+            audio.addEventListener('timeupdate', () => {
+                localStorage.setItem('bg-audio-time', audio.currentTime);
+            });
+
+            function tryPlay() {
+                audio.play().then(() => {
+                    setPlayingUI();
+                    localStorage.setItem('bg-audio-playing', 'true');
+                }).catch(err => {
+                    console.log('Autoplay blocked. Registering interaction listeners.');
+                    // If autoplay is blocked by browser, resume on first user interaction
+                    const resumeAudio = () => {
+                        audio.play().then(() => {
+                            setPlayingUI();
+                            localStorage.setItem('bg-audio-playing', 'true');
+                            document.removeEventListener('click', resumeAudio);
+                            document.removeEventListener('keydown', resumeAudio);
+                        }).catch(e => console.error(e));
+                    };
+                    document.addEventListener('click', resumeAudio);
+                    document.addEventListener('keydown', resumeAudio);
+                });
+            }
+
+            // Resume playback if it was active on the last page
+            if (isPlaying) {
+                tryPlay();
+            } else {
+                setPausedUI();
+            }
+
+            // Hover status indicator
+            toggleBtn.addEventListener('mouseenter', () => {
+                statusText.textContent = audio.paused ? 'Play Music' : 'Mute Music';
+                statusText.classList.remove('opacity-0');
+                statusText.classList.add('opacity-100');
+            });
+            
+            toggleBtn.addEventListener('mouseleave', () => {
+                statusText.classList.remove('opacity-100');
+                statusText.classList.add('opacity-0');
+            });
+
+            // Click toggle button
+            toggleBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent triggering document interaction resume event
+                if (audio.paused) {
+                    audio.play().then(() => {
+                        setPlayingUI();
+                        localStorage.setItem('bg-audio-playing', 'true');
+                    }).catch(err => console.error(err));
+                } else {
+                    audio.pause();
+                    setPausedUI();
+                    localStorage.setItem('bg-audio-playing', 'false');
+                }
+            });
+
+            // Double security: store latest progress right before page unloads
+            window.addEventListener('beforeunload', () => {
+                localStorage.setItem('bg-audio-time', audio.currentTime);
+                localStorage.setItem('bg-audio-playing', !audio.paused);
+            });
+        });
+    </script>
+</body>
+</html>

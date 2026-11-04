@@ -2,14 +2,24 @@ import { Profile } from './types';
 
 export const profile: Profile = {
   name: 'Rudar Sharma',
-  intro: 'TODO: Rudar to provide 1-2 sentence introduction',
-  avatar: '/avatar.png',
+  intro: 'A dedicated STEM student passionate about software engineering, artificial intelligence, robotics, and entrepreneurship. Experienced in Python programming, frontend web development, and AI-assisted development workflows. Currently mastering backend systems and mobile application development using Flutter.',
+  avatar: '/assets/rudar-avatar.jpg',
   skills: [
     'Flutter',
-    'App Development',
+    'Dart',
+    'Python & AI Workflows',
+    'Computer Vision',
+    'Robotics Programming',
+    'Three.js & WebGL',
+    'Full-Stack Web Development',
+    'Edge AI Optimization',
   ],
   interests: [
-    'TODO: Rudar to provide technical interests',
+    'Robotics & Autonomous Systems',
+    'AI-Powered Road Safety (SafeWare)',
+    'Synthetic Media Forensics (TruSight)',
+    '3D Interactive Experiences',
+    'Scalable Classroom Platforms (AfterClass)',
   ],
   links: [
     {
@@ -17,7 +27,7 @@ export const profile: Profile = {
       name: 'LinkedIn',
       url: 'https://linkedin.com/in/rudarsharma-dev/',
       icon: 'linkedin',
-      description: 'Professional profile and background',
+      description: 'Professional profile and engineering network',
     },
     {
       id: 'github',
@@ -31,7 +41,7 @@ export const profile: Profile = {
       name: 'Portfolio',
       url: 'https://rudar.vercel.app/',
       icon: 'globe',
-      description: 'Personal web deployment',
+      description: 'Live deployment and personal portfolio',
     },
     {
       id: 'instagram',

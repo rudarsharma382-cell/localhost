@@ -129,16 +129,18 @@ export function Window({ window: win }: WindowProps) {
       ref={windowRef}
       onMouseDown={() => focusWindow(win.id)}
       style={{
-        transform: `translate3d(${win.x}px, ${win.y}px, 0)`,
-        width: `${win.w}px`,
-        height: `${win.h}px`,
-        zIndex: win.z,
+        transform: win.maximized ? 'translate3d(0, 0, 0)' : `translate3d(${win.x}px, ${win.y}px, 0)`,
+        width: win.maximized ? '100vw' : `${win.w}px`,
+        height: win.maximized ? '100vh' : `${win.h}px`,
+        zIndex: win.maximized ? win.z + 50 : win.z,
       }}
-      className={`fixed top-0 left-0 flex flex-col rounded-xl overflow-hidden select-none transition-all duration-instant will-change-transform ${
-        win.focused
-          ? 'bg-[#121316] border border-[#DDA0DD]/35 shadow-[0_16px_40px_rgba(0,0,0,0.7),0_0_20px_rgba(221,160,221,0.12)] ring-1 ring-[#DDA0DD]/20'
-          : 'bg-[#121316]/95 border border-zinc-800/80 shadow-[0_10px_25px_rgba(0,0,0,0.5)]'
-      } ${win.maximized ? 'rounded-none' : ''}`}
+      className={`fixed top-0 left-0 flex flex-col overflow-hidden select-none transition-all duration-instant will-change-transform ${
+        win.maximized
+          ? 'w-screen h-screen rounded-none border-0 shadow-2xl'
+          : win.focused
+          ? 'rounded-xl bg-[#121316] border border-[#DDA0DD]/35 shadow-[0_16px_40px_rgba(0,0,0,0.7),0_0_20px_rgba(221,160,221,0.12)] ring-1 ring-[#DDA0DD]/20'
+          : 'rounded-xl bg-[#121316]/95 border border-zinc-800/80 shadow-[0_10px_25px_rgba(0,0,0,0.5)]'
+      }`}
       role="dialog"
       aria-labelledby={`window-title-${win.id}`}
       aria-modal="false"
@@ -155,8 +157,13 @@ export function Window({ window: win }: WindowProps) {
             : 'bg-[#16171D] border-zinc-800/60'
         }`}
       >
-        {/* Left: macOS Window Controls (Traffic Lights) */}
-        <div className="flex items-center space-x-2" role="group" aria-label="Window Controls">
+        {/* Left: macOS Window Controls (Traffic Lights with authentic hover marks) */}
+        <div
+          className="group/traffic flex items-center space-x-2 shrink-0"
+          role="group"
+          aria-label="Window Controls"
+        >
+          {/* Close - Red dot with black '✕' mark */}
           <button
             type="button"
             onClick={(e) => {
@@ -164,8 +171,24 @@ export function Window({ window: win }: WindowProps) {
               closeWindow(win.id);
             }}
             aria-label={`Close ${win.title}`}
-            className="w-3 h-3 bg-red-400 hover:bg-red-500 rounded-full transition-colors cursor-pointer border-0 p-0 focus:outline-none"
-          />
+            title="Close"
+            className="w-3 h-3 bg-[#FF5F56] hover:bg-[#E0443E] rounded-full transition-all cursor-pointer border border-[#E0443E]/60 p-0 flex items-center justify-center focus:outline-none shadow-sm"
+          >
+            <svg
+              className="opacity-0 group-hover/traffic:opacity-100 transition-opacity"
+              width="6"
+              height="6"
+              viewBox="0 0 10 10"
+              stroke="#000000"
+              strokeWidth="2"
+              strokeLinecap="round"
+            >
+              <line x1="1.5" y1="1.5" x2="8.5" y2="8.5" />
+              <line x1="8.5" y1="1.5" x2="1.5" y2="8.5" />
+            </svg>
+          </button>
+
+          {/* Minimize - Yellow dot with black '–' mark */}
           <button
             type="button"
             onClick={(e) => {
@@ -173,8 +196,23 @@ export function Window({ window: win }: WindowProps) {
               minimizeWindow(win.id);
             }}
             aria-label={`Minimize ${win.title}`}
-            className="w-3 h-3 bg-yellow-400 hover:bg-yellow-500 rounded-full transition-colors cursor-pointer border-0 p-0 focus:outline-none"
-          />
+            title="Minimize"
+            className="w-3 h-3 bg-[#FFBD2E] hover:bg-[#DEA123] rounded-full transition-all cursor-pointer border border-[#DEA123]/60 p-0 flex items-center justify-center focus:outline-none shadow-sm"
+          >
+            <svg
+              className="opacity-0 group-hover/traffic:opacity-100 transition-opacity"
+              width="6"
+              height="6"
+              viewBox="0 0 10 10"
+              stroke="#000000"
+              strokeWidth="2"
+              strokeLinecap="round"
+            >
+              <line x1="1.5" y1="5" x2="8.5" y2="5" />
+            </svg>
+          </button>
+
+          {/* Maximize / Full Space - Green dot with black diagonal arrows */}
           <button
             type="button"
             onClick={(e) => {
@@ -182,8 +220,20 @@ export function Window({ window: win }: WindowProps) {
               toggleMaximizeWindow(win.id);
             }}
             aria-label={`Maximize ${win.title}`}
-            className="w-3 h-3 bg-green-500 hover:bg-green-600 rounded-full transition-colors cursor-pointer border-0 p-0 focus:outline-none"
-          />
+            title="Full Space / Maximize"
+            className="w-3 h-3 bg-[#27C93F] hover:bg-[#1AAB29] rounded-full transition-all cursor-pointer border border-[#1AAB29]/60 p-0 flex items-center justify-center focus:outline-none shadow-sm"
+          >
+            <svg
+              className="opacity-0 group-hover/traffic:opacity-100 transition-opacity"
+              width="6"
+              height="6"
+              viewBox="0 0 10 10"
+              fill="#000000"
+            >
+              <polygon points="0,0 4.5,0 0,4.5" />
+              <polygon points="10,10 5.5,10 10,5.5" />
+            </svg>
+          </button>
         </div>
 
         {/* Center: Safari-01 Address / Title Pill */}
@@ -199,8 +249,8 @@ export function Window({ window: win }: WindowProps) {
           </span>
         </div>
 
-        {/* Right: Balanced Spacer */}
-        <div className="w-12 flex justify-end">
+        {/* Right: Focus Indicator (Full Space button removed per user request) */}
+        <div className="flex items-center gap-2 shrink-0">
           {win.focused && (
             <span className="w-1.5 h-1.5 rounded-full bg-[#DDA0DD] shadow-[0_0_6px_#DDA0DD]" />
           )}

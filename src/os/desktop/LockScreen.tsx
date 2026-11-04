@@ -70,7 +70,7 @@ export function LockScreen({ onUnlock }: LockScreenProps) {
       {/* 1. High-Res Clean Wallpaper with bg-cover bg-center */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none transition-transform duration-slow"
-        style={{ backgroundImage: `url('/assets/wallpaper/BMW M4 GTA.jpg')` }}
+        style={{ backgroundImage: `url('/assets/lockscreen-wallpaper.jpg')` }}
       />
 
       {/* 2. Dynamic Glassmorphic Blur Overlay */}

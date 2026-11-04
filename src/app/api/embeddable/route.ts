@@ -6,6 +6,14 @@ const ALLOWLISTED_HOSTS = new Set([
   'rudar.vercel.app',
   'github.com',
   'linkedin.com',
+  'www.linkedin.com',
+  'getsafeware.vercel.app',
+  'bmwm4csl.vercel.app',
+  'monolithhouse.vercel.app',
+  'arc-motion.vercel.app',
+  'soleagent.vercel.app',
+  'divineherbalife.in',
+  'clothing-store-5e2.pages.dev',
   ...projects
     .filter((p) => p.liveUrl)
     .map((p) => {
