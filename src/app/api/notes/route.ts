@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'node:crypto';
 import { z } from 'zod';
 
+export const dynamic = 'force-dynamic';
+
 const NoteSubmitSchema = z.object({
   visitorName: z.string().max(60).optional(),
   message: z.string().min(1).max(1000),

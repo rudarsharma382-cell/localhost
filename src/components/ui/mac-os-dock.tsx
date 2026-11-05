@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useCallback, useEffect } from 'react';
+import { AppIcon, AppIconId } from '@/components/icons/AppIcons';
 
 // Types for the component
 export interface DockApp {
@@ -33,43 +34,47 @@ export const MacOSDock: React.FC<MacOSDockProps> = ({
   // Responsive size calculations based on viewport
   const getResponsiveConfig = useCallback(() => {
     if (typeof window === 'undefined') {
-      return { baseIconSize: 64, maxScale: 1.6, effectWidth: 240 };
+      return { baseIconSize: 56, maxScale: 1.6, effectWidth: 240 };
     }
 
-    // Base calculations on smaller dimension for better mobile experience
-    const smallerDimension = Math.min(window.innerWidth, window.innerHeight);
-    
-    // Scale icon size based on screen size
-    if (smallerDimension < 480) {
-      // Mobile phones
+    const winW = window.innerWidth;
+    const numApps = apps.length || 11;
+    const maxAvailable = winW - 24;
+    // Calculate size needed so all apps fit comfortably without clipping
+    const fittedSize = Math.floor((maxAvailable - 16) / numApps) - 3;
+
+    if (winW < 540) {
+      // Mobile phones: dynamically fit all dock apps perfectly on screen
+      const dynamicSize = Math.max(26, Math.min(36, fittedSize));
       return {
-        baseIconSize: Math.max(40, smallerDimension * 0.08),
+        baseIconSize: dynamicSize,
+        maxScale: 1.2,
+        effectWidth: 120,
+      };
+    } else if (winW < 768) {
+      // Small tablets
+      const dynamicSize = Math.max(34, Math.min(46, fittedSize));
+      return {
+        baseIconSize: dynamicSize,
         maxScale: 1.4,
-        effectWidth: smallerDimension * 0.4
+        effectWidth: 180,
       };
-    } else if (smallerDimension < 768) {
-      // Tablets
+    } else if (winW < 1024) {
+      // Tablets and small laptops
       return {
-        baseIconSize: Math.max(48, smallerDimension * 0.07),
-        maxScale: 1.5,
-        effectWidth: smallerDimension * 0.35
-      };
-    } else if (smallerDimension < 1024) {
-      // Small laptops
-      return {
-        baseIconSize: Math.max(56, smallerDimension * 0.06),
-        maxScale: 1.6,
-        effectWidth: smallerDimension * 0.3
+        baseIconSize: 48,
+        maxScale: 1.55,
+        effectWidth: 240,
       };
     } else {
       // Desktop and large screens
       return {
-        baseIconSize: Math.max(54, Math.min(72, smallerDimension * 0.05)),
+        baseIconSize: 56,
         maxScale: 1.75,
-        effectWidth: 280
+        effectWidth: 280,
       };
     }
-  }, []);
+  }, [apps.length]);
 
   const [config, setConfig] = useState(getResponsiveConfig);
   const { baseIconSize, maxScale, effectWidth } = config;
@@ -240,7 +245,7 @@ export const MacOSDock: React.FC<MacOSDockProps> = ({
   return (
     <div 
       ref={dockRef}
-      className={`backdrop-blur-xl ${className}`}
+      className={`backdrop-blur-xl ${className} max-w-[calc(100vw-12px)] overflow-x-auto no-scrollbar`}
       style={{
         width: `${contentWidth + padding * 2}px`,
         background: 'rgba(16, 16, 20, 0.76)',
@@ -285,16 +290,29 @@ export const MacOSDock: React.FC<MacOSDockProps> = ({
                 zIndex: Math.round(scale * 10)
               }}
             >
-              <img
-                src={app.icon}
-                alt={app.name}
-                width={scaledSize}
-                height={scaledSize}
-                className="object-cover rounded-xl shadow-md border border-white/10"
-                style={{
-                  filter: `drop-shadow(0 ${scale > 1.2 ? Math.max(2, baseIconSize * 0.05) : Math.max(1, baseIconSize * 0.03)}px ${scale > 1.2 ? Math.max(4, baseIconSize * 0.1) : Math.max(2, baseIconSize * 0.06)}px rgba(0,0,0,${0.3 + (scale - 1) * 0.2}))`
-                }}
-              />
+              {app.icon ? (
+                <img
+                  src={app.icon}
+                  alt={app.name}
+                  width={scaledSize}
+                  height={scaledSize}
+                  className="object-cover rounded-xl shadow-md border border-white/10"
+                  style={{
+                    filter: `drop-shadow(0 ${scale > 1.2 ? Math.max(2, baseIconSize * 0.05) : Math.max(1, baseIconSize * 0.03)}px ${scale > 1.2 ? Math.max(4, baseIconSize * 0.1) : Math.max(2, baseIconSize * 0.06)}px rgba(0,0,0,${0.3 + (scale - 1) * 0.2}))`
+                  }}
+                />
+              ) : (
+                <div
+                  style={{
+                    width: `${scaledSize}px`,
+                    height: `${scaledSize}px`,
+                    filter: `drop-shadow(0 ${scale > 1.2 ? Math.max(2, baseIconSize * 0.05) : Math.max(1, baseIconSize * 0.03)}px ${scale > 1.2 ? Math.max(4, baseIconSize * 0.1) : Math.max(2, baseIconSize * 0.06)}px rgba(0,0,0,${0.3 + (scale - 1) * 0.2}))`
+                  }}
+                  className="flex items-center justify-center select-none pointer-events-none"
+                >
+                  <AppIcon id={app.id as AppIconId} size={scaledSize} />
+                </div>
+              )}
               
               {/* Clean Crisp White Indicator Dot */}
               {openApps.includes(app.id) && (

@@ -27,7 +27,7 @@ export function Dock() {
   // Map system apps to DockApp items using the user's custom high-fidelity icons
   const dockApps: DockApp[] = defaultDockApps.map((appId) => {
     const app = appRegistry[appId];
-    const customIcon = APP_CUSTOM_ICONS[appId] || '/assets/icons/browser.jpg';
+    const customIcon = APP_CUSTOM_ICONS[appId] || '';
     return {
       id: appId,
       name: app ? app.title : appId,
@@ -41,7 +41,7 @@ export function Dock() {
   return (
     <nav
       aria-label="Dock"
-      className="absolute bottom-3 left-1/2 -translate-x-1/2 z-dock flex items-end select-none pointer-events-auto"
+      className="absolute bottom-2 sm:bottom-3 left-1/2 -translate-x-1/2 z-dock flex items-end select-none pointer-events-auto max-w-full px-2"
     >
       <MacOSDock
         apps={dockApps}

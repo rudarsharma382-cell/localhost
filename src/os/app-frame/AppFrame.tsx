@@ -51,9 +51,9 @@ export function AppFrame({
   return (
     <div className={`w-full h-full flex flex-col bg-surface-panel overflow-hidden ${className}`}>
       {headerActions && (
-        <div className="h-9 px-3.5 bg-surface-base/40 border-b border-border-subtle flex items-center justify-between shrink-0">
-          <div className="text-xs text-content-tertiary">{title}</div>
-          <div className="flex items-center gap-2">{headerActions}</div>
+        <div className="h-9 px-2.5 sm:px-3.5 bg-surface-base/40 border-b border-border-subtle flex items-center justify-between gap-2 shrink-0 overflow-hidden">
+          <div className="text-xs text-content-tertiary truncate max-w-[35%] sm:max-w-none">{title}</div>
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">{headerActions}</div>
         </div>
       )}
       <div className="flex-1 overflow-auto">{children}</div>

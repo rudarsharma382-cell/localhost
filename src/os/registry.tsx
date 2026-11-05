@@ -62,6 +62,22 @@ const TruSightApp = dynamic(() => import('@/apps/trusight/TruSightApp'), {
   loading: () => <AppLoadingState title="TruSight AI" />,
 });
 
+const CertificatesApp = dynamic(() => import('@/apps/certificates/CertificatesApp'), {
+  loading: () => <AppLoadingState title="Certificate Wallet" />,
+});
+
+const DeveloperApp = dynamic(() => import('@/apps/developer/DeveloperApp'), {
+  loading: () => <AppLoadingState title="Developer Console" />,
+});
+
+const SandboxApp = dynamic(() => import('@/apps/sandbox/SandboxApp'), {
+  loading: () => <AppLoadingState title="Sandbox.exe" />,
+});
+
+const GalleryApp = dynamic(() => import('@/apps/gallery/GalleryApp'), {
+  loading: () => <AppLoadingState title="Gallery.exe" />,
+});
+
 function AppLoadingState({ title }: { title: string }) {
   return (
     <div className="w-full h-full min-h-[240px] flex flex-col items-center justify-center p-6 bg-surface-panel text-content-secondary space-y-3 select-none">
@@ -146,15 +162,63 @@ export const appRegistry: Record<AppIconId, AppMetadata> = {
   },
   resume: {
     id: 'resume',
-    title: 'Resume & Folio',
+    title: 'Resume.exe',
     shortTitle: 'Resume',
     icon: 'resume',
-    defaultSize: { w: 760, h: 660 },
-    minSize: { w: 520, h: 480 },
+    defaultSize: { w: 840, h: 680 },
+    minSize: { w: 560, h: 480 },
     singleInstance: true,
     resizable: true,
     tier: 'should',
     component: ResumeApp,
+  },
+  certificates: {
+    id: 'certificates',
+    title: 'Certificate Wallet',
+    shortTitle: 'Certificates',
+    icon: 'certificates',
+    defaultSize: { w: 860, h: 620 },
+    minSize: { w: 580, h: 420 },
+    singleInstance: true,
+    resizable: true,
+    tier: 'should',
+    component: CertificatesApp,
+  },
+  developer: {
+    id: 'developer',
+    title: 'Developer Console',
+    shortTitle: 'Developer',
+    icon: 'developer',
+    defaultSize: { w: 880, h: 640 },
+    minSize: { w: 600, h: 440 },
+    singleInstance: true,
+    resizable: true,
+    tier: 'should',
+    component: DeveloperApp,
+  },
+  sandbox: {
+    id: 'sandbox',
+    title: 'Sandbox.exe',
+    shortTitle: 'Sandbox',
+    icon: 'sandbox',
+    defaultSize: { w: 920, h: 660 },
+    minSize: { w: 640, h: 480 },
+    singleInstance: true,
+    resizable: true,
+    tier: 'should',
+    component: SandboxApp,
+  },
+  gallery: {
+    id: 'gallery',
+    title: 'Gallery.exe',
+    shortTitle: 'Gallery',
+    icon: 'gallery',
+    defaultSize: { w: 900, h: 640 },
+    minSize: { w: 620, h: 460 },
+    singleInstance: true,
+    resizable: true,
+    tier: 'should',
+    component: GalleryApp,
   },
   terminal: {
     id: 'terminal',
@@ -212,6 +276,10 @@ export const defaultDockApps: AppIconId[] = [
   'browser',
   'about',
   'assistant',
+  'resume',
+  'certificates',
+  'sandbox',
+  'gallery',
   'notes',
   'terminal',
 ];

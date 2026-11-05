@@ -58,6 +58,11 @@ export default function TerminalApp({ windowId }: TerminalAppProps) {
           type: 'output',
           text: `Available commands:
   about            Display developer background and bio
+  resume           Open Resume.exe document reader
+  certificates     Launch Certificate Wallet
+  developer        Open Developer Console & host vitals
+  sandbox          Launch 3D & Physics Simulation Lab
+  gallery          Open Cinematic Media Gallery
   projects         List all verified engineering projects
   skills           List technical frameworks and languages
   socials          Show verified external profiles and channels
@@ -66,6 +71,55 @@ export default function TerminalApp({ windowId }: TerminalAppProps) {
   clear            Clear terminal screen
   help             Show this reference list`,
         });
+        break;
+
+      case 'resume':
+        newLines.push({
+          id: `out-${Date.now()}`,
+          type: 'output',
+          text: 'Opening Resume.exe...',
+        });
+        openWindow('resume');
+        break;
+
+      case 'certificates':
+      case 'certs':
+        newLines.push({
+          id: `out-${Date.now()}`,
+          type: 'output',
+          text: 'Launching Certificate Wallet...',
+        });
+        openWindow('certificates');
+        break;
+
+      case 'developer':
+      case 'dev':
+        newLines.push({
+          id: `out-${Date.now()}`,
+          type: 'output',
+          text: 'Opening Developer Console...',
+        });
+        openWindow('developer');
+        break;
+
+      case 'sandbox':
+      case 'physics':
+        newLines.push({
+          id: `out-${Date.now()}`,
+          type: 'output',
+          text: 'Launching Interactive Sandbox & Physics Lab...',
+        });
+        openWindow('sandbox');
+        break;
+
+      case 'gallery':
+      case 'photos':
+        newLines.push({
+          id: `out-${Date.now()}`,
+          type: 'output',
+          text: 'Opening Cinematic Media Gallery...',
+        });
+        openWindow('gallery');
         break;
 
       case 'about':

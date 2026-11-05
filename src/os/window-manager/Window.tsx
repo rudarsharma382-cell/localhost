@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useState, useEffect } from 'react';
 import { WindowState, useOSStore } from './store';
 import { appRegistry } from '@/os/registry';
 import { AppIcon } from '@/components/icons/AppIcons';
@@ -19,6 +19,19 @@ export function Window({ window: win }: WindowProps) {
     updateWindowSize,
   } = useOSStore();
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const isFullscreen = win.maximized || isMobile;
+
   const app = appRegistry[win.appId];
   const windowRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef<{ isDragging: boolean; startX: number; startY: number; initX: number; initY: number }>({
@@ -29,13 +42,13 @@ export function Window({ window: win }: WindowProps) {
     initY: 0,
   });
 
-  // Drag handling with pointer capture
+  // Drag handling with pointer capture (disabled when fullscreen or on mobile)
   const onPointerDownTitle = useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
       if ((e.target as HTMLElement).closest('button')) return;
 
       focusWindow(win.id);
-      if (win.maximized) return;
+      if (isFullscreen) return;
 
       dragRef.current = {
         isDragging: true,
@@ -47,7 +60,7 @@ export function Window({ window: win }: WindowProps) {
 
       (e.target as HTMLElement).setPointerCapture(e.pointerId);
     },
-    [focusWindow, win.id, win.maximized, win.x, win.y]
+    [focusWindow, win.id, isFullscreen, win.x, win.y]
   );
 
   const onPointerMoveTitle = useCallback(
@@ -75,7 +88,7 @@ export function Window({ window: win }: WindowProps) {
     (e: React.PointerEvent<HTMLDivElement>, direction: string) => {
       e.stopPropagation();
       focusWindow(win.id);
-      if (win.maximized) return;
+      if (isFullscreen) return;
 
       const startX = e.clientX;
       const startY = e.clientY;
@@ -115,7 +128,7 @@ export function Window({ window: win }: WindowProps) {
       document.addEventListener('pointermove', handlePointerMove);
       document.addEventListener('pointerup', handlePointerUp);
     },
-    [focusWindow, win.id, win.maximized, win.w, win.h, win.x, win.y, updateWindowSize]
+    [focusWindow, win.id, isFullscreen, win.w, win.h, win.x, win.y, updateWindowSize]
   );
 
   if (win.minimized) {
@@ -129,14 +142,22 @@ export function Window({ window: win }: WindowProps) {
       ref={windowRef}
       onMouseDown={() => focusWindow(win.id)}
       style={{
-        transform: win.maximized ? 'translate3d(0, 0, 0)' : `translate3d(${win.x}px, ${win.y}px, 0)`,
-        width: win.maximized ? '100vw' : `${win.w}px`,
-        height: win.maximized ? '100vh' : `${win.h}px`,
-        zIndex: win.maximized ? win.z + 50 : win.z,
+        transform: isFullscreen
+          ? isMobile
+            ? 'translate3d(0, 32px, 0)'
+            : 'translate3d(0, 0, 0)'
+          : `translate3d(${win.x}px, ${win.y}px, 0)`,
+        width: isFullscreen ? '100vw' : `${win.w}px`,
+        height: isFullscreen
+          ? isMobile
+            ? 'calc(100dvh - 32px)'
+            : '100vh'
+          : `${win.h}px`,
+        zIndex: isFullscreen ? win.z + 40 : win.z,
       }}
       className={`fixed top-0 left-0 flex flex-col overflow-hidden select-none transition-all duration-instant will-change-transform ${
-        win.maximized
-          ? 'w-screen h-screen rounded-none border-0 shadow-2xl'
+        isFullscreen
+          ? 'w-screen rounded-none border-0 shadow-2xl'
           : win.focused
           ? 'rounded-xl bg-[#121316] border border-[#DDA0DD]/35 shadow-[0_16px_40px_rgba(0,0,0,0.7),0_0_20px_rgba(221,160,221,0.12)] ring-1 ring-[#DDA0DD]/20'
           : 'rounded-xl bg-[#121316]/95 border border-zinc-800/80 shadow-[0_10px_25px_rgba(0,0,0,0.5)]'
@@ -150,8 +171,10 @@ export function Window({ window: win }: WindowProps) {
         onPointerDown={onPointerDownTitle}
         onPointerMove={onPointerMoveTitle}
         onPointerUp={onPointerUpTitle}
-        onDoubleClick={() => toggleMaximizeWindow(win.id)}
-        className={`h-9 px-3.5 flex items-center justify-between border-b cursor-grab active:cursor-grabbing select-none transition-colors duration-instant ${
+        onDoubleClick={() => !isMobile && toggleMaximizeWindow(win.id)}
+        className={`h-9 px-3 sm:px-3.5 flex items-center justify-between border-b ${
+          isFullscreen ? 'cursor-default' : 'cursor-grab active:cursor-grabbing'
+        } select-none transition-colors duration-instant ${
           win.focused
             ? 'bg-[#1A1B22] border-zinc-800'
             : 'bg-[#16171D] border-zinc-800/60'
@@ -175,16 +198,16 @@ export function Window({ window: win }: WindowProps) {
             className="w-3 h-3 bg-[#FF5F56] hover:bg-[#E0443E] rounded-full transition-all cursor-pointer border border-[#E0443E]/60 p-0 flex items-center justify-center focus:outline-none shadow-sm"
           >
             <svg
-              className="opacity-0 group-hover/traffic:opacity-100 transition-opacity"
+              className="opacity-80 group-hover/traffic:opacity-100 transition-opacity"
               width="6"
               height="6"
               viewBox="0 0 10 10"
               stroke="#000000"
-              strokeWidth="2"
+              strokeWidth="2.2"
               strokeLinecap="round"
             >
-              <line x1="1.5" y1="1.5" x2="8.5" y2="8.5" />
-              <line x1="8.5" y1="1.5" x2="1.5" y2="8.5" />
+              <line x1="2" y1="2" x2="8" y2="8" />
+              <line x1="8" y1="2" x2="2" y2="8" />
             </svg>
           </button>
 
@@ -200,19 +223,19 @@ export function Window({ window: win }: WindowProps) {
             className="w-3 h-3 bg-[#FFBD2E] hover:bg-[#DEA123] rounded-full transition-all cursor-pointer border border-[#DEA123]/60 p-0 flex items-center justify-center focus:outline-none shadow-sm"
           >
             <svg
-              className="opacity-0 group-hover/traffic:opacity-100 transition-opacity"
+              className="opacity-80 group-hover/traffic:opacity-100 transition-opacity"
               width="6"
               height="6"
               viewBox="0 0 10 10"
               stroke="#000000"
-              strokeWidth="2"
+              strokeWidth="2.2"
               strokeLinecap="round"
             >
               <line x1="1.5" y1="5" x2="8.5" y2="5" />
             </svg>
           </button>
 
-          {/* Maximize / Full Space - Green dot with black diagonal arrows */}
+          {/* Maximize / Full Space - Green dot with black diagonal arrows (hidden on mobile since it's already full space) */}
           <button
             type="button"
             onClick={(e) => {
@@ -224,7 +247,7 @@ export function Window({ window: win }: WindowProps) {
             className="w-3 h-3 bg-[#27C93F] hover:bg-[#1AAB29] rounded-full transition-all cursor-pointer border border-[#1AAB29]/60 p-0 flex items-center justify-center focus:outline-none shadow-sm"
           >
             <svg
-              className="opacity-0 group-hover/traffic:opacity-100 transition-opacity"
+              className="opacity-80 group-hover/traffic:opacity-100 transition-opacity"
               width="6"
               height="6"
               viewBox="0 0 10 10"
@@ -237,8 +260,8 @@ export function Window({ window: win }: WindowProps) {
         </div>
 
         {/* Center: Safari-01 Address / Title Pill */}
-        <div className="flex-1 mx-4 max-w-sm h-6 bg-zinc-800/60 rounded-md border border-white/5 flex items-center justify-center px-3 gap-2">
-          <AppIcon id={win.appId} size={13} className={win.focused ? 'text-[#DDA0DD]' : 'text-zinc-500'} />
+        <div className="flex-1 mx-2 sm:mx-4 max-w-[200px] sm:max-w-sm h-6 bg-zinc-800/60 rounded-md border border-white/5 flex items-center justify-center px-2 sm:px-3 gap-1.5 sm:gap-2 overflow-hidden">
+          <AppIcon id={win.appId} size={13} className={`shrink-0 ${win.focused ? 'text-[#DDA0DD]' : 'text-zinc-500'}`} />
           <span
             id={`window-title-${win.id}`}
             className={`text-xs font-sans font-medium truncate ${
@@ -249,7 +272,7 @@ export function Window({ window: win }: WindowProps) {
           </span>
         </div>
 
-        {/* Right: Focus Indicator (Full Space button removed per user request) */}
+        {/* Right: Focus Indicator */}
         <div className="flex items-center gap-2 shrink-0">
           {win.focused && (
             <span className="w-1.5 h-1.5 rounded-full bg-[#DDA0DD] shadow-[0_0_6px_#DDA0DD]" />
@@ -266,8 +289,8 @@ export function Window({ window: win }: WindowProps) {
         )}
       </div>
 
-      {/* Resize Handles */}
-      {app?.resizable && !win.maximized && (
+      {/* Resize Handles (only active in desktop windowed mode) */}
+      {app?.resizable && !isFullscreen && (
         <>
           <div onPointerDown={(e) => onResizePointerDown(e, 'e')} className="absolute top-0 right-0 w-2 h-full cursor-e-resize" />
           <div onPointerDown={(e) => onResizePointerDown(e, 's')} className="absolute bottom-0 left-0 w-full h-2 cursor-s-resize" />

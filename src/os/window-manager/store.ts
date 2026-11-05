@@ -149,16 +149,17 @@ export const useOSStore = create<WindowManagerStore>((set, get) => ({
     // Calculate smart cascaded position within viewport bounds
     const viewportW = typeof window !== 'undefined' ? window.innerWidth : 1280;
     const viewportH = typeof window !== 'undefined' ? window.innerHeight : 800;
+    const isMobile = viewportW < 768;
 
-    const w = Math.min(app.defaultSize.w, Math.max(app.minSize.w, viewportW - 48));
-    const h = Math.min(app.defaultSize.h, Math.max(app.minSize.h, viewportH - 120));
+    const w = isMobile ? viewportW : Math.min(app.defaultSize.w, Math.max(app.minSize.w, viewportW - 48));
+    const h = isMobile ? viewportH - 32 : Math.min(app.defaultSize.h, Math.max(app.minSize.h, viewportH - 120));
 
     // Cascade offset based on open windows count
     const openCount = windows.filter((win) => !win.minimized).length;
     const cascadeOffset = (openCount % 6) * 28;
 
-    const x = Math.max(24, Math.min(viewportW - w - 24, 60 + cascadeOffset));
-    const y = Math.max(50, Math.min(viewportH - h - 70, 60 + cascadeOffset));
+    const x = isMobile ? 0 : Math.max(24, Math.min(viewportW - w - 24, 60 + cascadeOffset));
+    const y = isMobile ? 32 : Math.max(50, Math.min(viewportH - h - 70, 60 + cascadeOffset));
 
     const id = `${appId}-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
 
@@ -172,7 +173,7 @@ export const useOSStore = create<WindowManagerStore>((set, get) => ({
       h,
       z: nextZIndex,
       minimized: false,
-      maximized: false,
+      maximized: isMobile,
       focused: true,
       initialData,
     };

@@ -37,15 +37,15 @@ export function DesktopWallpaper() {
       />
 
       {/* 2. Primary Day Widget in Anurati Font */}
-      <div className="absolute top-2 sm:top-3 md:top-4 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none select-none text-center z-[2]">
+      <div className="absolute top-2 sm:top-3 md:top-4 left-1/2 -translate-x-1/2 w-full px-4 flex flex-col items-center pointer-events-none select-none text-center z-[2]">
         {/* PRIMARY: Day of the Week in Futuristic Anurati Typography */}
         <h1
           style={{
             textShadow: '0 4px 30px rgba(0,0,0,0.98), 0 2px 10px rgba(0,0,0,0.95)',
             fontFamily: "'Anurati', sans-serif",
-            letterSpacing: '0.16em',
+            letterSpacing: '0.14em',
           }}
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white uppercase leading-none select-none drop-shadow-2xl"
+          className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-white uppercase leading-none select-none drop-shadow-2xl truncate max-w-full"
         >
           {dayStr || 'WEDNESDAY'}
         </h1>
@@ -55,9 +55,9 @@ export function DesktopWallpaper() {
           style={{
             textShadow: '0 2px 14px rgba(0,0,0,0.98)',
             fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-            letterSpacing: '0.2em',
+            letterSpacing: '0.15em',
           }}
-          className="flex items-center gap-2.5 text-xs sm:text-sm md:text-base font-semibold text-white/95 mt-1.5 uppercase"
+          className="flex items-center gap-2 sm:gap-2.5 text-[11px] sm:text-sm md:text-base font-semibold text-white/95 mt-1 sm:mt-1.5 uppercase"
         >
           <span>{timeStr || '--:--'}</span>
           <span className="w-1.5 h-1.5 rounded-full bg-white/70" />

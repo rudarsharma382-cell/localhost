@@ -11,7 +11,11 @@ export type AppIconId =
   | 'terminal'
   | 'settings'
   | 'safeware'
-  | 'trusight';
+  | 'trusight'
+  | 'certificates'
+  | 'developer'
+  | 'sandbox'
+  | 'gallery';
 
 export const APP_CUSTOM_ICONS: Partial<Record<AppIconId, string>> = {
   browser: '/assets/icons/browser.jpg',
@@ -19,7 +23,10 @@ export const APP_CUSTOM_ICONS: Partial<Record<AppIconId, string>> = {
   notes: '/assets/icons/notes.jpg',
   about: '/assets/icons/profile.jpg',
   terminal: '/assets/icons/terminal.jpg',
-  resume: '/assets/icons/profile.jpg',
+  resume: '/assets/icons/resume.jpg',
+  certificates: '/assets/icons/certificate.jpg',
+  sandbox: '/assets/icons/sandbox.jpg',
+  gallery: '/assets/icons/gallery.jpg',
   safeware: '/assets/icons/safeware.jpg',
   trusight: '/assets/icons/trusight.jpg',
 };
@@ -121,12 +128,117 @@ export function AppIcon({
           </svg>
         );
       case 'resume':
+        if (size >= 32) {
+          return (
+            <div
+              style={{ width: size, height: size }}
+              className={`rounded-xl bg-gradient-to-br from-[#1E2530] via-[#141A22] to-[#0D1016] border border-white/10 flex items-center justify-center p-2.5 shadow-lg ${className}`}
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="#C49B72" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+            </div>
+          );
+        }
         return (
           <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round">
             <rect x="4" y="3" width="16" height="18" rx="2" />
             <circle cx="12" cy="8" r="2" />
             <line x1="8" y1="14" x2="16" y2="14" />
             <line x1="8" y1="17" x2="13" y2="17" />
+          </svg>
+        );
+      case 'certificates':
+        if (size >= 32) {
+          return (
+            <div
+              style={{ width: size, height: size }}
+              className={`rounded-xl bg-gradient-to-br from-[#2D2316] via-[#1E170E] to-[#140F08] border border-amber-500/20 flex items-center justify-center p-2.5 shadow-lg ${className}`}
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="#E5B566" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
+                <circle cx="12" cy="8" r="6" />
+                <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
+                <circle cx="12" cy="8" r="2.5" fill="#E5B566" fillOpacity="0.3" />
+              </svg>
+            </div>
+          );
+        }
+        return (
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="8" r="6" />
+            <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
+          </svg>
+        );
+      case 'developer':
+        if (size >= 32) {
+          return (
+            <div
+              style={{ width: size, height: size }}
+              className={`rounded-xl bg-gradient-to-br from-[#13222E] via-[#0E1720] to-[#090F14] border border-cyan-500/20 flex items-center justify-center p-2.5 shadow-lg ${className}`}
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="#67B8DE" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
+                <rect x="2" y="3" width="20" height="14" rx="2" />
+                <line x1="8" y1="21" x2="16" y2="21" />
+                <line x1="12" y1="17" x2="12" y2="21" />
+                <path d="m7 8 3 2.5-3 2.5" />
+                <line x1="12" y1="13" x2="16" y2="13" />
+              </svg>
+            </div>
+          );
+        }
+        return (
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2" />
+            <line x1="8" y1="21" x2="16" y2="21" />
+            <line x1="12" y1="17" x2="12" y2="21" />
+          </svg>
+        );
+      case 'sandbox':
+        if (size >= 32) {
+          return (
+            <div
+              style={{ width: size, height: size }}
+              className={`rounded-xl bg-gradient-to-br from-[#122A1E] via-[#0D1D15] to-[#08120C] border border-emerald-500/20 flex items-center justify-center p-2.5 shadow-lg ${className}`}
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="#4EC988" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                <line x1="12" y1="22.08" x2="12" y2="12" />
+              </svg>
+            </div>
+          );
+        }
+        return (
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+            <line x1="12" y1="22.08" x2="12" y2="12" />
+          </svg>
+        );
+      case 'gallery':
+        if (size >= 32) {
+          return (
+            <div
+              style={{ width: size, height: size }}
+              className={`rounded-xl bg-gradient-to-br from-[#261A28] via-[#1A121C] to-[#120B13] border border-fuchsia-500/20 flex items-center justify-center p-2.5 shadow-lg ${className}`}
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="#DDA0DD" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <circle cx="8.5" cy="8.5" r="1.5" />
+                <polyline points="21 15 16 10 5 21" />
+              </svg>
+            </div>
+          );
+        }
+        return (
+          <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" />
+            <circle cx="8.5" cy="8.5" r="1.5" />
+            <polyline points="21 15 16 10 5 21" />
           </svg>
         );
       case 'terminal':

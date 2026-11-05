@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { projects } from '@/content/projects';
 
+export const dynamic = 'force-dynamic';
+
 // Strict allowlist: only URLs defined in verified project content
 const ALLOWLISTED_HOSTS = new Set([
   'rudar.vercel.app',

@@ -4,18 +4,12 @@
 > This report tracks all pending content, assets, and human configuration required from Rudar.
 > **Strict Policy**: No content is ever fabricated. Missing items degrade gracefully.
 
-**Last Updated:** 2026-11-03T15:55:21.706Z
+**Last Updated:** 2026-11-05T15:37:27.607Z
 
 ## Summary
 
-- **Pending Content Items:** 34
+- **Pending Content Items:** 15
 - **Infrastructure / Human Tasks:** 2
-
-### Profile
-
-- [ ] **Personal Bio / Intro**
-  - *File/Target:* `src/content/profile.ts`
-  - *Details:* TODO: Rudar to provide 1-2 sentence introduction
 
 ### Assets
 
@@ -23,97 +17,43 @@
   - *File/Target:* `public/avatar.png`
   - *Details:* Required for lock screen owner card and About Me profile header.
 
-- [ ] **Resume PDF (`public/resume.pdf`)**
-  - *File/Target:* `public/resume.pdf`
-  - *Details:* Required for Resume viewer app. Empty state rendered until provided.
-
 ### Editorial Copy
 
 - [ ] **About Me Copy (`src/content/about.md`)**
   - *File/Target:* `src/content/about.md`
   - *Details:* PRD Sec 7.3: Must be written by Rudar in personal voice. No fabricated bio.
 
-### Project Write-ups
-
-- [ ] **SafeWare: Problem Statement**
-  - *File/Target:* `src/content/projects.ts`
-  - *Details:* TODO: Rudar to provide problem statement
-
-- [ ] **SafeWare: Project Motivation / Why**
-  - *File/Target:* `src/content/projects.ts`
-  - *Details:* TODO: Rudar to provide project motivation
-
-- [ ] **SafeWare: Individual Contribution**
-  - *File/Target:* `src/content/projects.ts`
-  - *Details:* TODO: Rudar to specify contribution
-
-- [ ] **TruSight AI: Problem Statement**
-  - *File/Target:* `src/content/projects.ts`
-  - *Details:* TODO: Rudar to provide problem statement
-
-- [ ] **TruSight AI: Project Motivation / Why**
-  - *File/Target:* `src/content/projects.ts`
-  - *Details:* TODO: Rudar to provide project motivation
-
-- [ ] **TruSight AI: Individual Contribution**
-  - *File/Target:* `src/content/projects.ts`
-  - *Details:* TODO: Rudar to specify contribution
-
-- [ ] **AfterClass: Problem Statement**
-  - *File/Target:* `src/content/projects.ts`
-  - *Details:* TODO: Rudar to provide problem statement
-
-- [ ] **AfterClass: Project Motivation / Why**
-  - *File/Target:* `src/content/projects.ts`
-  - *Details:* TODO: Rudar to provide project motivation
-
-- [ ] **AfterClass: Individual Contribution**
-  - *File/Target:* `src/content/projects.ts`
-  - *Details:* TODO: Rudar to specify contribution
-
-- [ ] **WorldOS: Problem Statement**
-  - *File/Target:* `src/content/projects.ts`
-  - *Details:* TODO: Rudar to provide problem statement
-
-- [ ] **WorldOS: Project Motivation / Why**
-  - *File/Target:* `src/content/projects.ts`
-  - *Details:* TODO: Rudar to provide project motivation
-
-- [ ] **WorldOS: Individual Contribution**
-  - *File/Target:* `src/content/projects.ts`
-  - *Details:* TODO: Rudar to specify contribution
-
-- [ ] **Zetklo: Problem Statement**
-  - *File/Target:* `src/content/projects.ts`
-  - *Details:* TODO: Rudar to provide problem statement
-
-- [ ] **Zetklo: Project Motivation / Why**
-  - *File/Target:* `src/content/projects.ts`
-  - *Details:* TODO: Rudar to provide project motivation
-
-- [ ] **Zetklo: Individual Contribution**
-  - *File/Target:* `src/content/projects.ts`
-  - *Details:* TODO: Rudar to specify contribution
-
-- [ ] **3D Automotive Website: Problem Statement**
-  - *File/Target:* `src/content/projects.ts`
-  - *Details:* TODO: Rudar to provide problem statement
-
-- [ ] **3D Automotive Website: Project Motivation / Why**
-  - *File/Target:* `src/content/projects.ts`
-  - *Details:* TODO: Rudar to provide project motivation
-
-- [ ] **3D Automotive Website: Individual Contribution**
-  - *File/Target:* `src/content/projects.ts`
-  - *Details:* TODO: Rudar to specify contribution
-
 ### Project URLs
 
-- [ ] **SafeWare: Live URL**
+- [ ] **BMW M4 CSL 3D Experience: Public Repository URL**
   - *File/Target:* `src/content/projects.ts`
-  - *Details:* Needed for Browser app live iframe or external view.
+  - *Details:* Needed for Development Studio repository link (if public).
 
-- [ ] **SafeWare: Public Repository URL**
+- [ ] **Monolith House 3D Architecture: Public Repository URL**
+  - *File/Target:* `src/content/projects.ts`
+  - *Details:* Needed for Development Studio repository link (if public).
+
+- [ ] **Arc Laptop 3D Motion Site: Public Repository URL**
+  - *File/Target:* `src/content/projects.ts`
+  - *Details:* Needed for Development Studio repository link (if public).
+
+- [ ] **Sole Agent AI: Public Repository URL**
+  - *File/Target:* `src/content/projects.ts`
+  - *Details:* Needed for Development Studio repository link (if public).
+
+- [ ] **Divine Herbal Life: Public Repository URL**
+  - *File/Target:* `src/content/projects.ts`
+  - *Details:* Needed for Development Studio repository link (if public).
+
+- [ ] **Zetklo Fashion Store: Public Repository URL**
+  - *File/Target:* `src/content/projects.ts`
+  - *Details:* Needed for Development Studio repository link (if public).
+
+- [ ] **AfterClass: Public Repository URL**
+  - *File/Target:* `src/content/projects.ts`
+  - *Details:* Needed for Development Studio repository link (if public).
+
+- [ ] **ServerCraft: Public Repository URL**
   - *File/Target:* `src/content/projects.ts`
   - *Details:* Needed for Development Studio repository link (if public).
 
@@ -125,14 +65,6 @@
   - *File/Target:* `src/content/projects.ts`
   - *Details:* Needed for Development Studio repository link (if public).
 
-- [ ] **AfterClass: Live URL**
-  - *File/Target:* `src/content/projects.ts`
-  - *Details:* Needed for Browser app live iframe or external view.
-
-- [ ] **AfterClass: Public Repository URL**
-  - *File/Target:* `src/content/projects.ts`
-  - *Details:* Needed for Development Studio repository link (if public).
-
 - [ ] **WorldOS: Live URL**
   - *File/Target:* `src/content/projects.ts`
   - *Details:* Needed for Browser app live iframe or external view.
@@ -141,19 +73,7 @@
   - *File/Target:* `src/content/projects.ts`
   - *Details:* Needed for Development Studio repository link (if public).
 
-- [ ] **Zetklo: Live URL**
-  - *File/Target:* `src/content/projects.ts`
-  - *Details:* Needed for Browser app live iframe or external view.
-
-- [ ] **Zetklo: Public Repository URL**
-  - *File/Target:* `src/content/projects.ts`
-  - *Details:* Needed for Development Studio repository link (if public).
-
-- [ ] **3D Automotive Website: Live URL**
-  - *File/Target:* `src/content/projects.ts`
-  - *Details:* Needed for Browser app live iframe or external view.
-
-- [ ] **3D Automotive Website: Public Repository URL**
+- [ ] **LinkedIn Profile: Public Repository URL**
   - *File/Target:* `src/content/projects.ts`
   - *Details:* Needed for Development Studio repository link (if public).
 

@@ -18,6 +18,11 @@ export { profile } from './profile';
 export { projects } from './projects';
 export { socials } from './socials';
 export { knowledgeBase } from './knowledge';
+export { resumeData } from './resume';
+export { certificates } from './certificates';
+export { developerData } from './developer';
+export { physicsPresets } from './physics';
+export { galleryItems } from './gallery';
 
 /**
  * Validates all content in the project against Zod schemas.

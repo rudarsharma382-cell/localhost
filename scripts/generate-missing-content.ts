@@ -12,6 +12,16 @@ interface MissingItem {
 }
 
 function run(): void {
+  // Clean stale .next build cache to ensure zero-conflict webpack compilations
+  const nextDir = path.resolve(process.cwd(), '.next');
+  if (fs.existsSync(nextDir)) {
+    try {
+      fs.rmSync(nextDir, { recursive: true, force: true });
+    } catch {
+      // Ignore if locked
+    }
+  }
+
   const missing: MissingItem[] = [];
 
   // 1. Validate content schemas
