@@ -1,372 +1,217 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
-import { AppFrame } from '@/os/app-frame/AppFrame';
-import { useOSStore } from '@/os/window-manager/store';
-import { galleryItems } from '@/content/gallery';
-import { GalleryItem, GalleryAlbum } from '@/content/schema';
-import {
-  Image as ImageIcon,
-  Film,
-  X,
-  ChevronLeft,
-  ChevronRight,
-  Maximize2,
-  Calendar,
-  MapPin,
-  Tag,
-  Cpu,
-  Search,
-  Sparkles,
-} from 'lucide-react';
+import React from 'react';
 
 interface GalleryAppProps {
   windowId: string;
+  isLiteMode?: boolean;
 }
-
-const ALBUMS: ('All' | GalleryAlbum)[] = [
-  'All',
-  'Robotics & Hardware',
-  'Hackathons & Summits',
-  'Workshops & Labs',
-  'Behind The Scenes',
-];
 
 export default function GalleryApp({ windowId }: GalleryAppProps) {
-  const { closeWindow } = useOSStore();
-  const [selectedAlbum, setSelectedAlbum] = useState<'All' | GalleryAlbum>('All');
-  const [search, setSearch] = useState('');
-  const [activeItemIndex, setActiveItemIndex] = useState<number | null>(null);
-
-  // Filter items
-  const filteredItems = useMemo(() => {
-    return galleryItems.filter((item) => {
-      const matchesAlbum = selectedAlbum === 'All' || item.album === selectedAlbum;
-      const q = search.toLowerCase().trim();
-      const matchesSearch =
-        !q ||
-        item.title.toLowerCase().includes(q) ||
-        item.caption.toLowerCase().includes(q) ||
-        item.location.toLowerCase().includes(q) ||
-        item.tags.some((t) => t.toLowerCase().includes(q));
-      return matchesAlbum && matchesSearch;
-    });
-  }, [selectedAlbum, search]);
-
-  const activeItem = activeItemIndex !== null ? filteredItems[activeItemIndex] : null;
-
-  // Keyboard navigation for full-screen viewer
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (activeItemIndex === null) return;
-
-      if (e.key === 'Escape') {
-        setActiveItemIndex(null);
-      } else if (e.key === 'ArrowRight') {
-        setActiveItemIndex((idx) => (idx !== null ? (idx + 1) % filteredItems.length : null));
-      } else if (e.key === 'ArrowLeft') {
-        setActiveItemIndex((idx) =>
-          idx !== null ? (idx - 1 + filteredItems.length) % filteredItems.length : null
-        );
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [activeItemIndex, filteredItems.length]);
-
   return (
-    <AppFrame
-      appId="gallery"
-      title="Gallery.exe — Hardware, Robotics & Hackathon Archive"
-      onBack={() => closeWindow(windowId)}
-      headerActions={
-        <div className="flex items-center gap-2 text-xs font-mono text-content-tertiary">
-          <span>{galleryItems.length} Archive Media</span>
-        </div>
-      }
-      className="flex-1"
-    >
-      <div className="h-full bg-surface-canvas flex flex-col font-sans select-none text-content-primary overflow-hidden relative">
-        {/* Top Album Filter Bar */}
-        <div className="p-4 bg-surface-base border-b border-border-default space-y-3 shrink-0">
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-            {/* Search Input */}
-            <div className="relative flex-1 max-w-sm">
-              <Search
-                size={14}
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-content-tertiary pointer-events-none"
-              />
-              <input
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search archive media by title, tag, or rig..."
-                className="w-full pl-9 pr-3 py-1.5 rounded bg-surface-panel border border-border-default focus:border-border-strong text-xs text-content-primary placeholder:text-content-tertiary focus:outline-none transition-colors select-text"
-              />
-              {search && (
-                <button
-                  onClick={() => setSearch('')}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-content-tertiary hover:text-content-primary text-xs"
-                >
-                  <X size={12} />
-                </button>
-              )}
-            </div>
+    <main className="gallery-404-canvas">
+      <style>{`
+        @font-face {
+          font-family: "Geist Mono:SemiBold";
+          font-style: normal;
+          font-weight: 600;
+          font-display: swap;
+          src: url("https://static.figma.com/font/GeistMono_wght__1") format("woff2");
+        }
 
-            <div className="text-[11px] font-mono text-content-tertiary hidden sm:block">
-              Excluding website UI screenshots • Physical engineering only
-            </div>
-          </div>
+        .gallery-404-canvas {
+          position: relative;
+          min-height: 100svh;
+          width: 100%;
+          height: 100%;
+          background-color: #000000;
+          overflow-x: hidden;
+          overflow-y: auto;
+          font-family: "Geist Mono:SemiBold", monospace;
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          user-select: none;
+        }
 
-          {/* Album Tabs */}
-          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-1">
-            {ALBUMS.map((alb) => (
-              <button
-                key={alb}
-                onClick={() => {
-                  setSelectedAlbum(alb);
-                  setActiveItemIndex(null);
-                }}
-                className={`px-3 py-1 rounded text-xs transition-colors shrink-0 cursor-pointer ${
-                  selectedAlbum === alb
-                    ? 'bg-accent/20 border border-accent/40 text-accent font-medium'
-                    : 'bg-surface-panel border border-border-subtle hover:border-border-default text-content-secondary hover:text-content-primary'
-                }`}
-              >
-                {alb}
-              </button>
-            ))}
-          </div>
-        </div>
+        .gallery-video-bg {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          opacity: 1;
+          z-index: 0;
+          pointer-events: none;
+        }
 
-        {/* Media Grid View */}
-        <div className="flex-1 overflow-y-auto p-4 md:p-6">
-          {filteredItems.length === 0 ? (
-            <div className="h-64 flex flex-col items-center justify-center text-center space-y-2 text-content-tertiary">
-              <ImageIcon size={32} className="opacity-40" />
-              <p className="text-xs">No media found matching your filter criteria.</p>
-              <button
-                onClick={() => {
-                  setSearch('');
-                  setSelectedAlbum('All');
-                }}
-                className="text-xs text-accent hover:underline cursor-pointer"
-              >
-                Clear all filters
-              </button>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {filteredItems.map((item, idx) => (
-                <div
-                  key={item.id}
-                  onClick={() => setActiveItemIndex(idx)}
-                  className="group bg-surface-base border border-border-subtle hover:border-border-strong rounded-lg overflow-hidden flex flex-col justify-between transition-all duration-base hover:-translate-y-0.5 hover:shadow-md cursor-pointer"
-                >
-                  {/* Thumbnail Viewport */}
-                  <div
-                    className={`relative w-full bg-surface-panel overflow-hidden border-b border-border-subtle ${
-                      item.aspectRatio === '16:9'
-                        ? 'aspect-[16/9]'
-                        : item.aspectRatio === '4:3'
-                        ? 'aspect-[4/3]'
-                        : 'aspect-square'
-                    }`}
-                  >
-                    {item.mediaType === 'video' ? (
-                      <div className="relative w-full h-full flex items-center justify-center bg-black">
-                        <img
-                          src={item.thumbnail}
-                          alt={item.title}
-                          className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-slow opacity-80"
-                          loading="lazy"
-                        />
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/20 transition-colors">
-                          <div className="w-10 h-10 rounded-full bg-accent/90 text-surface-canvas flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                            <Film size={18} />
-                          </div>
-                        </div>
-                      </div>
-                    ) : (
-                      <img
-                        src={item.thumbnail}
-                        alt={item.title}
-                        className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-slow"
-                        loading="lazy"
-                      />
-                    )}
+        .gallery-header-logo {
+          position: absolute;
+          top: 80px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 233px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          z-index: 10;
+        }
 
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-surface-canvas/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+        .gallery-center-content {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 483px;
+          text-align: center;
+          z-index: 10;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          box-sizing: border-box;
+        }
 
-                    {/* Album Badge */}
-                    <div className="absolute top-2 left-2">
-                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-surface-base/80 backdrop-blur-md border border-white/10 text-content-primary">
-                        {item.album}
-                      </span>
-                    </div>
+        .gallery-heading-404 {
+          font-family: "Geist Mono:SemiBold", monospace;
+          font-size: 295.751px;
+          line-height: 1.1;
+          letter-spacing: -24.6459px;
+          font-weight: 600;
+          margin: 0;
+          padding: 0 0 4px 0;
+          background: linear-gradient(247.328deg, rgb(255, 255, 255) 2.5334%, rgba(255, 255, 255, 0.4) 93.612%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          color: transparent;
+          height: auto;
+          min-height: 0;
+        }
 
-                    {/* Date Badge */}
-                    <div className="absolute bottom-2 right-2 text-[10px] font-mono text-content-tertiary bg-surface-base/80 backdrop-blur-md px-1.5 py-0.5 rounded border border-white/5">
-                      {item.date}
-                    </div>
-                  </div>
+        .gallery-divider-404 {
+          width: 425px;
+          height: 1px;
+          background-color: #FFFFFF;
+          border: none;
+          margin-top: 44px;
+          margin-bottom: 44px;
+          margin-left: auto;
+          margin-right: auto;
+          box-sizing: border-box;
+        }
 
-                  {/* Caption & Metadata */}
-                  <div className="p-4 space-y-2 flex-1 flex flex-col justify-between">
-                    <div className="space-y-1">
-                      <h3 className="text-xs font-semibold text-content-primary group-hover:text-accent transition-colors line-clamp-1">
-                        {item.title}
-                      </h3>
-                      <p className="text-[11px] text-content-secondary line-clamp-2 leading-relaxed">
-                        {item.caption}
-                      </p>
-                    </div>
+        .gallery-message-404 {
+          font-family: "Geist Mono:SemiBold", monospace;
+          font-size: 24px;
+          font-weight: 600;
+          line-height: 1.1;
+          letter-spacing: -2px;
+          color: #FFFFFF;
+          width: 483px;
+          margin: 0;
+          text-align: center;
+          box-sizing: border-box;
+        }
 
-                    <div className="pt-2 flex items-center justify-between text-[10px] font-mono text-content-tertiary border-t border-border-subtle/60">
-                      <span className="truncate max-w-[180px]">{item.location}</span>
-                      <span className="text-accent uppercase">{item.mediaType}</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+        @media (max-width: 640px) {
+          .gallery-404-canvas {
+            padding: 24px;
+          }
 
-        {/* Full-Screen Cinematic Media Viewer Modal */}
-        {activeItem && (
-          <div
-            className="fixed inset-0 z-modal bg-surface-canvas/95 backdrop-blur-lg flex flex-col items-center justify-between p-4 md:p-6 animate-fadeIn"
-            onClick={() => setActiveItemIndex(null)}
-          >
-            {/* Modal Header */}
-            <div
-              className="w-full max-w-5xl flex items-center justify-between text-xs text-content-primary px-2 py-1 shrink-0 select-none"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-accent/20 text-accent border border-accent/30 font-semibold">
-                  {activeItem.album}
-                </span>
-                <span className="text-xs font-semibold text-content-primary truncate max-w-md">
-                  {activeItem.title}
-                </span>
-              </div>
+          .gallery-header-logo {
+            top: 32px;
+            transform: translateX(-50%) scale(0.75);
+            transform-origin: top center;
+          }
 
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-mono text-content-tertiary hidden sm:inline">
-                  {activeItemIndex! + 1} / {filteredItems.length}
-                </span>
-                <button
-                  onClick={() => setActiveItemIndex(null)}
-                  className="p-1.5 rounded hover:bg-surface-raised text-content-secondary hover:text-content-primary transition-colors cursor-pointer"
-                  title="Close Viewer (Esc)"
-                >
-                  <X size={18} />
-                </button>
-              </div>
-            </div>
+          .gallery-center-content {
+            width: min(100% - 40px, 360px);
+          }
 
-            {/* Main Stage Viewport */}
-            <div
-              className="flex-1 w-full max-w-5xl flex items-center justify-center relative my-2 overflow-hidden"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Prev Button */}
-              <button
-                onClick={() =>
-                  setActiveItemIndex(
-                    (activeItemIndex! - 1 + filteredItems.length) % filteredItems.length
-                  )
-                }
-                className="absolute left-2 z-10 p-2.5 rounded-full bg-surface-base/80 hover:bg-surface-panel text-content-secondary hover:text-content-primary transition-all border border-white/10 shadow-lg cursor-pointer"
-                title="Previous Media (Left Arrow)"
-              >
-                <ChevronLeft size={20} />
-              </button>
+          .gallery-heading-404 {
+            font-size: clamp(140px, 52vw, 200px);
+            letter-spacing: -0.09em;
+            line-height: 1;
+            height: auto;
+            min-height: 0;
+            padding-bottom: 4px;
+          }
 
-              {/* Media Display */}
-              <div className="max-h-[70vh] flex items-center justify-center">
-                {activeItem.mediaType === 'video' ? (
-                  <video
-                    src={activeItem.src}
-                    controls
-                    autoPlay
-                    loop
-                    className="max-h-[68vh] max-w-full rounded-lg shadow-2xl border border-white/10"
-                  />
-                ) : (
-                  <img
-                    src={activeItem.src}
-                    alt={activeItem.title}
-                    className="max-h-[68vh] max-w-full object-contain rounded-lg shadow-2xl border border-white/10"
-                  />
-                )}
-              </div>
+          .gallery-divider-404 {
+            width: 100%;
+            margin-top: 28px;
+            margin-bottom: 28px;
+          }
 
-              {/* Next Button */}
-              <button
-                onClick={() =>
-                  setActiveItemIndex((activeItemIndex! + 1) % filteredItems.length)
-                }
-                className="absolute right-2 z-10 p-2.5 rounded-full bg-surface-base/80 hover:bg-surface-panel text-content-secondary hover:text-content-primary transition-all border border-white/10 shadow-lg cursor-pointer"
-                title="Next Media (Right Arrow)"
-              >
-                <ChevronRight size={20} />
-              </button>
-            </div>
+          .gallery-message-404 {
+            font-size: clamp(16px, 4.5vw, 20px);
+            letter-spacing: -1.3px;
+            line-height: 1.3;
+            width: 100%;
+            text-align: center;
+          }
+        }
+      `}</style>
 
-            {/* Modal Bottom Metadata Drawer */}
-            <div
-              className="w-full max-w-5xl bg-surface-base/90 border border-border-default rounded-xl p-4 space-y-2 select-text font-sans shrink-0 shadow-lg"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-border-subtle pb-2">
-                <div className="flex items-center gap-3 text-xs text-content-secondary">
-                  <span className="flex items-center gap-1 font-mono text-accent">
-                    <MapPin size={12} />
-                    <span>{activeItem.location}</span>
-                  </span>
-                  <span>•</span>
-                  <span className="flex items-center gap-1 font-mono text-content-tertiary">
-                    <Calendar size={12} />
-                    <span>{activeItem.date}</span>
-                  </span>
-                </div>
+      {/* Background Video */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        aria-hidden="true"
+        src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260801_001207_ec20d138-aa45-4b2b-ab8c-bdc71607f240.mp4"
+        className="gallery-video-bg"
+      />
 
-                <div className="flex flex-wrap gap-1">
-                  {activeItem.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-1.5 py-0.5 text-[10px] font-mono rounded bg-surface-panel border border-border-subtle text-content-tertiary"
-                    >
-                      #{tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
+      {/* Header Logo */}
+      <header
+        className="gallery-header-logo"
+        aria-label="LGPSM"
+        role="img"
+      >
+        {/* Pixel-like Mark: 54px x 40px */}
+        <svg
+          viewBox="0 0 54 40"
+          fill="none"
+          width="54"
+          height="40"
+          aria-hidden="true"
+          style={{ flexShrink: 0, display: 'block' }}
+        >
+          <path d="M38 0H26V12H38V0Z" fill="white" />
+          <path d="M54 12H38V28H54V12Z" fill="white" />
+          <path d="M38 28H26V40H38V28Z" fill="white" />
+          <path d="M26 12H16V22H26V12Z" fill="white" />
+          <path d="M16 22H8V30H16V22Z" fill="white" />
+          <path d="M16 2H6V12H16V2Z" fill="white" />
+          <path d="M6 12H0V18H6V12Z" fill="white" />
+        </svg>
 
-              <p className="text-xs text-content-secondary leading-relaxed">
-                {activeItem.caption}
-              </p>
+        {/* Logotype SVG: 14px to the right of mark, viewBox="0 0 164.311 100" */}
+        <svg
+          viewBox="0 0 164.311 100"
+          fill="none"
+          width="165"
+          height="40"
+          aria-hidden="true"
+          style={{ marginLeft: '14px', flexShrink: 0, display: 'block' }}
+        >
+          <path
+            d="M122.498 37.4573H131.321L139.533 51.6222L147.772 37.4573H156.595V56.0604H152.449V37.6433L141.739 56.0604H137.354L126.617 37.6433V56.0604H122.498V37.4573ZM95.921 48.8317C92.785 48.8317 90.261 46.307 90.261 43.1445C90.261 40.0086 92.785 37.4573 95.921 37.4573H119.972V41.6031H95.921C95.071 41.6031 94.38 42.2941 94.38 43.1445C94.38 44.0215 95.071 44.7125 95.921 44.7125H114.285C117.421 44.7125 119.972 47.2372 119.972 50.3997C119.972 53.5357 117.421 56.0604 114.285 56.0604H90.261V51.9411H114.285C115.136 51.9411 115.827 51.2501 115.827 50.3997C115.827 49.5227 115.136 48.8317 114.285 48.8317H95.921ZM80.857 37.4573C84.843 37.4573 88.086 40.6995 88.086 44.7125C88.086 48.6989 84.843 51.9411 80.857 51.9411H62.254V56.0604H58.135V37.4573H80.857ZM80.83 47.7953C82.558 47.7953 83.94 46.4133 83.94 44.7125C83.94 42.985 82.558 41.6031 80.83 41.6031H62.254V47.7953H80.83ZM35.975 41.6031C33.105 41.6031 30.7927 43.9152 30.7927 46.7588C30.7927 49.629 33.105 51.9411 35.975 51.9411H51.336V48.6989H35.576V44.5796H55.482V56.0604H35.975C30.8192 56.0604 26.6734 51.9145 26.6734 46.7588C26.6734 41.6297 30.8192 37.4573 35.975 37.4573H55.482V41.6031H35.975ZM0 37.4573H4.11933V56.0604H0V37.4573Z"
+            fill="white"
+          />
+        </svg>
+      </header>
 
-              {activeItem.equipment && activeItem.equipment.length > 0 && (
-                <div className="flex flex-wrap items-center gap-1.5 text-[10px] font-mono text-content-tertiary pt-1">
-                  <span className="text-accent">Hardware / Rig:</span>
-                  {activeItem.equipment.map((eq) => (
-                    <span key={eq} className="px-1.5 py-0.5 rounded bg-surface-panel border border-border-subtle">
-                      {eq}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        )}
+      {/* Center 404 Content */}
+      <div className="gallery-center-content">
+        <h1 className="gallery-heading-404">404</h1>
+        <div className="gallery-divider-404" />
+        <p className="gallery-message-404">
+          The path may be broken, but the journey isn't. Let's get you back.
+        </p>
       </div>
-    </AppFrame>
+    </main>
   );
 }
-
