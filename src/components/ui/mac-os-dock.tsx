@@ -244,95 +244,117 @@ export const MacOSDock: React.FC<MacOSDockProps> = ({
 
   return (
     <div 
-      ref={dockRef}
-      className={`backdrop-blur-xl ${className} max-w-[calc(100vw-12px)] overflow-x-auto no-scrollbar`}
+      className="relative flex flex-col items-center justify-end overflow-visible pointer-events-auto"
       style={{
-        width: `${contentWidth + padding * 2}px`,
-        background: 'rgba(16, 16, 20, 0.76)',
-        borderRadius: `${Math.max(14, baseIconSize * 0.38)}px`,
-        border: '1px solid rgba(255, 255, 255, 0.12)',
-        boxShadow: `
-          0 ${Math.max(4, baseIconSize * 0.1)}px ${Math.max(16, baseIconSize * 0.4)}px rgba(0, 0, 0, 0.6),
-          0 ${Math.max(2, baseIconSize * 0.05)}px ${Math.max(8, baseIconSize * 0.2)}px rgba(0, 0, 0, 0.4),
-          inset 0 1px 0 rgba(255, 255, 255, 0.15),
-          inset 0 -1px 0 rgba(0, 0, 0, 0.3)
-        `,
-        padding: `${padding}px`
+        paddingTop: `${Math.ceil((maxScale - 1) * baseIconSize + 16)}px`,
       }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
       <div 
-        className="relative"
+        ref={dockRef}
+        className={`backdrop-blur-xl ${className} overflow-visible relative`}
         style={{
-          height: `${baseIconSize}px`,
-          width: '100%'
+          width: `${contentWidth + padding * 2}px`,
+          background: 'rgba(16, 16, 20, 0.76)',
+          borderRadius: `${Math.max(14, baseIconSize * 0.38)}px`,
+          border: '1px solid rgba(255, 255, 255, 0.12)',
+          boxShadow: `
+            0 ${Math.max(4, baseIconSize * 0.1)}px ${Math.max(16, baseIconSize * 0.4)}px rgba(0, 0, 0, 0.6),
+            0 ${Math.max(2, baseIconSize * 0.05)}px ${Math.max(8, baseIconSize * 0.2)}px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.3)
+          `,
+          padding: `${padding}px`,
+          overflow: 'visible'
         }}
       >
-        {apps.map((app, index) => {
-          const scale = currentScales[index];
-          const position = currentPositions[index] || 0;
-          const scaledSize = baseIconSize * scale;
-          
-          return (
-            <div
-              key={app.id}
-              ref={(el) => { iconRefs.current[index] = el; }}
-              className="absolute cursor-pointer flex flex-col items-center justify-end"
-              title={app.name}
-              onClick={() => handleAppClick(app.id, index)}
-              style={{
-                left: `${position - scaledSize / 2}px`,
-                bottom: '0px',
-                width: `${scaledSize}px`,
-                height: `${scaledSize}px`,
-                transformOrigin: 'bottom center',
-                zIndex: Math.round(scale * 10)
-              }}
-            >
-              {app.icon ? (
-                <img
-                  src={app.icon}
-                  alt={app.name}
-                  width={scaledSize}
-                  height={scaledSize}
-                  className="object-cover rounded-xl shadow-md border border-white/10"
-                  style={{
-                    filter: `drop-shadow(0 ${scale > 1.2 ? Math.max(2, baseIconSize * 0.05) : Math.max(1, baseIconSize * 0.03)}px ${scale > 1.2 ? Math.max(4, baseIconSize * 0.1) : Math.max(2, baseIconSize * 0.06)}px rgba(0,0,0,${0.3 + (scale - 1) * 0.2}))`
-                  }}
-                />
-              ) : (
-                <div
-                  style={{
-                    width: `${scaledSize}px`,
-                    height: `${scaledSize}px`,
-                    filter: `drop-shadow(0 ${scale > 1.2 ? Math.max(2, baseIconSize * 0.05) : Math.max(1, baseIconSize * 0.03)}px ${scale > 1.2 ? Math.max(4, baseIconSize * 0.1) : Math.max(2, baseIconSize * 0.06)}px rgba(0,0,0,${0.3 + (scale - 1) * 0.2}))`
-                  }}
-                  className="flex items-center justify-center select-none pointer-events-none"
-                >
-                  <AppIcon id={app.id as AppIconId} size={scaledSize} />
-                </div>
-              )}
-              
-              {/* Clean Crisp White Indicator Dot */}
-              {openApps.includes(app.id) && (
-                <div 
-                  className="absolute"
-                  style={{
-                    bottom: `${Math.max(-3, -baseIconSize * 0.06)}px`,
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    width: `${Math.max(4, baseIconSize * 0.07)}px`,
-                    height: `${Math.max(4, baseIconSize * 0.07)}px`,
-                    borderRadius: '50%',
-                    backgroundColor: '#FFFFFF',
-                    boxShadow: '0 0 6px rgba(255, 255, 255, 0.8), 0 0 10px rgba(255, 255, 255, 0.4)',
-                  }}
-                />
-              )}
-            </div>
-          );
-        })}
+        <div 
+          className="relative overflow-visible"
+          style={{
+            height: `${baseIconSize}px`,
+            width: '100%',
+            overflow: 'visible'
+          }}
+        >
+          {apps.map((app, index) => {
+            const scale = currentScales[index];
+            const position = currentPositions[index] || 0;
+            const scaledSize = baseIconSize * scale;
+            
+            return (
+              <div
+                key={app.id}
+                ref={(el) => { iconRefs.current[index] = el; }}
+                className="absolute cursor-pointer flex flex-col items-center justify-end overflow-visible"
+                title={app.name}
+                onClick={() => handleAppClick(app.id, index)}
+                style={{
+                  left: `${position - scaledSize / 2}px`,
+                  bottom: '0px',
+                  width: `${scaledSize}px`,
+                  height: `${scaledSize}px`,
+                  transformOrigin: 'bottom center',
+                  zIndex: Math.round(scale * 10),
+                  overflow: 'visible'
+                }}
+              >
+                {/* macOS-style Tooltip on Hover */}
+                {scale > 1.35 && (
+                  <div 
+                    className="absolute -top-7 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-md text-[11px] font-sans font-medium text-white/95 bg-[#181a1d]/90 backdrop-blur-md border border-white/15 shadow-xl whitespace-nowrap pointer-events-none select-none z-50 transition-opacity duration-150"
+                    style={{ opacity: Math.min(1, (scale - 1.35) * 4) }}
+                  >
+                    {app.name}
+                  </div>
+                )}
+
+                {app.icon ? (
+                  <img
+                    src={app.icon}
+                    alt={app.name}
+                    width={scaledSize}
+                    height={scaledSize}
+                    className="w-full h-full object-cover shadow-md border border-white/10 select-none pointer-events-none"
+                    style={{
+                      borderRadius: `${Math.round(scaledSize * 0.22)}px`,
+                      filter: `drop-shadow(0 ${scale > 1.1 ? Math.round(scale * 4) : 2}px ${scale > 1.1 ? Math.round(scale * 8) : 4}px rgba(0,0,0,${0.35 + (scale - 1) * 0.25}))`
+                    }}
+                  />
+                ) : (
+                  <div
+                    style={{
+                      width: `${scaledSize}px`,
+                      height: `${scaledSize}px`,
+                      borderRadius: `${Math.round(scaledSize * 0.22)}px`,
+                      filter: `drop-shadow(0 ${scale > 1.1 ? Math.round(scale * 4) : 2}px ${scale > 1.1 ? Math.round(scale * 8) : 4}px rgba(0,0,0,${0.35 + (scale - 1) * 0.25}))`
+                    }}
+                    className="flex items-center justify-center select-none pointer-events-none"
+                  >
+                    <AppIcon id={app.id as AppIconId} size={scaledSize} />
+                  </div>
+                )}
+                
+                {/* Clean Crisp White Indicator Dot */}
+                {openApps.includes(app.id) && (
+                  <div 
+                    className="absolute pointer-events-none"
+                    style={{
+                      bottom: `${Math.max(-4, -baseIconSize * 0.08)}px`,
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      width: `${Math.max(4, baseIconSize * 0.07)}px`,
+                      height: `${Math.max(4, baseIconSize * 0.07)}px`,
+                      borderRadius: '50%',
+                      backgroundColor: '#FFFFFF',
+                      boxShadow: '0 0 6px rgba(255, 255, 255, 0.8), 0 0 10px rgba(255, 255, 255, 0.4)',
+                    }}
+                  />
+                )}
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

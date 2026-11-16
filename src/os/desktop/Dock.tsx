@@ -41,7 +41,7 @@ export function Dock() {
   return (
     <nav
       aria-label="Dock"
-      className="absolute bottom-2 sm:bottom-3 left-1/2 -translate-x-1/2 z-dock flex items-end select-none pointer-events-auto max-w-full px-2"
+      className="absolute bottom-2 sm:bottom-3 left-1/2 -translate-x-1/2 z-[60] flex items-end select-none pointer-events-auto max-w-full px-2 overflow-visible"
     >
       <MacOSDock
         apps={dockApps}
