@@ -119,21 +119,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <head>
-        <meta
-          name="google-site-verification"
-          content="a8o9f-bni2TtGKB_EyA90Y3SJB3ImX-UF6El-PIJO_8"
-        />
-        <meta
-          name="google-site-verification"
-          content="google1f41b1455940f20c"
-        />
+      <body className="min-h-screen bg-surface-canvas text-content-primary antialiased selection:bg-accent/20 selection:text-accent">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-      </head>
-      <body className="min-h-screen bg-surface-canvas text-content-primary antialiased selection:bg-accent/20 selection:text-accent">
         {children}
       </body>
     </html>

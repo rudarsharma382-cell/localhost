@@ -22,6 +22,14 @@ export function BootSequence({ onComplete }: BootSequenceProps) {
     }, 750);
   }, [isFading, onComplete]);
 
+  // Failsafe timeout: never stay stuck on boot video if user is on slow connection
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      handleFinish();
+    }, 12000);
+    return () => clearTimeout(timer);
+  }, [handleFinish]);
+
   // Attempt autoplay with sound, fall back to muted if policy blocks
   useEffect(() => {
     const video = videoRef.current;
@@ -40,10 +48,11 @@ export function BootSequence({ onComplete }: BootSequenceProps) {
           video.muted = true;
           video.play().catch((err) => {
             console.warn('Video autoplay failed:', err);
+            handleFinish();
           });
         });
     }
-  }, []);
+  }, [handleFinish]);
 
   // Update progress bar
   const handleTimeUpdate = () => {
@@ -87,6 +96,7 @@ export function BootSequence({ onComplete }: BootSequenceProps) {
         preload="auto"
         onTimeUpdate={handleTimeUpdate}
         onEnded={handleFinish}
+        onError={handleFinish}
         className="w-full h-full object-cover pointer-events-none"
       >
         <source src="/assets/boot/boot.mp4" type="video/mp4" />

@@ -51,28 +51,382 @@ function MonitorModel() {
 }
 
 // -------------------------------------------------------------
-// 2. Custom Gaming PC Model (FBXLoader with PBR Materials & Textures)
+// 2. Custom Gaming PC Model & Guaranteed Procedural Fallback
 // -------------------------------------------------------------
 
-function PCTowerModel() {
-  const fbx = useLoader(FBXLoader, '/assets/custom gaming PC.fbx');
+class PCTowerErrorBoundary extends React.Component<
+  { fallback: React.ReactNode; children: React.ReactNode },
+  { hasError: boolean }
+> {
+  constructor(props: { fallback: React.ReactNode; children: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: unknown) {
+    console.warn('PCTower FBX load error, showing high-fidelity procedural PC fallback:', error);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return this.props.fallback;
+    }
+    return this.props.children;
+  }
+}
+
+// High-fidelity procedural custom gaming PC tower:
+// Renders immediately with zero network latency, ensuring the PC tower is ALWAYS showing!
+function PCTowerMeshFallback() {
+  const fan1Ref = useRef<THREE.Group>(null);
+  const fan2Ref = useRef<THREE.Group>(null);
+  const fan3Ref = useRef<THREE.Group>(null);
+  const rearFanRef = useRef<THREE.Group>(null);
+
+  useFrame((_, delta) => {
+    const rotSpeed = delta * 12;
+    if (fan1Ref.current) fan1Ref.current.rotation.z += rotSpeed;
+    if (fan2Ref.current) fan2Ref.current.rotation.z += rotSpeed;
+    if (fan3Ref.current) fan3Ref.current.rotation.z += rotSpeed;
+    if (rearFanRef.current) rearFanRef.current.rotation.z += rotSpeed;
+  });
+
+  return (
+    <group position={[0.76, 0, -0.12]} rotation={[0, Math.PI / 5.5, 0]}>
+      {/* 1. Main Obsidian Chassis Skeleton */}
+      {/* Top Panel with fine vent styling */}
+      <mesh position={[0, 0.455, 0]} castShadow>
+        <boxGeometry args={[0.21, 0.012, 0.44]} />
+        <meshStandardMaterial color="#14161a" roughness={0.35} metalness={0.85} />
+      </mesh>
+      {/* Bottom Base Plate */}
+      <mesh position={[0, 0.016, 0]} castShadow receiveShadow>
+        <boxGeometry args={[0.21, 0.012, 0.44]} />
+        <meshStandardMaterial color="#14161a" roughness={0.4} metalness={0.8} />
+      </mesh>
+      {/* Right Solid Metal Side Panel (+X) */}
+      <mesh position={[0.103, 0.23, 0]} castShadow>
+        <boxGeometry args={[0.005, 0.435, 0.43]} />
+        <meshStandardMaterial color="#16181d" roughness={0.38} metalness={0.85} />
+      </mesh>
+      {/* Rear Motherboard I/O & Exhaust Panel (-Z) */}
+      <mesh position={[0, 0.23, -0.216]} castShadow>
+        <boxGeometry args={[0.208, 0.435, 0.006]} />
+        <meshStandardMaterial color="#191c21" roughness={0.5} metalness={0.7} />
+      </mesh>
+      {/* 4 Rubber Foot Stabilizers Lifting Base off Desk */}
+      {[
+        [-0.085, -0.18],
+        [0.085, -0.18],
+        [-0.085, 0.18],
+        [0.085, 0.18],
+      ].map(([fx, fz], idx) => (
+        <mesh key={idx} position={[fx, 0.008, fz]} castShadow>
+          <cylinderGeometry args={[0.012, 0.012, 0.016, 16]} />
+          <meshStandardMaterial color="#0b0c0e" roughness={0.85} metalness={0.3} />
+        </mesh>
+      ))}
+
+      {/* 2. Top I/O Panel (Power button with illuminated LED ring & ports) */}
+      <mesh position={[-0.06, 0.462, 0.17]}>
+        <cylinderGeometry args={[0.006, 0.006, 0.003, 16]} />
+        <meshStandardMaterial
+          color="#00D2FF"
+          emissive="#00D2FF"
+          emissiveIntensity={1.8}
+          roughness={0.2}
+          metalness={0.8}
+        />
+      </mesh>
+      <mesh position={[-0.035, 0.462, 0.17]}>
+        <boxGeometry args={[0.008, 0.002, 0.014]} />
+        <meshStandardMaterial color="#0055ff" roughness={0.3} />
+      </mesh>
+      <mesh position={[-0.015, 0.462, 0.17]}>
+        <boxGeometry args={[0.008, 0.002, 0.014]} />
+        <meshStandardMaterial color="#0055ff" roughness={0.3} />
+      </mesh>
+
+      {/* 3. Front Airflow Fascia Panel (+Z) */}
+      <mesh position={[0, 0.23, 0.218]} castShadow>
+        <boxGeometry args={[0.21, 0.455, 0.014]} />
+        <meshStandardMaterial color="#16181d" roughness={0.35} metalness={0.85} />
+      </mesh>
+      {/* Front Perforated Mesh Intake Inset */}
+      <mesh position={[0, 0.23, 0.224]}>
+        <boxGeometry args={[0.165, 0.39, 0.003]} />
+        <meshStandardMaterial color="#0e1013" roughness={0.7} metalness={0.4} />
+      </mesh>
+      {/* Vertical Cyber RGB Accent Strip */}
+      <mesh position={[0.084, 0.23, 0.226]}>
+        <boxGeometry args={[0.004, 0.38, 0.002]} />
+        <meshStandardMaterial
+          color="#00D2FF"
+          emissive="#00D2FF"
+          emissiveIntensity={2.2}
+          roughness={0.2}
+        />
+      </mesh>
+
+      {/* 4. Triple Front Intake RGB Fans (+Z behind mesh) */}
+      {[
+        { y: 0.13, ref: fan1Ref, color: '#00E5FF' },
+        { y: 0.24, ref: fan2Ref, color: '#00D2FF' },
+        { y: 0.35, ref: fan3Ref, color: '#A855F7' },
+      ].map((fan, idx) => (
+        <group key={idx} position={[0, fan.y, 0.185]}>
+          {/* Outer Glowing RGB Halo Ring */}
+          <mesh rotation={[Math.PI / 2, 0, 0]}>
+            <torusGeometry args={[0.052, 0.004, 16, 32]} />
+            <meshStandardMaterial
+              color={fan.color}
+              emissive={fan.color}
+              emissiveIntensity={2.5}
+              roughness={0.2}
+            />
+          </mesh>
+          {/* Central Motor Hub */}
+          <mesh rotation={[Math.PI / 2, 0, 0]}>
+            <cylinderGeometry args={[0.018, 0.018, 0.012, 16]} />
+            <meshStandardMaterial color="#1a1c22" roughness={0.3} metalness={0.7} />
+          </mesh>
+          {/* Animated Frosted Blades */}
+          <group ref={fan.ref}>
+            {[0, 1, 2, 3, 4, 5, 6].map((bIdx) => (
+              <mesh
+                key={bIdx}
+                rotation={[0, 0, (bIdx * Math.PI * 2) / 7]}
+                position={[0, 0.032, 0]}
+              >
+                <boxGeometry args={[0.016, 0.036, 0.003]} />
+                <meshStandardMaterial
+                  color="#ffffff"
+                  transparent
+                  opacity={0.55}
+                  roughness={0.25}
+                />
+              </mesh>
+            ))}
+          </group>
+        </group>
+      ))}
+
+      {/* 5. Left Tempered Glass Side Panel (-X facing monitor / user) */}
+      <mesh position={[-0.103, 0.23, 0]}>
+        <boxGeometry args={[0.004, 0.435, 0.42]} />
+        <meshPhysicalMaterial
+          color="#181b22"
+          transparent
+          opacity={0.28}
+          roughness={0.05}
+          metalness={0.12}
+          transmission={0.88}
+          ior={1.52}
+          reflectivity={0.9}
+          clearcoat={1.0}
+          clearcoatRoughness={0.03}
+          depthWrite={false}
+        />
+      </mesh>
+      {/* 4 Metallic Glass Corner Mounting Screws */}
+      {[
+        [-0.106, 0.42, -0.19],
+        [-0.106, 0.42, 0.19],
+        [-0.106, 0.04, -0.19],
+        [-0.106, 0.04, 0.19],
+      ].map(([sx, sy, sz], idx) => (
+        <mesh key={idx} position={[sx, sy, sz]} rotation={[0, 0, Math.PI / 2]}>
+          <cylinderGeometry args={[0.004, 0.004, 0.004, 12]} />
+          <meshStandardMaterial color="#6e727a" roughness={0.3} metalness={0.9} />
+        </mesh>
+      ))}
+
+      {/* 6. High-End Internal Components (Visible Through Tempered Glass) */}
+      {/* Motherboard Backplate PCB */}
+      <mesh position={[0.075, 0.27, -0.03]} castShadow>
+        <boxGeometry args={[0.004, 0.30, 0.24]} />
+        <meshStandardMaterial color="#121316" roughness={0.6} metalness={0.3} />
+      </mesh>
+      {/* ROG Chipset Heatsink with RGB Logo */}
+      <mesh position={[0.068, 0.18, 0.03]}>
+        <boxGeometry args={[0.012, 0.042, 0.052]} />
+        <meshStandardMaterial
+          color="#E11D48"
+          emissive="#E11D48"
+          emissiveIntensity={1.2}
+          roughness={0.3}
+          metalness={0.8}
+        />
+      </mesh>
+      {/* VRM Cooling Heatsinks */}
+      <mesh position={[0.068, 0.36, -0.04]}>
+        <boxGeometry args={[0.012, 0.035, 0.11]} />
+        <meshStandardMaterial color="#22262d" roughness={0.35} metalness={0.85} />
+      </mesh>
+      <mesh position={[0.068, 0.31, -0.11]}>
+        <boxGeometry args={[0.012, 0.075, 0.032]} />
+        <meshStandardMaterial color="#22262d" roughness={0.35} metalness={0.85} />
+      </mesh>
+
+      {/* 7. Liquid AIO CPU Cooler (Infinity-Mirror RGB Pump Block) */}
+      <mesh position={[0.060, 0.29, -0.03]} rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.026, 0.026, 0.018, 24]} />
+        <meshStandardMaterial color="#181a1f" roughness={0.25} metalness={0.8} />
+      </mesh>
+      {/* Glowing Center Ring */}
+      <mesh position={[0.050, 0.29, -0.03]} rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.018, 0.018, 0.003, 24]} />
+        <meshStandardMaterial
+          color="#00F0FF"
+          emissive="#00F0FF"
+          emissiveIntensity={2.5}
+          roughness={0.1}
+        />
+      </mesh>
+      {/* Top 240mm Radiator */}
+      <mesh position={[0, 0.436, 0.01]} castShadow>
+        <boxGeometry args={[0.13, 0.024, 0.26]} />
+        <meshStandardMaterial color="#14161a" roughness={0.4} metalness={0.7} />
+      </mesh>
+      {/* Braided Black Liquid Cooling Tubes */}
+      <mesh position={[0.035, 0.36, -0.02]} rotation={[0, 0, 0.35]}>
+        <cylinderGeometry args={[0.004, 0.004, 0.14, 12]} />
+        <meshStandardMaterial color="#101114" roughness={0.65} />
+      </mesh>
+      <mesh position={[0.028, 0.35, -0.005]} rotation={[0, 0, 0.28]}>
+        <cylinderGeometry args={[0.004, 0.004, 0.13, 12]} />
+        <meshStandardMaterial color="#101114" roughness={0.65} />
+      </mesh>
+
+      {/* 8. Dual High-Frequency DDR RGB RAM Sticks */}
+      <mesh position={[0.062, 0.32, -0.002]}>
+        <boxGeometry args={[0.006, 0.038, 0.004]} />
+        <meshStandardMaterial color="#20242b" roughness={0.3} metalness={0.8} />
+      </mesh>
+      <mesh position={[0.062, 0.342, -0.002]}>
+        <boxGeometry args={[0.007, 0.006, 0.005]} />
+        <meshStandardMaterial
+          color="#FF007F"
+          emissive="#FF007F"
+          emissiveIntensity={2.5}
+          roughness={0.2}
+        />
+      </mesh>
+      <mesh position={[0.062, 0.32, 0.016]}>
+        <boxGeometry args={[0.006, 0.038, 0.004]} />
+        <meshStandardMaterial color="#20242b" roughness={0.3} metalness={0.8} />
+      </mesh>
+      <mesh position={[0.062, 0.342, 0.016]}>
+        <boxGeometry args={[0.007, 0.006, 0.005]} />
+        <meshStandardMaterial
+          color="#00E5FF"
+          emissive="#00E5FF"
+          emissiveIntensity={2.5}
+          roughness={0.2}
+        />
+      </mesh>
+
+      {/* 9. Heavy RTX Triple-Slot GPU */}
+      {/* GPU Shroud */}
+      <mesh position={[0, 0.19, -0.02]} castShadow>
+        <boxGeometry args={[0.135, 0.048, 0.28]} />
+        <meshStandardMaterial color="#1a1d22" roughness={0.35} metalness={0.85} />
+      </mesh>
+      {/* Top Brushed Metal Backplate */}
+      <mesh position={[0, 0.215, -0.02]}>
+        <boxGeometry args={[0.132, 0.003, 0.276]} />
+        <meshStandardMaterial color="#262a32" roughness={0.25} metalness={0.9} />
+      </mesh>
+      {/* Side Illuminated "GEFORCE RTX" Logo Badge */}
+      <mesh position={[-0.068, 0.195, -0.01]}>
+        <boxGeometry args={[0.002, 0.014, 0.09]} />
+        <meshStandardMaterial
+          color="#00FFA3"
+          emissive="#00FFA3"
+          emissiveIntensity={2.2}
+          roughness={0.2}
+        />
+      </mesh>
+
+      {/* 10. Rear RGB Exhaust Fan (-Z) */}
+      <group position={[0, 0.33, -0.195]} rotation={[0, 0, 0]}>
+        <mesh rotation={[Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[0.048, 0.004, 16, 32]} />
+          <meshStandardMaterial
+            color="#9D4EDD"
+            emissive="#9D4EDD"
+            emissiveIntensity={2.2}
+            roughness={0.2}
+          />
+        </mesh>
+        <group ref={rearFanRef}>
+          {[0, 1, 2, 3, 4, 5, 6].map((bIdx) => (
+            <mesh
+              key={bIdx}
+              rotation={[0, 0, (bIdx * Math.PI * 2) / 7]}
+              position={[0, 0.028, 0]}
+            >
+              <boxGeometry args={[0.014, 0.032, 0.002]} />
+              <meshStandardMaterial color="#ffffff" transparent opacity={0.5} />
+            </mesh>
+          ))}
+        </group>
+      </group>
+
+      {/* 11. Bottom Power Supply Shroud Chamber */}
+      <mesh position={[0, 0.056, 0]} castShadow receiveShadow>
+        <boxGeometry args={[0.19, 0.09, 0.42]} />
+        <meshStandardMaterial color="#16181d" roughness={0.4} metalness={0.8} />
+      </mesh>
+      {/* Corsair PSU Badge Cutout on Shroud */}
+      <mesh position={[-0.096, 0.056, -0.10]}>
+        <boxGeometry args={[0.002, 0.026, 0.065]} />
+        <meshStandardMaterial
+          color="#FFD600"
+          emissive="#FFD600"
+          emissiveIntensity={0.8}
+          roughness={0.3}
+          metalness={0.6}
+        />
+      </mesh>
+
+      {/* 12. Vivid Internal Chassis Accent Lights */}
+      <pointLight position={[-0.01, 0.26, 0]} intensity={2.2} distance={0.7} color="#00D2FF" />
+      <pointLight position={[0.02, 0.19, -0.05]} intensity={1.5} distance={0.6} color="#A855F7" />
+    </group>
+  );
+}
+
+// 2b. High-detail Imported FBX Custom Gaming PC
+function FBXPCTower() {
+  const fbx = useLoader(FBXLoader, encodeURI('/assets/custom gaming PC.fbx'));
 
   const cloned = useMemo(() => {
     const c = fbx.clone(true);
     const textureLoader = new THREE.TextureLoader();
 
-    // Load available extracted textures
-    const moboMap = textureLoader.load('/assets/textures/ROG_maximus_xiii.jpg');
-    const fanMap = textureLoader.load('/assets/textures/case fan.png');
-    const aioMap = textureLoader.load('/assets/textures/deepcool aio.png');
-    const logoMap = textureLoader.load('/assets/textures/GamerStorm_logo.png');
-    const rgbMap = textureLoader.load('/assets/textures/RGB_TEXTURE.png');
-    const psuSideMap = textureLoader.load('/assets/textures/corsairpsuside.jpg');
-    const hddMap = textureLoader.load('/assets/textures/hdd.jpg');
+    const safeLoad = (path: string) => {
+      try {
+        const tex = textureLoader.load(encodeURI(path));
+        tex.colorSpace = THREE.SRGBColorSpace;
+        return tex;
+      } catch {
+        return null;
+      }
+    };
 
-    [moboMap, fanMap, aioMap, logoMap, rgbMap, psuSideMap, hddMap].forEach((tex) => {
-      tex.colorSpace = THREE.SRGBColorSpace;
-    });
+    // Load available extracted textures safely
+    const moboMap = safeLoad('/assets/textures/ROG_maximus_xiii.jpg');
+    const fanMap = safeLoad('/assets/textures/case fan.png');
+    const aioMap = safeLoad('/assets/textures/deepcool aio.png');
+    const logoMap = safeLoad('/assets/textures/GamerStorm_logo.png');
+    const rgbMap = safeLoad('/assets/textures/RGB_TEXTURE.png');
+    const psuSideMap = safeLoad('/assets/textures/corsairpsuside.jpg');
+    const hddMap = safeLoad('/assets/textures/hdd.jpg');
 
     c.traverse((node) => {
       // 1. Hide the author's huge floor slab platform
@@ -233,6 +587,17 @@ function PCTowerModel() {
         <primitive object={cloned} />
       </group>
     </group>
+  );
+}
+
+// 2c. Combined Safe PCTower Model with Instant Fallback
+function PCTowerModel() {
+  return (
+    <PCTowerErrorBoundary fallback={<PCTowerMeshFallback />}>
+      <Suspense fallback={<PCTowerMeshFallback />}>
+        <FBXPCTower />
+      </Suspense>
+    </PCTowerErrorBoundary>
   );
 }
 
@@ -999,7 +1364,9 @@ export function RoomScene({ onHandoffComplete }: RoomSceneProps) {
     useGLTF.preload('/assets/mouse.glb');
     useGLTF.preload('/assets/accessories/logitech_audio_speaker.glb');
     useGLTF.preload('/assets/accessories/gaming_chair_free_download.glb');
-    useLoader.preload(FBXLoader, '/assets/custom gaming PC.fbx');
+    try {
+      useLoader.preload(FBXLoader, encodeURI('/assets/custom gaming PC.fbx'));
+    } catch (_) {}
     useLoader.preload(THREE.TextureLoader, '/assets/room-wall-bg.jpg');
     useLoader.preload(THREE.TextureLoader, '/assets/floor-new.jpg');
   }, []);
@@ -1100,7 +1467,6 @@ export function RoomScene({ onHandoffComplete }: RoomSceneProps) {
         {/* 2. Custom Imported 3D Hardware Models (Mounted on Clean Desk Surface at y = 0) */}
         <Suspense fallback={null}>
           <MonitorModel />
-          <PCTowerModel />
           <DeskMat />
           <KeyboardOnDesk onKeyAction={handleKeyAction} />
           <GamingMouse />
@@ -1120,6 +1486,9 @@ export function RoomScene({ onHandoffComplete }: RoomSceneProps) {
             }}
           />
         </Suspense>
+
+        {/* 3. Custom Gaming PC Tower (Isolated with Guaranteed Procedural Fallback & Error Boundary) */}
+        <PCTowerModel />
       </Canvas>
 
       {/* Floating View Mode Switcher */}
